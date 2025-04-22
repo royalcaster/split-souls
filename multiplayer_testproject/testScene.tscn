@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=3 uid="uid://bt13jko8i5tec"]
+
+[ext_resource type="Script" uid="uid://basgym68uxjl" path="res://SceneManager.gd" id="1_aq4tv"]
+[ext_resource type="PackedScene" uid="uid://cwld7ti0ms68j" path="res://player.tscn" id="5_aq4tv"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_aq4tv")
+PlayerScene = ExtResource("5_aq4tv")
+
+[node name="SpawnLocations" type="Node2D" parent="."]
+
+[node name="0" type="Node2D" parent="SpawnLocations" groups=["PlayerSpawnPoint"]]
+position = Vector2(190, 492)
+
+[node name="1" type="Node2D" parent="SpawnLocations" groups=["PlayerSpawnPoint"]]
+position = Vector2(817, 497)
+
+[node name="CombinedSteeringSpawnLocation" type="Node2D" parent="."]
+
+[node name="0" type="Node2D" parent="CombinedSteeringSpawnLocation" groups=["CombinedSteeringPlayerSpawnPoint"]]
+position = Vector2(240, 28)
+
+[node name="1" type="Node2D" parent="CombinedSteeringSpawnLocation" groups=["CombinedSteeringPlayerSpawnPoint"]]
+position = Vector2(280, 28)
+
+[node name="Button" type="Button" parent="."]
+offset_left = 26.0
+offset_top = 8.0
+offset_right = 131.0
+offset_bottom = 55.0
+text = "Zusammen steuern"
+
+[connection signal="button_down" from="Button" to="." method="_on_button_button_down"]
