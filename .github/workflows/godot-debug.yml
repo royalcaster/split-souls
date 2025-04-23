@@ -1,5 +1,5 @@
-name: Split Souls build
-run-name: Split Souls build
+name: SplitSouls build
+run-name: SplitSouls build
 on:
   workflow_dispatch:
     inputs:
@@ -18,7 +18,7 @@ env:
   GODOT_PROJECT_LOCATION: project.godot
   EXPORT_FOLDER_LINUX: ./build/linux
   EXPORT_FOLDER_WINDOWS: ./build/windows
-  APPLICATION_NAME: Split Souls
+  APPLICATION_NAME: SplitSouls
 
 jobs:
   build: 
