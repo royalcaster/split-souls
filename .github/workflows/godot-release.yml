@@ -1,49 +1,28 @@
-name: Godot Export and Release
+name: Build Godot Project
 
-# Trigger this workflow when a tag starting with 'v' is pushed
 on:
-  push:
-    tags:
-      - "v*.*.*" # Matches tags like v1.0.0, v1.2.3 etc.
-
-permissions:
-  contents: write # Needed to create releases and upload assets
+  push: {}
+  pull_request: {}
 
 jobs:
-  export_and_release:
-    name: Export and Release
-    runs-on: ubuntu-latest # Use Linux runner
-
+  Godot:
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        # Define the export presets you want to build
-        # These names MUST match the names in your export_presets.cfg
-        preset: ["SplitSouls"]
-
+        platform: [win]
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v2
         with:
-          fetch-depth: 0
-
-      - name: Set up Godot
-        uses: godotengine/godot-ci@v4
+          lfs: true
+      - name: Build
+        id: build
+        uses: manleydev/build-godot-action@v1.4.1
         with:
-          godot-version: 4.4.1
-
-      - name: Build Project - ${{ matrix.preset }}
-        run: |
-          mkdir -p build/${{ matrix.preset }}
-          godot --headless --export-release "${{ matrix.preset }}" "build/${{ matrix.preset }}/SplitSouls" --verbose
-          # Expects: build/Windows Desktop/SplitSouls.exe and build/Windows Desktop/SplitSouls.pck
-
-      - name: Package Build - ${{ matrix.preset }}
-        run: |
-          cd build/${{ matrix.preset }} # Go into 'build/Windows Desktop'
-          zip -r ../SplitSouls-${{ github.ref_name }}-Windows.zip SplitSouls.exe SplitSouls.pck # Zip contents into build/SplitSouls-TAG-Windows.zip
-          cd ../.. # Go back to the project root
-
-      - name: Upload Artifacts to Release
-        uses: softprops/action-gh-release@v2
+          name: Split Souls
+          preset: ${{ matrix.platform }}
+          debugMode: "true"
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
         with:
-          files: build/SplitSouls-${{ github.ref_name }}-Windows.zip
+          name: Client - ${{ matrix.platform }}
+          path: ${{ github.workspace }}/${{ steps.build.outputs.build }}
