@@ -11,6 +11,10 @@ config_version=5
 [application]
 
 config/name="split-souls"
-run/main_scene="uid://ducr63wmkwfag"
+run/main_scene="uid://b2nnxfn585o0o"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+SceneManager="*res://src/SceneManager.gd"

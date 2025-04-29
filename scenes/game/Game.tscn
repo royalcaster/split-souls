@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3 uid="uid://dur7c4brk3lfn"]
+
+[ext_resource type="Script" uid="uid://i8ggtmu8am1a" path="res://src/Game.gd" id="1_klkup"]
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_klkup")
+
+[node name="Container" type="Container" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_right = 1152.0
+offset_bottom = 648.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Container"]
+layout_mode = 2
+text = "(in-game)"
