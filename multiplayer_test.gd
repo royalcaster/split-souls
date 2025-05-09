@@ -26,8 +26,7 @@ func _add_player(id):
 
 func _remove_player_input(id):
 	player_inputs.erase(id)
-
-
+ 
 func _on_join_pressed():
 	peer.create_client("127.0.0.1", 445)
 	multiplayer.multiplayer_peer = peer
