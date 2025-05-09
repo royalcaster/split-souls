@@ -13,7 +13,6 @@ func _on_host_pressed():
 	multiplayer.peer_disconnected.connect(_remove_player_input)
 	_add_player(multiplayer.get_unique_id())  # Add host player
 
-
 func _add_player(id):
 	player_inputs[id] = Vector2.ZERO
 	# Only host creates the shared character
@@ -22,6 +21,9 @@ func _add_player(id):
 		shared_player.name = "SharedPlayer"
 		shared_player.controller_node = self  # Pass reference to controller
 		add_child(shared_player)
+		# customize local sprite
+		var is_host = multiplayer.is_server()
+		shared_player.set_sprite_variant(is_host)
 
 
 func _remove_player_input(id):
