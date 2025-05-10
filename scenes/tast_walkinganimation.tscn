@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://dq7pmxwy1xic"]
+
+[ext_resource type="PackedScene" uid="uid://c3a162l70w7v1" path="res://scenes/player1.tscn" id="1_xqgfm"]
+
+[node name="TastWalkinganimation" type="Node2D"]
+
+[node name="Player1" parent="." instance=ExtResource("1_xqgfm")]
