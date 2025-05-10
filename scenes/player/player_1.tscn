@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://b184syehau03x"]
+[gd_scene load_steps=29 format=3 uid="uid://b184syehau03x"]
 
 [ext_resource type="Script" uid="uid://dc1xelhjg57mu" path="res://player_1.gd" id="1_hvohr"]
 [ext_resource type="Texture2D" uid="uid://bwbbiebtg581p" path="res://assets/img/char1_spritesheet.png" id="2_hvohr"]
@@ -209,6 +209,17 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_hvohr"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("AnimatedSprite2D:animation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("AnimatedSprite2D:flip_h")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+
 [node name="Player1" type="CharacterBody2D"]
 script = ExtResource("1_hvohr")
 
@@ -216,3 +227,6 @@ script = ExtResource("1_hvohr")
 position = Vector2(16, 16)
 sprite_frames = SubResource("SpriteFrames_ar57q")
 animation = &"move_down"
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_hvohr")
