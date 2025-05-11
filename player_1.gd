@@ -3,10 +3,26 @@ extends CharacterBody2D
 
 @export var speed: int = 70
 @onready var animatedSprite2D = $AnimatedSprite2D
+@export var player_1_frames: SpriteFrames
+@export var player_2_frames: SpriteFrames
 func _enter_tree():
 	set_multiplayer_authority(name.to_int())
 
 func _ready():
+	if is_multiplayer_authority():
+		# Ask the server to tell everyone which skin to use
+		if MultiplayerServer.is_host:
+			rpc("set_sprite_frames", 1)
+		else:
+			rpc("set_sprite_frames", 2)
+
+@rpc("any_peer")
+func set_sprite_frames(type: int):
+	match type:
+		1:
+			animatedSprite2D.frames = player_1_frames
+		2:
+			animatedSprite2D.frames = player_2_frames
 	animatedSprite2D.play("move_down")
 
 func handleInput():
@@ -42,6 +58,8 @@ func updateAnimation():
 		animatedSprite2D.play("move" + direction)
 	
 func _physics_process(delta):
+		if not is_multiplayer_authority():
+			return
 		handleInput()
 		move_and_slide()
 		updateAnimation()
