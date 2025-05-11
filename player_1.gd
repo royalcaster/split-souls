@@ -6,24 +6,26 @@ extends CharacterBody2D
 @export var player_1_frames: SpriteFrames
 @export var player_2_frames: SpriteFrames
 func _enter_tree():
-	set_multiplayer_authority(name.to_int())
+	set_multiplayer_authority(int(str(name)))
 
 func _ready():
-	if is_multiplayer_authority():
-		# Ask the server to tell everyone which skin to use
-		if MultiplayerServer.is_host:
-			rpc("set_sprite_frames", 1)
-		else:
-			rpc("set_sprite_frames", 2)
+	var mp := get_tree().get_multiplayer()
 
-@rpc("any_peer")
-func set_sprite_frames(type: int):
-	match type:
-		1:
-			animatedSprite2D.frames = player_1_frames
-		2:
-			animatedSprite2D.frames = player_2_frames
-	animatedSprite2D.play("move_down")
+	print("My Peer ID: ", mp.get_unique_id())
+	print("Am I Host? ", mp.is_server())
+
+	# Spritesheet je nach Peer-ID zuweisen
+	if get_multiplayer_authority() == 1:
+		animatedSprite2D.sprite_frames = player_1_frames
+	else:
+		animatedSprite2D.sprite_frames = player_2_frames
+
+	if mp.get_unique_id() == 1 and mp.is_server():
+		print("Ich bin der Host.")
+	else:
+		print("Ich bin ein Client.")
+
+
 
 func handleInput():
 	var moveDirection = Input.get_vector("move_left", "move_right", "move_up", "move_down")
