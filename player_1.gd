@@ -1,3 +1,4 @@
+class_name Player
 extends CharacterBody2D
 
 @export var speed: int = 70
@@ -41,8 +42,6 @@ func updateAnimation():
 		animatedSprite2D.play("move" + direction)
 	
 func _physics_process(delta):
-		if not is_multiplayer_authority():
-			return
 		handleInput()
 		move_and_slide()
 		updateAnimation()

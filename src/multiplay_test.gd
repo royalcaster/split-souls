@@ -6,11 +6,7 @@ var peer = ENetMultiplayerPeer.new()
 
 
 func _on_host_btn_pressed():
-	print("Hello")
-	peer.create_server(445)
-	multiplayer.multiplayer_peer = peer
-	multiplayer.peer_connected.connect(_add_player)
-	_add_player()
+	MultiplayerServer.host()
 	
 func _add_player(id :=1):
 	var player = player_scene.instantiate() if id == 1 else player_scene2.instantiate()
@@ -20,6 +16,4 @@ func _add_player(id :=1):
 	
 
 func _on_client_btn_pressed():
-	peer.create_client( "127.0.0.1",445)
-	multiplayer.multiplayer_peer = peer
-	
+	MultiplayerServer.join()
