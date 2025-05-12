@@ -22,8 +22,10 @@ func _ready():
 
 	if mp.get_unique_id() == 1 and mp.is_server():
 		print("Ich bin der Host.")
+		print(get_multiplayer_authority())
 	else:
 		print("Ich bin ein Client.")
+		print(get_multiplayer_authority())
 
 
 
