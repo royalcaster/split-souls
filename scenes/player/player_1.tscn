@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://b184syehau03x"]
+[gd_scene load_steps=6 format=3 uid="uid://b184syehau03x"]
 
 [ext_resource type="Script" uid="uid://dc1xelhjg57mu" path="res://player_1.gd" id="1_hvohr"]
 [ext_resource type="SpriteFrames" uid="uid://jrfq8bcwahhu" path="res://scenes/player/dark.tres" id="2_hvohr"]
@@ -15,15 +15,28 @@ properties/2/path = NodePath("AnimatedSprite2D:flip_h")
 properties/2/spawn = true
 properties/2/replication_mode = 1
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gok7g"]
+
 [node name="Player1" type="CharacterBody2D"]
 script = ExtResource("1_hvohr")
 player_1_frames = ExtResource("2_hvohr")
 player_2_frames = ExtResource("3_gok7g")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(16, 16)
 sprite_frames = ExtResource("2_hvohr")
 animation = &"move_down"
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_hvohr")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+limit_left = 0
+limit_top = 0
+limit_right = 1200
+limit_bottom = 700
+limit_smoothed = true
+position_smoothing_enabled = true
+position_smoothing_speed = 20.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_gok7g")

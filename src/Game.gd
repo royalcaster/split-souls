@@ -49,5 +49,7 @@ func add_player(pid):
 	var player = PLAYER.instantiate()
 	player.name = str(pid)
 	players.append(player)
-	
+	var base_spawn_position = Vector2(400, 250)
+	var spawn_position = base_spawn_position + Vector2(randf_range(-20, 20), randf_range(-20, 20))
+	player.position = spawn_position
 	return player
