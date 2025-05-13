@@ -1,55 +1,49 @@
 extends Node2D
 
-@onready var oid_lbl = $Multiplayer/VBoxContainer/OID
-@onready var oid_input = $Multiplayer/VBoxContainer/OIDInput
-@onready var multiplayer_ui = $Multiplayer
-const PLAYER = preload("res://scenes/player/player_1.tscn")
-
+@export var player_scene: PackedScene
 var peer = ENetMultiplayerPeer.new()
-var players: Array[Player] = []
+var player_inputs = {} # Dictionary of {peer_id: input_vector}
+var shared_player: CharacterBody2D
+
+
 func _ready():
-	$MultiplayerSpawner.spawn_function = add_player
-	await MultiplayerServer.noray_connected
-	oid_lbl.text = Noray.oid
-
-func _process(delta):
-	if get_node_or_null("SettingsMenu") == null:
-		if Input.is_action_just_pressed("ui_cancel"):
-			SceneManager.open_pause_overlay()
-
-func _on_settings_button_pressed():
-	if get_node_or_null("SettingsMenu") == null:
-		SceneManager.open_pause_overlay()
-
-func return_to_main_menu():
-	if get_tree().paused:
-		get_tree().paused = false
-	SceneManager.goto_scene("res://scenes/ui/MainMenu.tscn")
-
+	multiplayer.peer_connected.connect(_on_peer_connected)
+	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 
 func _on_host_pressed():
-	MultiplayerServer.host()
-	multiplayer.peer_connected.connect(
-		func(pid):
-			print("Peer " + str(pid) + " has joined the game!")
-			$MultiplayerSpawner.spawn(pid)
-	)
-	$MultiplayerSpawner.spawn(multiplayer.get_unique_id())
-	multiplayer_ui.hide()
+	peer.create_server(4455)
+	multiplayer.multiplayer_peer = peer
+	_on_peer_connected(multiplayer.get_unique_id()) # Add host manually
 
 func _on_join_pressed():
-	MultiplayerServer.join(oid_input.text)
-	multiplayer_ui.hide()
+	peer.create_client("127.0.0.1", 4455) # Use actual host IP
+	multiplayer.multiplayer_peer = peer
 
+func _on_peer_connected(peer_id: int):
+	player_inputs[peer_id] = Vector2.ZERO
+	if multiplayer.is_server() and shared_player == null:
+		shared_player = player_scene.instantiate()
+		shared_player.position = Vector2(400, 250) # set spawn position
+		shared_player.name = "SharedPlayer"
+		add_child(shared_player)
+		shared_player.controller = self
+		shared_player.set_multiplayer_authority(1) # Host is the authority
 
-func _on_copy_oid_pressed() -> void:
-	DisplayServer.clipboard_set(Noray.oid)
+func _on_peer_disconnected(peer_id: int):
+	player_inputs.erase(peer_id)
 
-func add_player(pid):
-	var player = PLAYER.instantiate()
-	player.name = str(pid)
-	players.append(player)
-	var base_spawn_position = Vector2(400, 250)
-	var spawn_position = base_spawn_position + Vector2(randf_range(-20, 20), randf_range(-20, 20))
-	player.position = spawn_position
-	return player
+func _process(_delta):
+	if multiplayer.has_multiplayer_peer():
+		var local_input = Input.get_vector("move_left", "move_right", "move_up", "move_down")
+		update_input.rpc(local_input)
+
+@rpc("any_peer", "call_local", "reliable")
+func update_input(input_vector: Vector2):
+	var sender_id = multiplayer.get_remote_sender_id()
+	player_inputs[sender_id] = input_vector
+
+func get_combined_input() -> Vector2:
+	var combined = Vector2.ZERO
+	for input in player_inputs.values():
+		combined += input
+	return combined.normalized() if combined.length() > 1.0 else combined
