@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://pxmyspn67e7b"]
+
+[ext_resource type="Texture2D" uid="uid://b06qxd36nxmvl" path="res://assets/img/crystals_spritesheet.png" id="1_kemuw"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_55jno"]
+radius = 14.0
+height = 52.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kemuw"]
+atlas = ExtResource("1_kemuw")
+region = Rect2(256, 256, 256, 256)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6octq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kemuw")
+}],
+"loop": true,
+"name": &"crystal_still",
+"speed": 5.0
+}]
+
+[node name="Crystal" type="Area2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_55jno")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.25, 0.25)
+sprite_frames = SubResource("SpriteFrames_6octq")
+animation = &"crystal_still"
+frame_progress = 0.580531
