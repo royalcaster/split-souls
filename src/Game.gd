@@ -43,8 +43,8 @@ func _on_copy_oid_pressed():
 func _on_peer_connected(peer_id: int):
 	player_inputs[peer_id] = Vector2.ZERO
 	if multiplayer.is_server() and shared_player == null:
-		shared_player = spawn_shared_player(peer_id)
-		shared_player.set_multiplayer_authority(1)
+#		shared_player = spawn_shared_player(peer_id)
+		$MultiplayerSpawner.spawn(peer_id)
 
 func _on_peer_disconnected(peer_id: int):
 	player_inputs.erase(peer_id)
@@ -64,6 +64,7 @@ func spawn_shared_player(_pid):
 	var player = player_scene.instantiate()
 	player.name = "SharedPlayer"
 	player.position = Vector2(400, 250) + Vector2(randf_range(-20, 20), randf_range(-20, 20))
+	player.set_multiplayer_authority(1)
 	add_child(player)
 	player.controller = self
 	shared_player = player

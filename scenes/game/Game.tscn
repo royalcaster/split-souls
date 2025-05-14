@@ -2456,7 +2456,7 @@ text = "Loading...
 horizontal_alignment = 1
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://b184syehau03x", "res://scenes/player/player_2.tscn")
+_spawnable_scenes = PackedStringArray("uid://b184syehau03x")
 spawn_path = NodePath("..")
 
 [node name="EnemieBat" parent="." instance=ExtResource("3_vrspl")]
