@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://jg5nc8arumat"]
 
-[ext_resource type="Script" uid="uid://dtul7se1qjf1a" path="res://player_2.gd" id="1_qtb3d"]
+[ext_resource type="Script" uid="uid://dtul7se1qjf1a" path="res://src/player_2.gd" id="1_qtb3d"]
 [ext_resource type="SpriteFrames" uid="uid://byjeglv07o1vr" path="res://scenes/player/light.tres" id="2_qtb3d"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_qtb3d"]

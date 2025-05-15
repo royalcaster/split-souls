@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://b1ovwmv372lxj"]
+
+[ext_resource type="Texture2D" uid="uid://ctghabyvij7yu" path="res://assets/img/crystal.webp" id="1_bmej7"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_goros"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_bmej7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Crystal" type="AnimatedSprite2D"]
+scale = Vector2(0.05, 0.05)
+sprite_frames = SubResource("SpriteFrames_goros")

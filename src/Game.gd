@@ -1,13 +1,24 @@
 extends Node2D
 
 @onready var oid_lbl = $Multiplayer/VBoxContainer/OID
-@onready var oid_input = $Multiplayer/VBoxContainer/OIDInput
+@onready var oid_input = $Multiplayer/Panel/VBoxContainer/OIDInput
 @onready var multiplayer_ui = $Multiplayer
+@onready var tilemap = $MapContainer/TileMap
 const PLAYER = preload("res://scenes/player/player_1.tscn")
+const CRYSTAL = preload("res://scenes/game/Crystal.tscn")
 
 var peer = ENetMultiplayerPeer.new()
 var players: Array[Player] = []
+
+var tilemap_length = 35
+var tilemap_height = 19
+
+var rng = RandomNumberGenerator.new()
+
+var crystal_position: Vector2 = Vector2(3*16, 6*16)
+
 func _ready():
+	spawn_crystal()
 	$MultiplayerSpawner.spawn_function = add_player
 	await MultiplayerServer.noray_connected
 	oid_lbl.text = Noray.oid
@@ -53,3 +64,9 @@ func add_player(pid):
 	var spawn_position = base_spawn_position + Vector2(randf_range(-20, 20), randf_range(-20, 20))
 	player.position = spawn_position
 	return player
+
+func spawn_crystal():
+	var crystal_instance = CRYSTAL.instantiate()
+	add_child(crystal_instance)
+	print(crystal_position)
+	crystal_instance.position = crystal_position

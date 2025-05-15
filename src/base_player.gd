@@ -1,12 +1,8 @@
 extends CharacterBody2D
+class_name BasePlayer
 
-@export var speed: int = 70
+@export var speed: int = 100
 @onready var animatedSprite2D = $AnimatedSprite2D
-func _enter_tree():
-	set_multiplayer_authority(name.to_int())
-
-func _ready():
-	animatedSprite2D.play("move_down")
 
 func handleInput():
 	var moveDirection = Input.get_vector("move_left", "move_right", "move_up", "move_down")
@@ -39,10 +35,10 @@ func updateAnimation():
 		elif velocity.y < 0:
 			direction = "_up"
 		animatedSprite2D.play("move" + direction)
-	
+		
 func _physics_process(delta):
-		if not is_multiplayer_authority():
-			return
-		handleInput()
-		move_and_slide()
-		updateAnimation()
+	if not is_multiplayer_authority():
+		return
+	handleInput()
+	move_and_slide()
+	updateAnimation()
