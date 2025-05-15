@@ -21,6 +21,7 @@ SceneManager="*res://src/SceneManager.gd"
 MultiplayerServer="*res://src/multiplayer_server.gd"
 Noray="*res://addons/netfox.noray/noray.gd"
 PacketHandshake="*res://addons/netfox.noray/packet-handshake.gd"
+Globals="*res://src/Globals.gd"
 
 [display]
 
