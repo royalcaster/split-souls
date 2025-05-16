@@ -1,49 +1,69 @@
 extends Node2D
-
 @export var player_scene: PackedScene
 var peer = ENetMultiplayerPeer.new()
+var players = []
+
 var player_inputs = {} # Dictionary of {peer_id: input_vector}
 var shared_player: CharacterBody2D
 
 
 func _ready():
-	multiplayer.peer_connected.connect(_on_peer_connected)
-	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
+	if Globals.control_mode == Globals.ControlMode.SHARED:
+		multiplayer.peer_connected.connect(_on_peer_connected)
+		multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 
 func _on_host_pressed():
 	peer.create_server(4455)
 	multiplayer.multiplayer_peer = peer
-	_on_peer_connected(multiplayer.get_unique_id()) # Add host manually
 
-func _on_join_pressed():
-	peer.create_client("127.0.0.1", 4455) # Use actual host IP
-	multiplayer.multiplayer_peer = peer
+	if Globals.control_mode == Globals.ControlMode.INDIVIDUAL:
+		multiplayer.peer_connected.connect(_add_player)
+		_add_player()
+	else:
+		_on_peer_connected(multiplayer.get_unique_id())
+	
+# instanciate players for individual mode
+func _add_player(id=1):
+	var player = player_scene.instantiate()
+	player.name = str(id)
+	call_deferred("add_child",player)
+	players.append(player)
 
+# instanciate shared player for shared mode
 func _on_peer_connected(peer_id: int):
-	player_inputs[peer_id] = Vector2.ZERO
-	if multiplayer.is_server() and shared_player == null:
-		shared_player = player_scene.instantiate()
-		shared_player.position = Vector2(400, 250) # set spawn position
-		shared_player.name = "SharedPlayer"
-		add_child(shared_player)
-		shared_player.controller = self
-		shared_player.set_multiplayer_authority(1) # Host is the authority
+	if Globals.control_mode == Globals.ControlMode.SHARED:
+		player_inputs[peer_id] = Vector2.ZERO
+		if multiplayer.is_server() and shared_player == null:
+			shared_player = player_scene.instantiate()
+			shared_player.position = Vector2(400, 250) # set spawn position
+			shared_player.name = "SharedPlayer"
+			add_child(shared_player)
+			shared_player.controller = self
+			shared_player.set_multiplayer_authority(1) # Host is the authority
 
 func _on_peer_disconnected(peer_id: int):
-	player_inputs.erase(peer_id)
+	if Globals.control_mode == Globals.ControlMode.SHARED:
+		player_inputs.erase(peer_id)
 
 func _process(_delta):
-	if multiplayer.has_multiplayer_peer():
-		var local_input = Input.get_vector("move_left", "move_right", "move_up", "move_down")
-		update_input.rpc(local_input)
+	if Globals.control_mode == Globals.ControlMode.SHARED:
+		if multiplayer.has_multiplayer_peer():
+			var local_input = Input.get_vector("move_left", "move_right", "move_up", "move_down")
+			update_input.rpc(local_input)
+
+func _on_join_pressed():
+	peer.create_client( "127.0.0.1",4455)
+	multiplayer.multiplayer_peer = peer
+	
 
 @rpc("any_peer", "call_local", "reliable")
 func update_input(input_vector: Vector2):
-	var sender_id = multiplayer.get_remote_sender_id()
-	player_inputs[sender_id] = input_vector
+	if Globals.control_mode == Globals.ControlMode.SHARED:
+		var sender_id = multiplayer.get_remote_sender_id()
+		player_inputs[sender_id] = input_vector
 
 func get_combined_input() -> Vector2:
-	var combined = Vector2.ZERO
-	for input in player_inputs.values():
-		combined += input
-	return combined.normalized() if combined.length() > 1.0 else combined
+		var combined = Vector2.ZERO
+		for input in player_inputs.values():
+			combined += input
+		return combined.normalized() if combined.length() > 1.0 else combined
