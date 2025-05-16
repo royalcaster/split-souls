@@ -42,3 +42,6 @@ func _physics_process(delta):
 	handleInput()
 	move_and_slide()
 	updateAnimation()
+
+func is_player():
+	return true

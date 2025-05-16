@@ -18,6 +18,7 @@ properties/2/replication_mode = 1
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gok7g"]
 
 [node name="Player1" type="CharacterBody2D"]
+collision_mask = 3
 script = ExtResource("1_hvohr")
 player_1_frames = ExtResource("2_hvohr")
 player_2_frames = ExtResource("3_gok7g")

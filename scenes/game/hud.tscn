@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3 uid="uid://bexnn5kewhjq8"]
+
+[ext_resource type="Texture2D" uid="uid://ctghabyvij7yu" path="res://assets/img/crystal.webp" id="1_kqgwg"]
+
+[node name="Hud" type="CanvasLayer"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = 31.0
+offset_top = 27.0
+offset_right = 1011.0
+offset_bottom = 1007.0
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("1_kqgwg")
+stretch_mode = 2
+
+[node name="CrystalCount" type="Label" parent="."]
+unique_name_in_owner = true
+offset_left = 79.0
+offset_top = 36.0
+offset_right = 119.0
+offset_bottom = 59.0
+scale = Vector2(1.47, 1.47)
+text = "0"
