@@ -25,10 +25,16 @@ func _ready():
 	else:
 		animatedSprite2D.sprite_frames = player_2_frames
 
-	# sets other player figure invisible 
+	update_visibility()
+	
+func update_visibility():
 	if Globals.control_mode == Globals.ControlMode.INDIVIDUAL:
 		if not is_multiplayer_authority():
-			animatedSprite2D.sprite_frames = null
+			animatedSprite2D.visible = false
+		else:
+			animatedSprite2D.visible = true
+	else:
+		animatedSprite2D.visible = true
 
 func _physics_process(delta):
 	if Globals.control_mode == Globals.ControlMode.INDIVIDUAL:

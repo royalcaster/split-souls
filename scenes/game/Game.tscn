@@ -2472,6 +2472,7 @@ script = ExtResource("5_365ku")
 
 [node name="Gate" parent="." instance=ExtResource("7_gg4pt")]
 position = Vector2(376, 61)
+game_node_path = NodePath("..")
 
 [connection signal="pressed" from="Multiplayer/VBoxContainer/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="Multiplayer/VBoxContainer/CopyOID" to="." method="_on_copy_oid_pressed"]

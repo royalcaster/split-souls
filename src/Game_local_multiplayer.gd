@@ -21,12 +21,13 @@ func _on_host_pressed():
 		_add_player()
 	else:
 		_on_peer_connected(multiplayer.get_unique_id())
-	
+
 # instanciate players for individual mode
 func _add_player(id=1):
 	var player = player_scene.instantiate()
 	player.name = str(id)
-	call_deferred("add_child",player)
+	player.set_multiplayer_authority(id)
+	call_deferred("add_child", player)
 	players.append(player)
 
 # instanciate shared player for shared mode
@@ -67,3 +68,32 @@ func get_combined_input() -> Vector2:
 		for input in player_inputs.values():
 			combined += input
 		return combined.normalized() if combined.length() > 1.0 else combined
+
+@rpc("authority", "call_local", "reliable")
+func switch_control_mode():
+	if Globals.control_mode == Globals.ControlMode.SHARED:
+		Globals.control_mode = Globals.ControlMode.INDIVIDUAL
+	else:
+		Globals.control_mode = Globals.ControlMode.SHARED
+
+	print("--- Switched mode to: ", Globals.control_mode)
+
+	# Cleanup old players
+	for p in players:
+		if p:
+			p.queue_free()
+	players.clear()
+
+	if shared_player:
+		shared_player.queue_free()
+		shared_player = null
+
+	# Reinitialize players depending on the mode
+	if Globals.control_mode == Globals.ControlMode.INDIVIDUAL:
+		for id in multiplayer.get_peers():
+			_add_player(id)
+		_add_player(multiplayer.get_unique_id()) # Ensure local player is added too
+	else:
+		for id in multiplayer.get_peers():
+			_on_peer_connected(id)
+		_on_peer_connected(multiplayer.get_unique_id())
