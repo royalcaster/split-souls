@@ -2473,9 +2473,6 @@ script = ExtResource("5_365ku")
 [node name="InitialSpawnPosition" type="Node2D" parent="."]
 position = Vector2(354, 87)
 
-[node name="SpawnPointAfterGate" type="Node2D" parent="."]
-position = Vector2(351, 194)
-
 [node name="Gate" parent="." instance=ExtResource("7_gg4pt")]
 position = Vector2(389, 145)
 game_node_path = NodePath("..")
