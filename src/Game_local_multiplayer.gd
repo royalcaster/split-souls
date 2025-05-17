@@ -72,6 +72,7 @@ func get_combined_input() -> Vector2:
 @rpc("authority", "call_local", "reliable")
 func switch_control_mode(mode):
 	$Gate/CollisionShape2D.set_deferred("disabled", true) # deactivate gate after walking through
+
 	Globals.spawn_position = $SpawnPointAfterGate.global_position # set new spawn point behind gate
 
 	if Globals.control_mode == Globals.ControlMode.SHARED:

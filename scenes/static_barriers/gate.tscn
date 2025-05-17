@@ -1,10 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://c0dwtyimchwxc"]
+[gd_scene load_steps=5 format=3 uid="uid://c0dwtyimchwxc"]
 
 [ext_resource type="Texture2D" uid="uid://bxjqggfkfb4td" path="res://assets/img/gate-placeholder.jpg" id="1_kvkx5"]
 [ext_resource type="Script" uid="uid://7ae7cpqhbtka" path="res://scenes/static_barriers/gate.gd" id="1_ndpk8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ndpk8"]
 size = Vector2(144, 39)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cv3nv"]
+size = Vector2(144, 1)
 
 [node name="Gate" type="Area2D"]
 script = ExtResource("1_ndpk8")
@@ -17,6 +20,12 @@ texture = ExtResource("1_kvkx5")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-1, -1.5)
 shape = SubResource("RectangleShape2D_ndpk8")
+
+[node name="Wall" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall"]
+position = Vector2(-1, 18.5)
+shape = SubResource("RectangleShape2D_cv3nv")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]
