@@ -11,7 +11,13 @@ var controller: Node
 func _enter_tree():
 	if Globals.control_mode == Globals.ControlMode.INDIVIDUAL:
 		set_multiplayer_authority(name.to_int())
-		self.position  = Vector2(400, 250)
+		
+		# make sure both players do not spawn on top of each other 
+		var updated_spawn_position = Globals.spawn_position
+		if not multiplayer.is_server():
+			updated_spawn_position.x = updated_spawn_position.x + 100
+			
+		self.position  = updated_spawn_position
 
 func _ready():
 	# camera always follows character that is controlled

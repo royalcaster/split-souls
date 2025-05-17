@@ -63,7 +63,7 @@ func get_combined_input() -> Vector2:
 func spawn_shared_player(_pid):
 	var player = player_scene.instantiate()
 	player.name = "SharedPlayer"
-	player.position = Vector2(400, 250) + Vector2(randf_range(-20, 20), randf_range(-20, 20))
+	player.position = Globals.spawn_position
 	player.set_multiplayer_authority(1)
 	add_child(player)
 	player.controller = self

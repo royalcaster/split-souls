@@ -4,18 +4,20 @@
 [ext_resource type="Script" uid="uid://7ae7cpqhbtka" path="res://scenes/static_barriers/gate.gd" id="1_ndpk8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ndpk8"]
-size = Vector2(52, 39)
+size = Vector2(144, 39)
 
 [node name="Gate" type="Area2D"]
 script = ExtResource("1_ndpk8")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.035, 0.035)
+position = Vector2(-1, -1.5)
+scale = Vector2(0.096, 0.024375)
 texture = ExtResource("1_kvkx5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -1.5)
+position = Vector2(-1, -1.5)
 shape = SubResource("RectangleShape2D_ndpk8")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
 [connection signal="child_entered_tree" from="CollisionShape2D" to="." method="_on_collision_shape_2d_child_entered_tree"]

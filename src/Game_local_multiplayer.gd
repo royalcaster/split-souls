@@ -36,7 +36,7 @@ func _on_peer_connected(peer_id: int):
 		player_inputs[peer_id] = Vector2.ZERO
 		if multiplayer.is_server() and shared_player == null:
 			shared_player = player_scene.instantiate()
-			shared_player.position = Vector2(400, 250) # set spawn position
+			shared_player.position = Globals.spawn_position # set spawn position
 			shared_player.name = "SharedPlayer"
 			add_child(shared_player)
 			shared_player.controller = self
@@ -70,7 +70,10 @@ func get_combined_input() -> Vector2:
 		return combined.normalized() if combined.length() > 1.0 else combined
 
 @rpc("authority", "call_local", "reliable")
-func switch_control_mode():
+func switch_control_mode(mode):
+	$Gate/CollisionShape2D.set_deferred("disabled", true) # deactivate gate after walking through
+	Globals.spawn_position = $SpawnPointAfterGate.global_position # set new spawn point behind gate
+
 	if Globals.control_mode == Globals.ControlMode.SHARED:
 		Globals.control_mode = Globals.ControlMode.INDIVIDUAL
 	else:
