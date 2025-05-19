@@ -1,31 +1,43 @@
-[gd_scene load_steps=5 format=3 uid="uid://c0dwtyimchwxc"]
+[gd_scene load_steps=6 format=3 uid="uid://c0dwtyimchwxc"]
 
-[ext_resource type="Texture2D" uid="uid://bxjqggfkfb4td" path="res://assets/img/gate-placeholder.jpg" id="1_kvkx5"]
 [ext_resource type="Script" uid="uid://7ae7cpqhbtka" path="res://scenes/static_barriers/gate.gd" id="1_ndpk8"]
+[ext_resource type="Texture2D" uid="uid://brfgbv70fxg2p" path="res://assets/img/gate_closed.png" id="2_ndpk8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ndpk8"]
-size = Vector2(144, 39)
+size = Vector2(74, 7)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rys84"]
+size = Vector2(35, 5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cv3nv"]
-size = Vector2(144, 1)
+size = Vector2(74, 5)
 
 [node name="Gate" type="Area2D"]
+y_sort_enabled = true
 script = ExtResource("1_ndpk8")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-1, -1.5)
-scale = Vector2(0.096, 0.024375)
-texture = ExtResource("1_kvkx5")
+scale = Vector2(1.5, 1.21875)
+texture = ExtResource("2_ndpk8")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-1, -1.5)
+position = Vector2(-1, 10.5)
 shape = SubResource("RectangleShape2D_ndpk8")
 
 [node name="Wall" type="StaticBody2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall"]
-position = Vector2(-1, 18.5)
+[node name="WallLeft" type="CollisionShape2D" parent="Wall"]
+position = Vector2(-55.5, 15.5)
+shape = SubResource("RectangleShape2D_rys84")
+
+[node name="Door" type="CollisionShape2D" parent="Wall"]
+position = Vector2(-1, 15.5)
 shape = SubResource("RectangleShape2D_cv3nv")
+
+[node name="WallRight" type="CollisionShape2D" parent="Wall"]
+position = Vector2(54, 16)
+shape = SubResource("RectangleShape2D_rys84")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]

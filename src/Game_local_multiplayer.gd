@@ -72,7 +72,8 @@ func get_combined_input() -> Vector2:
 @rpc("authority", "call_local", "reliable")
 func switch_control_mode(mode):
 	$Gate/CollisionShape2D.set_deferred("disabled", true) # deactivate gate after walking through
-	$Gate/Wall/CollisionShape2D.set_deferred("disabled", true) # deactivate wall in gate, so that players can walk out
+	$Gate/Wall/Door.set_deferred("disabled", true) # deactivate wall in gate, so that players can walk out
+	$Gate/Sprite2D.texture = load('res://assets/img/gate_opened.png') # open gate
 	Globals.spawn_position = $Gate.global_position # set new spawn point behind gate
 
 	if Globals.control_mode == Globals.ControlMode.SHARED:
