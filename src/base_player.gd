@@ -39,8 +39,8 @@ func updateAnimation():
 func _physics_process(delta):
 	if not is_multiplayer_authority():
 		return
-	handleInput()
 	move_and_slide()
+	handleInput()
 	updateAnimation()
 
 func is_player():
