@@ -1,47 +1,66 @@
-class_name Player
 extends CharacterBody2D
+class_name Player
 
+var controller: Node
 @export var speed: int = 100
 @onready var animatedSprite2D = $AnimatedSprite2D
 @export var player_1_frames: SpriteFrames
 @export var player_2_frames: SpriteFrames
+
+
 func _enter_tree():
-	set_multiplayer_authority(int(str(name)))
+	if Globals.control_mode == Globals.ControlMode.INDIVIDUAL:
+		set_multiplayer_authority(name.to_int())
+		
+		# make sure both players do not spawn on top of each other 
+		var updated_spawn_position = Globals.spawn_position
+		if not multiplayer.is_server():
+			updated_spawn_position.x = updated_spawn_position.x + 100
+			
+		self.position  = updated_spawn_position
 
 func _ready():
-	var mp := get_tree().get_multiplayer()
-
-	print("My Peer ID: ", mp.get_unique_id())
-	print("Am I Host? ", mp.is_server())
-	
+	# camera always follows character that is controlled
 	if is_multiplayer_authority():
 		$Camera2D.make_current()
-	# Spritesheet je nach Peer-ID zuweisen
-	if get_multiplayer_authority() == 1:
+			
+	# host is dark player, client is light player
+	var mp := get_tree().get_multiplayer()
+	if mp.is_server():
 		animatedSprite2D.sprite_frames = player_1_frames
 	else:
 		animatedSprite2D.sprite_frames = player_2_frames
 
-	if mp.get_unique_id() == 1 and mp.is_server():
-		print("Ich bin der Host.")
-		print(get_multiplayer_authority())
+	update_visibility()
+	
+func update_visibility():
+	if Globals.control_mode == Globals.ControlMode.INDIVIDUAL:
+		if not is_multiplayer_authority():
+			animatedSprite2D.visible = false
+		else:
+			animatedSprite2D.visible = true
 	else:
-		print("Ich bin ein Client.")
-		print(get_multiplayer_authority())
+		animatedSprite2D.visible = true
 
-
-
-func handleInput():
-	var moveDirection = Input.get_vector("move_left", "move_right", "move_up", "move_down")
-	velocity = moveDirection*speed
+func _physics_process(delta):
+	if Globals.control_mode == Globals.ControlMode.INDIVIDUAL:
+		if is_multiplayer_authority():
+			velocity = Input.get_vector("move_left", "move_right", "move_up", "move_down") * speed
+	else:
+		if not is_multiplayer_authority():
+			return
+		if controller:
+			velocity = controller.get_combined_input() * speed
+	move_and_slide()
+	updateAnimation()
 
 func updateAnimation():
 	if velocity.length() == 0:
 		animatedSprite2D.stop()
 	else:
 		var direction = "_down"
-		
-		if velocity.y > 0 and velocity.x < 0: 
+
+		if velocity.y > 0 and velocity.x < 0:
 			direction = "_hdown"
 			animatedSprite2D.flip_h = false
 		elif velocity.y > 0 and velocity.x > 0:
@@ -56,16 +75,9 @@ func updateAnimation():
 		elif velocity.x < 0:
 			direction = "_horizontal"
 			animatedSprite2D.flip_h = false
-		elif velocity.x > 0: 
+		elif velocity.x > 0:
 			direction = "_horizontal"
 			animatedSprite2D.flip_h = true
 		elif velocity.y < 0:
 			direction = "_up"
 		animatedSprite2D.play("move" + direction)
-	
-func _physics_process(delta):
-		if not is_multiplayer_authority():
-			return
-		handleInput()
-		move_and_slide()
-		updateAnimation()
