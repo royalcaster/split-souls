@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://byixxiqjq0w47"]
 
 [ext_resource type="Script" uid="uid://ylks8xp3cjhb" path="res://src/enemie_bat.gd" id="1_ayue0"]
-[ext_resource type="Texture2D" uid="uid://j7foj5856ges" path="res://assets/img/bat_spritesheet.png" id="1_rf1a6"]
+[ext_resource type="Texture2D" uid="uid://j7foj5856ges" path="res://assets/bat_spritesheet.png" id="1_rf1a6"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ayue0"]
 atlas = ExtResource("1_rf1a6")
@@ -44,6 +44,7 @@ script = ExtResource("1_ayue0")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
+position = Vector2(-1, -27)
 scale = Vector2(2.25, 2.25)
 sprite_frames = SubResource("SpriteFrames_bepsl")
 animation = &"bat_movement"
