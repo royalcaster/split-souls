@@ -47,10 +47,34 @@ func _on_peer_disconnected(peer_id: int):
 		player_inputs.erase(peer_id)
 
 func _process(_delta):
+	measure_input(_delta)
+
 	if Globals.control_mode == Globals.ControlMode.SHARED:
 		if multiplayer.has_multiplayer_peer():
 			var local_input = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 			update_input.rpc(local_input)
+
+var last_input = [false, false, false, false]  # necessary because otherwise if e.g. player1 does not press any key, player2 will see player1's last input permanently
+# methods watches the inputs and sends them via rpc
+func measure_input(delta):
+	var input = [
+		Input.is_action_pressed("move_left"),
+		Input.is_action_pressed("move_up"),
+		Input.is_action_pressed("move_down"),
+		Input.is_action_pressed("move_right")
+	]
+
+	if input != last_input:
+		update_arrows.rpc(input)
+		last_input = input
+
+# call_remote makes ONLY other player receive packages and updates their arrows
+@rpc("any_peer", "call_remote", "reliable")
+func update_arrows(input: Array):
+	$CanvasLayer/ArrowLeft.self_modulate.a  = 1.0 if input[0] else 0.5
+	$CanvasLayer/ArrowUp.self_modulate.a    = 1.0 if input[1] else 0.5
+	$CanvasLayer/ArrowDown.self_modulate.a  = 1.0 if input[2] else 0.5
+	$CanvasLayer/ArrowRight.self_modulate.a = 1.0 if input[3] else 0.5
 
 func _on_join_pressed():
 	peer.create_client( "127.0.0.1",4455)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=4 uid="uid://dur7c4brk3lfn"]
+[gd_scene load_steps=12 format=4 uid="uid://dur7c4brk3lfn"]
 
 [ext_resource type="Script" uid="uid://dcgeiwsr6pwq6" path="res://src/Game_local_multiplayer.gd" id="1_lyhax"]
 [ext_resource type="PackedScene" uid="uid://b184syehau03x" path="res://scenes/player/player_1.tscn" id="2_7qcb4"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://pxmyspn67e7b" path="res://scenes/items/crystal.tscn" id="4_lyhax"]
 [ext_resource type="Script" uid="uid://witst2viy32w" path="res://src/crystal.gd" id="5_365ku"]
 [ext_resource type="PackedScene" uid="uid://c0dwtyimchwxc" path="res://scenes/static_barriers/gate.tscn" id="7_gg4pt"]
+[ext_resource type="Texture2D" uid="uid://c7scnv10bvrrt" path="res://assets/img/arrow1.png" id="8_wnrko"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lyhax"]
 texture = ExtResource("3_7qcb4")
@@ -2392,6 +2393,8 @@ terrain_set_0/terrain_0/name = "Terrain 0"
 terrain_set_0/terrain_0/color = Color(0.5, 0.34375, 0.25, 1)
 sources/0 = SubResource("TileSetAtlasSource_lyhax")
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_wnrko"]
+
 [node name="Game" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("1_lyhax")
@@ -2468,6 +2471,35 @@ scale = Vector2(0.9, 0.9)
 [node name="Crystal" parent="." instance=ExtResource("4_lyhax")]
 position = Vector2(971, 347)
 script = ExtResource("5_365ku")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ArrowUp" type="Sprite2D" parent="CanvasLayer"]
+material = SubResource("CanvasItemMaterial_wnrko")
+position = Vector2(716, 27)
+rotation = 4.71239
+scale = Vector2(0.131836, 0.112305)
+texture = ExtResource("8_wnrko")
+
+[node name="ArrowDown" type="Sprite2D" parent="CanvasLayer"]
+material = SubResource("CanvasItemMaterial_wnrko")
+position = Vector2(716, 82)
+rotation = 1.5708
+scale = Vector2(0.131836, 0.112305)
+texture = ExtResource("8_wnrko")
+
+[node name="ArrowLeft" type="Sprite2D" parent="CanvasLayer"]
+material = SubResource("CanvasItemMaterial_wnrko")
+position = Vector2(677, 55)
+rotation = 3.14159
+scale = Vector2(0.131836, 0.112305)
+texture = ExtResource("8_wnrko")
+
+[node name="ArrowRight" type="Sprite2D" parent="CanvasLayer"]
+material = SubResource("CanvasItemMaterial_wnrko")
+position = Vector2(751, 55)
+scale = Vector2(0.131836, 0.112305)
+texture = ExtResource("8_wnrko")
 
 [connection signal="pressed" from="Multiplayer/VBoxContainer/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="Multiplayer/VBoxContainer/CopyOID" to="." method="_on_copy_oid_pressed"]
