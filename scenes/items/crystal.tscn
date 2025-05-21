@@ -1,5 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://pxmyspn67e7b"]
+[gd_scene load_steps=6 format=3 uid="uid://pxmyspn67e7b"]
 
+[ext_resource type="Script" uid="uid://witst2viy32w" path="res://src/crystal.gd" id="1_55jno"]
 [ext_resource type="Texture2D" uid="uid://b06qxd36nxmvl" path="res://assets/img/crystals_spritesheet.png" id="1_kemuw"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_55jno"]
@@ -21,15 +22,17 @@ animations = [{
 }]
 
 [node name="Crystal" type="Area2D"]
+script = ExtResource("1_55jno")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -5)
+position = Vector2(0, 12)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_55jno")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(1, -27)
-scale = Vector2(0.25, 0.25)
+scale = Vector2(0.15, 0.15)
 sprite_frames = SubResource("SpriteFrames_6octq")
 animation = &"crystal_still"
 frame_progress = 0.580531
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

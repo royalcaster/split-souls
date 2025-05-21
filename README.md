@@ -4,6 +4,8 @@
 - [Excalidraw](#excalidraw)
 - [How to build](#how-to-build)
 - [Navigation](#navigation)
+- [Multiplayer](#multiplayer)
+
 
 ## Excalidraw
 
@@ -22,9 +24,9 @@
 ## Navigation
 ![alt text](./docs/img/navigation.png "Title")
 
-## Multiplayer Versions: 
+## Multiplayer 
 
-# How to execute the game in multiplayer mode? (two players in the same network, without external server)
+#### How to execute the game in multiplayer mode? (two players in the same network, without external server)
 1. make sure you have the script Game.gd connected to the Game.tscn scene and player_1.gd connected to the scene
 2. player 1 (host) has to get his ip address by typing "ipconfig" in his commandline
 3. he copies the address ("Drahtlos LAN Adapter WLAN" - "IPv4")
@@ -34,10 +36,16 @@
 6. both players execute the game
 7. player 1 clicks "host" first and afterwards player 2 clicks "join"
 
-# How to execute the game in testing mode? (one player with two windows, without external server - for testing & debugging)
+#### How to execute the game in testing mode? (one player with two windows, without external server - for testing & debugging)
 1. make sure you have the script Game.gd connected to the Game.tscn scene and player_1.gd connected to the scene
 2. go to file to Game.gd and paste this "127.0.0.1" in the function "_on_join_pressed"
 3. execute the game in the godot editor (first window)
 4. open another instance of godot ("Godot_v4.4-stable_win64.exe") and select the game by clicking once (DO NOT OPEN IT) 
 5. click on "Run" in the right panel => a second window should be opened 
 6. select one window and click host first, and then join in the other window
+
+## Crystals
+
+Spawn positions of crystals can be configured in the root node of the game scene. The Spawning itself is done when initializing the game scene. Manually placed crystals will not be counted because the couting signal is not connected.
+
+![alt text](./docs/img/crystals.png "Title")

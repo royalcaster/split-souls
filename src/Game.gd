@@ -1,13 +1,27 @@
 extends Node2D
+
 @export var player_scene: PackedScene
+@onready var tilemap = $TileMap
+@onready var hud = $HUD
+
+const CRYSTAL = preload("res://scenes/items/crystal.tscn")
+
 var peer = ENetMultiplayerPeer.new()
 var players = []
+var current_crystal_score = 0
 
 var player_inputs = {} # Dictionary of {peer_id: input_vector}
 var shared_player: CharacterBody2D
 
+@export var crystal_positions: Array[Vector2] = [
+	Vector2(5, 16),
+	Vector2(8, 13),
+	Vector2(17, 4),
+	Vector2(20, 12)
+]
 
 func _ready():
+	spawn_crystals()
 	if Globals.control_mode == Globals.ControlMode.SHARED:
 		multiplayer.peer_connected.connect(_on_peer_connected)
 		multiplayer.peer_disconnected.connect(_on_peer_disconnected)
@@ -56,6 +70,9 @@ func _process(_delta):
 		if multiplayer.has_multiplayer_peer():
 			var local_input = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 			update_input.rpc(local_input)
+			
+	# Update HUD
+	hud.update_crystal_score(current_crystal_score)
 
 var last_input = [false, false, false, false]  # necessary because otherwise if e.g. player1 does not press any key, player2 will see player1's last input permanently
 # methods watches the inputs and sends them via rpc
@@ -74,10 +91,10 @@ func measure_input(delta):
 # call_remote makes ONLY other player receive packages and updates their arrows opacity
 @rpc("any_peer", "call_remote", "reliable")
 func update_arrows(input: Array):
-	$VisualSteeringCues/ArrowLeft.self_modulate.a  = 1.0 if input[0] else 0.5
-	$VisualSteeringCues/ArrowUp.self_modulate.a    = 1.0 if input[1] else 0.5
-	$VisualSteeringCues/ArrowDown.self_modulate.a  = 1.0 if input[2] else 0.5
-	$VisualSteeringCues/ArrowRight.self_modulate.a = 1.0 if input[3] else 0.5
+	$HUD/ArrowLeft.self_modulate.a  = 1.0 if input[0] else 0.5
+	$HUD/ArrowUp.self_modulate.a    = 1.0 if input[1] else 0.5
+	$HUD/ArrowDown.self_modulate.a  = 1.0 if input[2] else 0.5
+	$HUD/ArrowRight.self_modulate.a = 1.0 if input[3] else 0.5
 
 func _on_join_pressed():
 	peer.create_client( "127.0.0.1",4455)
@@ -138,3 +155,17 @@ func switch_control_mode(mode):
 # hides ui after clicking host button/join button
 func hide_ui():
 	$Multiplayer.visible = false
+
+func spawn_crystals():
+	for pos in crystal_positions:
+		var crystal_instance = CRYSTAL.instantiate()
+		add_child(crystal_instance)
+		crystal_instance.collected.connect(on_crystal_collected)
+		crystal_instance.start_position = tile_to_world_position(pos)
+		print("Spawned crystal at tile ", tile_to_world_position(pos))
+	
+func on_crystal_collected(value):
+	current_crystal_score += 1
+	
+func tile_to_world_position(input_pos: Vector2):
+	return Vector2((input_pos.x * 32) + 16, (input_pos.y * 32) + 16)

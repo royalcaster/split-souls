@@ -17,7 +17,7 @@ func _enter_tree():
 		if not multiplayer.is_server():
 			updated_spawn_position.x = updated_spawn_position.x + 100
 			
-		self.position  = updated_spawn_position
+		self.position = updated_spawn_position
 
 func _ready():
 	# camera always follows character that is controlled
@@ -53,6 +53,9 @@ func _physics_process(delta):
 			velocity = controller.get_combined_input() * speed
 	move_and_slide()
 	updateAnimation()
+	
+func is_player():
+	return true
 
 func updateAnimation():
 	if velocity.length() == 0:
