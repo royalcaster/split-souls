@@ -15,7 +15,7 @@ func _enter_tree():
 		# make sure both players do not spawn on top of each other 
 		var updated_spawn_position = Globals.spawn_position
 		if not multiplayer.is_server():
-			updated_spawn_position.x = updated_spawn_position.x + 100
+			updated_spawn_position.x = updated_spawn_position.x + 50
 			
 		self.position = updated_spawn_position
 
