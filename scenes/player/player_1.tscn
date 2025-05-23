@@ -16,7 +16,7 @@ properties/2/spawn = true
 properties/2/replication_mode = 1
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gok7g"]
-radius = 1.01558
+radius = 1.0
 height = 23.997
 
 [node name="Player1" type="CharacterBody2D"]
@@ -43,6 +43,6 @@ position_smoothing_enabled = true
 position_smoothing_speed = 20.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-1.19209e-07, 14)
+position = Vector2(-2.91323e-13, 15)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_gok7g")

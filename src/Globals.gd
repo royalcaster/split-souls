@@ -7,4 +7,4 @@ enum ControlMode {
 
 var control_mode := ControlMode.INDIVIDUAL
 
-var spawn_position = Vector2(280, 60)
+var spawn_position = Vector2(30, 60)

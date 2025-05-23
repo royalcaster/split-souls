@@ -4,13 +4,13 @@
 [ext_resource type="Texture2D" uid="uid://brfgbv70fxg2p" path="res://assets/img/gate_closed.png" id="2_ndpk8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ndpk8"]
-size = Vector2(74, 7)
+size = Vector2(62, 7)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rys84"]
-size = Vector2(35, 5)
+size = Vector2(28.5, 5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cv3nv"]
-size = Vector2(74, 5)
+size = Vector2(62, 5)
 
 [node name="Gate" type="Area2D"]
 y_sort_enabled = true
@@ -18,25 +18,25 @@ script = ExtResource("1_ndpk8")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-1, -1.5)
-scale = Vector2(1.5, 1.21875)
+scale = Vector2(1.23, 1)
 texture = ExtResource("2_ndpk8")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-1, 10.5)
+position = Vector2(-1, 11)
 shape = SubResource("RectangleShape2D_ndpk8")
 
 [node name="Wall" type="StaticBody2D" parent="."]
 
 [node name="WallLeft" type="CollisionShape2D" parent="Wall"]
-position = Vector2(-55.5, 15.5)
+position = Vector2(-46, 12)
 shape = SubResource("RectangleShape2D_rys84")
 
 [node name="Door" type="CollisionShape2D" parent="Wall"]
-position = Vector2(-1, 15.5)
+position = Vector2(-1, 15)
 shape = SubResource("RectangleShape2D_cv3nv")
 
 [node name="WallRight" type="CollisionShape2D" parent="Wall"]
-position = Vector2(54, 16)
+position = Vector2(43.75, 12)
 shape = SubResource("RectangleShape2D_rys84")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

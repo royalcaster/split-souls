@@ -14,10 +14,10 @@ var player_inputs = {} # Dictionary of {peer_id: input_vector}
 var shared_player: CharacterBody2D
 
 @export var crystal_positions: Array[Vector2] = [
-	Vector2(5, 16),
-	Vector2(8, 13),
-	Vector2(17, 4),
-	Vector2(20, 12)
+	Vector2(12, 6),
+	Vector2(16, 10),
+	Vector2(17, 18),
+	Vector2(3, 19)
 ]
 
 func _ready():
