@@ -1,6 +1,8 @@
 # enemy_bat.gd
 extends CharacterBody2D
 
+class_name BatEnemy
+
 # Sinusbewegung
 @export var amplitude: float = 50.0
 @export var frequency: float = 1.0
@@ -8,6 +10,15 @@ extends CharacterBody2D
 # Spieler-Verfolgung
 @export var aggro_distance: float = 150.0
 @export var speed: float = 75.0
+
+var health = 50
+var health_max = 50
+var health_min = 0
+var dead = false
+var taking_damage = false
+var is_roaming
+var damage_to_deal = 10
+var points_for_kill = 100
 
 var player: Node2D = null
 var start_position: Vector2
@@ -18,6 +29,10 @@ func _ready():
 
 	if $AnimatedSprite2D.sprite_frames.has_animation("bat_movement"):
 		$AnimatedSprite2D.play("bat_movement")
+
+func _process(delta):
+	Globals.batDamageAmount = damage_to_deal
+	Globals.batDamageZone = $BatDealDamageArea
 
 func _physics_process(delta):
 	# Spieler regelmäßig neu suchen, falls verloren gegangen

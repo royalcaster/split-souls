@@ -13,6 +13,7 @@ var current_crystal_score = 0
 var player_inputs = {} # Dictionary of {peer_id: input_vector}
 var shared_player: CharacterBody2D
 
+
 @export var crystal_positions: Array[Vector2] = [
 	Vector2(12, 6),
 	Vector2(16, 10),
