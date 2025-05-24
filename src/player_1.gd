@@ -20,6 +20,7 @@ func _enter_tree():
 		self.position = updated_spawn_position
 
 func _ready():
+	
 	# camera always follows character that is controlled
 	if is_multiplayer_authority():
 		$Camera2D.make_current()

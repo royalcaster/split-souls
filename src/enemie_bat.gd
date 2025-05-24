@@ -1,4 +1,4 @@
-#Bat
+# enemy_bat.gd
 extends CharacterBody2D
 
 # Sinusbewegung
@@ -19,17 +19,19 @@ func _ready():
 	if $AnimatedSprite2D.sprite_frames.has_animation("bat_movement"):
 		$AnimatedSprite2D.play("bat_movement")
 
-func _process(delta):
-	# Falls Spieler noch nicht gefunden wurde, regelmäßig neu prüfen
-	if player == null:
+func _physics_process(delta):
+	# Spieler regelmäßig neu suchen, falls verloren gegangen
+	if player == null or not is_instance_valid(player):
 		player = get_tree().get_first_node_in_group("players")
 		if player != null:
 			print("✅ Spieler gefunden: ", player.name)
 
-func _physics_process(delta):
-	if not player:
+	# Kein Spieler vorhanden? Bewegung abbrechen
+	if player == null:
+		move_sinusoidal(delta)
 		return
 
+	# Abstand zum Spieler berechnen
 	var distance = global_position.distance_to(player.global_position)
 
 	if distance <= aggro_distance:
@@ -37,13 +39,16 @@ func _physics_process(delta):
 		var direction = (player.global_position - global_position).normalized()
 		velocity = direction * speed
 	else:
-		# Sinusbewegung nur in X-Richtung, vertikal stabil bleiben
-		time_passed += delta
-		var offset_x = sin(time_passed * frequency * TAU) * amplitude
-		var target_pos = Vector2(start_position.x + offset_x, start_position.y)
-		var direction = (target_pos - global_position).normalized()
-
-		# Geschwindigkeit proportional zum Abstand -> gleichmäßigeres Schwingen
-		velocity = direction * (global_position.distance_to(target_pos) * 1.5)
+		# Sinusbewegung (Idle-Verhalten)
+		move_sinusoidal(delta)
 
 	move_and_slide()
+
+func move_sinusoidal(delta):
+	time_passed += delta
+	var offset_x = sin(time_passed * frequency * TAU) * amplitude
+	var target_pos = Vector2(start_position.x + offset_x, start_position.y)
+	var direction = (target_pos - global_position).normalized()
+
+	# Geschwindigkeit proportional zum Abstand
+	velocity = direction * (global_position.distance_to(target_pos) * 1.5)

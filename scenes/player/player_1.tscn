@@ -19,7 +19,7 @@ properties/2/replication_mode = 1
 radius = 1.0
 height = 23.997
 
-[node name="Player1" type="CharacterBody2D"]
+[node name="Player1" type="CharacterBody2D" groups=["players"]]
 y_sort_enabled = true
 script = ExtResource("1_hvohr")
 player_1_frames = ExtResource("2_hvohr")
