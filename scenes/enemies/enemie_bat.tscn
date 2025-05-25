@@ -48,7 +48,7 @@ height = 54.0
 radius = 35.0
 height = 70.0
 
-[node name="EnemieBat" type="CharacterBody2D"]
+[node name="EnemieBat" type="CharacterBody2D" groups=["enemies"]]
 position = Vector2(66, 109)
 script = ExtResource("1_ayue0")
 

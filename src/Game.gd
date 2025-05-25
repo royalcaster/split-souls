@@ -13,7 +13,6 @@ var current_crystal_score = 0
 var player_inputs = {} # Dictionary of {peer_id: input_vector}
 var shared_player: CharacterBody2D
 
-
 @export var crystal_positions: Array[Vector2] = [
 	Vector2(12, 6),
 	Vector2(16, 10),
@@ -23,6 +22,11 @@ var shared_player: CharacterBody2D
 
 func _ready():
 	spawn_crystals()
+	
+	### ✅ Gegner-Authority zuweisen, wenn Server
+	if multiplayer.is_server():
+		assign_enemy_authority()
+
 	if Globals.control_mode == Globals.ControlMode.SHARED:
 		multiplayer.peer_connected.connect(_on_peer_connected)
 		multiplayer.peer_disconnected.connect(_on_peer_disconnected)
@@ -170,3 +174,7 @@ func on_crystal_collected(value):
 	
 func tile_to_world_position(input_pos: Vector2):
 	return Vector2((input_pos.x * 32) + 16, (input_pos.y * 32) + 16)
+
+func assign_enemy_authority():
+	for enemy in get_tree().get_nodes_in_group("enemies"):
+		enemy.set_multiplayer_authority(1)  # Server hat Authority
