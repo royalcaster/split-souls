@@ -13,6 +13,8 @@ var health_min = 0
 var can_take_damage: bool
 var dead: bool
 
+
+
 func _enter_tree():
 	if Globals.control_mode == Globals.ControlMode.INDIVIDUAL:
 		set_multiplayer_authority(name.to_int())
@@ -41,6 +43,11 @@ func _ready():
 	dead = false
 	can_take_damage = true
 	Globals.playerAlive = true
+	
+	# Zauberstab
+	#var wand = preload("res://scenes/game/shoot.tscn").instantiate()
+	#wand.position = Vector2(10, 0)
+	#add_child(wand)
 	
 func update_visibility():
 	if Globals.control_mode == Globals.ControlMode.INDIVIDUAL:
