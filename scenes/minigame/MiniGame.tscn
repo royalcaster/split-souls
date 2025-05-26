@@ -2298,7 +2298,7 @@ tile_map_data = PackedByteArray("AAADAAEAAAAQAAEAAAD//wAAAAAQAAEAAAAHAAgAAAAQAAE
 tile_set = SubResource("TileSet_diy0u")
 
 [node name="StartPosition" type="Node2D" parent="."]
-position = Vector2(54, 290)
+position = Vector2(437, 112)
 
 [node name="EndZone" type="Area2D" parent="."]
 position = Vector2(477, 124)

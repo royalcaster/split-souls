@@ -30,7 +30,7 @@ func _process(delta):
 
 @rpc("any_peer", "call_local", "reliable")
 func update_minigame_input(input_vector: Vector2):
-	if not won_game: 
+	if not won_game:
 		var sender_id = multiplayer.get_remote_sender_id()
 		player_inputs[sender_id] = input_vector
 
@@ -78,6 +78,8 @@ func _on_close_requested():
 	var game = get_parent()
 	if game.has_method("close_minigame"):
 		game.close_minigame.rpc(won_game)
+		self.remove_from_group("activeTree")
+	queue_free()
 
 func _on_end_zone_body_entered(body):
 	if body == player: 

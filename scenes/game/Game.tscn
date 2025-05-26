@@ -2638,35 +2638,34 @@ scale = Vector2(0.9, 0.9)
 
 [node name="HUD" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
-visible = false
 offset = Vector2(0.17, 0.13)
 transform = Transform2D(1, 0, 0, 1, 0.17, 0.13)
 script = ExtResource("6_wnrko")
 
 [node name="ArrowUp" type="Sprite2D" parent="HUD"]
 material = SubResource("CanvasItemMaterial_wnrko")
-position = Vector2(716, 27)
+position = Vector2(643.58, 35.62)
 rotation = 4.71239
 scale = Vector2(0.131836, 0.112305)
 texture = ExtResource("8_wnrko")
 
 [node name="ArrowDown" type="Sprite2D" parent="HUD"]
 material = SubResource("CanvasItemMaterial_wnrko")
-position = Vector2(716, 82)
+position = Vector2(643.58, 90.62)
 rotation = 1.5708
 scale = Vector2(0.131836, 0.112305)
 texture = ExtResource("8_wnrko")
 
 [node name="ArrowLeft" type="Sprite2D" parent="HUD"]
 material = SubResource("CanvasItemMaterial_wnrko")
-position = Vector2(677, 55)
+position = Vector2(604.58, 63.62)
 rotation = 3.14159
 scale = Vector2(0.131836, 0.112305)
 texture = ExtResource("8_wnrko")
 
 [node name="ArrowRight" type="Sprite2D" parent="HUD"]
 material = SubResource("CanvasItemMaterial_wnrko")
-position = Vector2(751, 55)
+position = Vector2(678.58, 63.62)
 scale = Vector2(0.131836, 0.112305)
 texture = ExtResource("8_wnrko")
 
@@ -2690,6 +2689,12 @@ frame = 3
 
 [node name="TreeBarrier1" parent="Barriers" instance=ExtResource("11_aptqa")]
 position = Vector2(270, 170)
+
+[node name="TreeBarrier2" parent="Barriers" instance=ExtResource("11_aptqa")]
+position = Vector2(125, 194)
+
+[node name="TreeBarrier3" parent="Barriers" instance=ExtResource("11_aptqa")]
+position = Vector2(211, 246)
 
 [connection signal="pressed" from="Multiplayer/VBoxContainer/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="Multiplayer/VBoxContainer/Join" to="." method="_on_join_pressed"]

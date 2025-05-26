@@ -32,6 +32,7 @@ func _on_host_pressed():
 	peer.create_server(4455)
 	multiplayer.multiplayer_peer = peer
 	hide_ui()
+	hide_barriers()
 
 # connect either one player instance per player (individual steering) or one player instance for both (shared)
 	if Globals.control_mode == Globals.ControlMode.INDIVIDUAL:
@@ -174,9 +175,14 @@ func tile_to_world_position(input_pos: Vector2):
 
 
 @rpc("any_peer", "call_local", "reliable")
-func open_minigame():
+func open_minigame(barrier_path):
 	active_minigame = mini_game.instantiate()
 	add_child(active_minigame)
+	
+	# add barrier to group (this group keeps track of which barrier was clicked)
+	var barrier = get_node(barrier_path)
+	if not barrier.is_in_group("activeTree"):
+		barrier.add_to_group("activeTree")
 
 	# deactivate player movement outside the minigame
 	if shared_player:
@@ -184,14 +190,21 @@ func open_minigame():
 		
 @rpc("any_peer", "call_local", "reliable")
 func close_minigame(won_game):
-	print("before close")
 	remove_child(active_minigame)
-	print("close")
 	
 	# reactivate player movement outside the minigame
 	if shared_player:
 		shared_player.set_physics_process(true)
 	
 	if won_game: 
-		var tree = $Barriers.get_node("TreeBarrier1")
-		$Barriers.remove_child(tree)
+		var barriers = get_tree().get_nodes_in_group("activeTree")
+		if barriers.size() > 0: # remove barrier which was added to group when the minigame was opened
+			var barrier = barriers[0]
+			var parent = barrier.get_parent()
+			parent.remove_child(barrier)
+			
+# only light player should be able to see barriers 
+func hide_barriers():
+	if multiplayer.is_server():
+		for barrier in $Barriers.get_children():
+			barrier.visible = false
