@@ -2579,7 +2579,6 @@ sources/1 = SubResource("TileSetAtlasSource_56wml")
 y_sort_enabled = true
 script = ExtResource("1_lyhax")
 player_scene = ExtResource("2_7qcb4")
-mini_game = ExtResource("12_gynul")
 
 [node name="ground" type="TileMapLayer" parent="."]
 position = Vector2(-1, -1)
@@ -2639,8 +2638,6 @@ scale = Vector2(0.9, 0.9)
 [node name="HUD" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
 visible = false
-offset = Vector2(0.17, 0.13)
-transform = Transform2D(1, 0, 0, 1, 0.17, 0.13)
 script = ExtResource("6_wnrko")
 
 [node name="ArrowUp" type="Sprite2D" parent="HUD"]
@@ -2688,8 +2685,11 @@ frame = 3
 
 [node name="Barriers" type="Node2D" parent="."]
 
-[node name="TreeBarrier1" parent="Barriers" instance=ExtResource("11_aptqa")]
+[node name="TreeBarrier" parent="Barriers" instance=ExtResource("11_aptqa")]
 position = Vector2(270, 170)
+
+[node name="MiniGame" parent="." instance=ExtResource("12_gynul")]
+visible = false
 
 [connection signal="pressed" from="Multiplayer/VBoxContainer/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="Multiplayer/VBoxContainer/Join" to="." method="_on_join_pressed"]

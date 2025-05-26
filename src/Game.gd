@@ -1,6 +1,7 @@
 extends Node2D
 
 @export var player_scene: PackedScene
+@export var mini_game: PackedScene
 @onready var tilemap = $TileMap
 @onready var hud = $HUD
 
@@ -12,6 +13,7 @@ var current_crystal_score = 0
 
 var player_inputs = {} # Dictionary of {peer_id: input_vector}
 var shared_player: CharacterBody2D
+var active_minigame = null
 
 @export var crystal_positions: Array[Vector2] = [
 	Vector2(12, 6),
@@ -169,3 +171,27 @@ func on_crystal_collected(value):
 	
 func tile_to_world_position(input_pos: Vector2):
 	return Vector2((input_pos.x * 32) + 16, (input_pos.y * 32) + 16)
+
+
+@rpc("any_peer", "call_local", "reliable")
+func open_minigame():
+	active_minigame = mini_game.instantiate()
+	add_child(active_minigame)
+
+	# deactivate player movement outside the minigame
+	if shared_player:
+		shared_player.set_physics_process(false)
+		
+@rpc("any_peer", "call_local", "reliable")
+func close_minigame(won_game):
+	print("before close")
+	remove_child(active_minigame)
+	print("close")
+	
+	# reactivate player movement outside the minigame
+	if shared_player:
+		shared_player.set_physics_process(true)
+	
+	if won_game: 
+		var tree = $Barriers.get_node("TreeBarrier1")
+		$Barriers.remove_child(tree)
