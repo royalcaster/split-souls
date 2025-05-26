@@ -86,7 +86,7 @@ func updateAnimation():
 		elif velocity.y < 0:
 			direction = "_up"
 		animatedSprite2D.play("move" + direction)
-
+		
 func check_hitbox():
 	var hitbox_areas = $PlayerHitbox.get_overlapping_areas()
 	var damage: int
@@ -94,17 +94,18 @@ func check_hitbox():
 	if hitbox_areas:
 		var hit_box = hitbox_areas.front()
 		var parent = hit_box.get_parent()
-		
-		# ✅ Gegner greift Spieler an
+
 		if parent is BatEnemy:
 			damage = Globals.batDamageAmount
 			if can_take_damage:
 				take_damage(damage)
-			
-			# ✅ Spieler greift Gegner an (nur Client mit Authority darf RPC auslösen)
-			if is_multiplayer_authority():
-				if parent.has_method("take_damage"):
-					parent.take_damage.rpc_id(1, 25)  # Server hat Authority ID 1, Schaden: 25
+
+			if parent.has_method("take_damage"):
+				if multiplayer.is_server():
+					parent.take_damage(25)
+				else:
+					parent.take_damage.rpc_id(parent.get_multiplayer_authority(), 25)
+
 
 func take_damage(damage):
 	if damage != 0:
@@ -119,12 +120,19 @@ func take_damage(damage):
 				SceneManager.goto_scene("res://scenes/ui/GameOverMenu.tscn")
 			take_damage_cooldown(1.0)
 
+# ToDo:
 #func handle_death_animation():
-#	animated_sprite.play("death")
-#	await get_tree().create_timer(3.5).timeout
-#	self.queue_free()
+#	animated_sprite.play("death") --> Sprite noch nicht vorhanden
+#	await get_tree().create_timer(3.5).timeout --> Zeit, um Animation abspielen zu lassen
+#	self.queue_free() --> Spielernode wird entfernt
 
 func take_damage_cooldown(wait_time):
 	can_take_damage = false
 	await get_tree().create_timer(wait_time).timeout
 	can_take_damage = true
+
+func get_health():
+	return health
+
+func get_health_max():
+	return health_max

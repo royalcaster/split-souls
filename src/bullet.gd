@@ -5,7 +5,7 @@ extends Sprite2D
 
 var speed: float = 1000.0
 
-#########Abschnitt finc _ready: Anzeige Marker für Bullet
+#########Abschnitt func _ready: Anzeige Marker für Bullet (zum Testen)
 #func _ready():
 	#var marker = ColorRect.new()
 	#marker.color = Color.RED

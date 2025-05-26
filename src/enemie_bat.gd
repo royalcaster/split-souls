@@ -14,8 +14,6 @@ var health_max = 50
 var health_min = 0
 var dead = false
 var can_take_damage = true
-var taking_damage = false
-var is_roaming
 var damage_to_deal = 10
 var points_for_kill = 100
 
@@ -25,7 +23,6 @@ var time_passed: float = 0.0
 
 func _ready():
 	start_position = global_position
-
 	add_to_group("enemies")
 
 	if $AnimatedSprite2D.sprite_frames.has_animation("bat_movement"):
@@ -62,24 +59,38 @@ func move_sinusoidal(delta):
 	var direction = (target_pos - global_position).normalized()
 	velocity = direction * (global_position.distance_to(target_pos) * 1.5)
 
-# Synchronisierung, funktioniert noch nicht
-@rpc("authority", "call_local", "reliable")
+# Schaden erhalten
+@rpc("any_peer", "call_remote", "reliable")
 func take_damage(damage: int) -> void:
+	if not is_multiplayer_authority():
+		return  # Nur Server darf verarbeiten
+
 	if not can_take_damage or dead:
 		return
 
-	if damage > 0:
-		health -= damage
-		print("Gegner health: ", health)
+	health = clamp(health - damage, health_min, health_max)
+	print("🟥 [SERVER] Gegner-Health reduziert auf: ", health)
 
-		if health <= 0:
-			health = 0
-			die()
-		else:
-			take_damage_cooldown(0.2)
+	sync_health.rpc(health)  # an alle Clients schicken
 
-# ✅ SYNCHRONISIERTER Tod
-func die() -> void:
+	if health <= health_min:
+		rpc_die.rpc()  # Enemy bei Client löschen
+		rpc_die()        # Enemy bei Host (lokal)
+	else:
+		take_damage_cooldown(0.2)
+
+# Health auf allen Clients synchronisieren
+@rpc("any_peer", "call_remote", "reliable")
+func sync_health(current: int):
+	health = current
+	if has_node("HealthBar"):
+		$HealthBar.update_health(health, health_max)
+
+# Enemy dead wird an Client gesendet
+@rpc("authority", "call_remote", "reliable")
+func rpc_die():
+	if dead:
+		return
 	dead = true
 	queue_free()
 
@@ -87,3 +98,9 @@ func take_damage_cooldown(wait_time: float) -> void:
 	can_take_damage = false
 	await get_tree().create_timer(wait_time).timeout
 	can_take_damage = true
+
+func get_health():
+	return health
+
+func get_health_max():
+	return health_max
