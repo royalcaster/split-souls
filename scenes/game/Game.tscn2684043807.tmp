@@ -2509,9 +2509,9 @@ texture_region_size = Vector2i(32, 32)
 3:0/0 = 0
 3:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-10.1962, 8.92166, -9.24029, 16, 11.1521, 16, 11.1521, 9.24029)
 4:0/0 = 0
-4:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-6.69124, 9.24029, -7.00988, 34.0935, 15.9315, 34.7308, 16, 7.64714)
+4:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-6.69124, 9.24029, -7.32851, 16, 16, 16, 16, 7.64714)
 5:0/0 = 0
-5:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, 7.96577, 9.24029, 9.55892, 7.32851, 32.819, -15.6129, 34.0935)
+5:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, 7.96577, 9.24029, 9.55892, 8.60303, 16, -16, 16)
 6:0/0 = 0
 7:0/0 = 0
 9:0/0 = 0
@@ -2521,9 +2521,9 @@ texture_region_size = Vector2i(32, 32)
 2:1/0 = 0
 3:1/0 = 0
 4:1/0 = 0
-4:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-3.18631, -16, -7.32851, -16, -5.73535, 16, 16, 16, 16, -16)
+4:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-3.18631, -16, -7.32851, -16, -5.41672, 0.955891, 16, 1.91179, 16, -16)
 5:1/0 = 0
-5:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, 16, 7.96577, 16, 9.24029, -16, -16, -16)
+5:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, 1.91179, -2.86768, 1.91179, 6.37262, -1.91179, 9.24029, -16, -16, -16)
 6:1/0 = 0
 7:1/0 = 0
 8:1/0 = 0
@@ -2579,7 +2579,6 @@ sources/1 = SubResource("TileSetAtlasSource_56wml")
 y_sort_enabled = true
 script = ExtResource("1_lyhax")
 player_scene = ExtResource("2_7qcb4")
-mini_game = ExtResource("12_gynul")
 
 [node name="ground" type="TileMapLayer" parent="."]
 position = Vector2(-1, -1)
@@ -2638,34 +2637,33 @@ scale = Vector2(0.9, 0.9)
 
 [node name="HUD" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
-offset = Vector2(0.17, 0.13)
-transform = Transform2D(1, 0, 0, 1, 0.17, 0.13)
+visible = false
 script = ExtResource("6_wnrko")
 
 [node name="ArrowUp" type="Sprite2D" parent="HUD"]
 material = SubResource("CanvasItemMaterial_wnrko")
-position = Vector2(643.58, 35.62)
+position = Vector2(716, 27)
 rotation = 4.71239
 scale = Vector2(0.131836, 0.112305)
 texture = ExtResource("8_wnrko")
 
 [node name="ArrowDown" type="Sprite2D" parent="HUD"]
 material = SubResource("CanvasItemMaterial_wnrko")
-position = Vector2(643.58, 90.62)
+position = Vector2(716, 82)
 rotation = 1.5708
 scale = Vector2(0.131836, 0.112305)
 texture = ExtResource("8_wnrko")
 
 [node name="ArrowLeft" type="Sprite2D" parent="HUD"]
 material = SubResource("CanvasItemMaterial_wnrko")
-position = Vector2(604.58, 63.62)
+position = Vector2(677, 55)
 rotation = 3.14159
 scale = Vector2(0.131836, 0.112305)
 texture = ExtResource("8_wnrko")
 
 [node name="ArrowRight" type="Sprite2D" parent="HUD"]
 material = SubResource("CanvasItemMaterial_wnrko")
-position = Vector2(678.58, 63.62)
+position = Vector2(751, 55)
 scale = Vector2(0.131836, 0.112305)
 texture = ExtResource("8_wnrko")
 
@@ -2687,14 +2685,11 @@ frame = 3
 
 [node name="Barriers" type="Node2D" parent="."]
 
-[node name="TreeBarrier1" parent="Barriers" instance=ExtResource("11_aptqa")]
+[node name="TreeBarrier" parent="Barriers" instance=ExtResource("11_aptqa")]
 position = Vector2(270, 170)
 
-[node name="TreeBarrier2" parent="Barriers" instance=ExtResource("11_aptqa")]
-position = Vector2(125, 194)
-
-[node name="TreeBarrier3" parent="Barriers" instance=ExtResource("11_aptqa")]
-position = Vector2(211, 246)
+[node name="MiniGame" parent="." instance=ExtResource("12_gynul")]
+visible = false
 
 [connection signal="pressed" from="Multiplayer/VBoxContainer/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="Multiplayer/VBoxContainer/Join" to="." method="_on_join_pressed"]
