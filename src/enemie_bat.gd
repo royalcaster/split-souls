@@ -64,6 +64,11 @@ func move_sinusoidal(delta):
 func take_damage(damage: int) -> void:
 	if not is_multiplayer_authority():
 		return  # Nur Server darf verarbeiten
+		
+	var sender_id = multiplayer.get_remote_sender_id()
+	if sender_id == -1:
+		return # invalid sender
+
 
 	if not can_take_damage or dead:
 		return
@@ -104,3 +109,14 @@ func get_health():
 
 func get_health_max():
 	return health_max
+
+func _on_damage_area_body_entered(body):
+	if body is Player and not dead:
+		if body.can_take_damage:
+			body.take_damage(damage_to_deal)
+
+
+func _on_bat_deal_damage_area_body_entered(body: Node2D) -> void:
+	if body is Player and not dead:
+		if body.can_take_damage:
+			body.take_damage(damage_to_deal)

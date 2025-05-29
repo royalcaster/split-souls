@@ -6,7 +6,7 @@ var min_value_amount = 0
 
 func _ready():
 	parent = get_parent()
-
+	
 	# Prüfe, ob der Parent gültige Health-Methoden hat (Multiplayer-sicher)
 	if parent and parent.has_method("get_health") and parent.has_method("get_health_max"):
 		max_value_amount = parent.get_health_max()
@@ -24,10 +24,13 @@ func _process(_delta):
 	# Health-Wert synchronisiert vom Parent lesen
 	value = parent.get_health()
 
-	# Sichtbarkeit steuern
 	visible = value < max_value_amount and value > min_value_amount
 
-# 🔁 Diese Funktion ist optional, wenn du sie direkt aufrufst (z. B. aus einem globalen Sync)
 func update_health(current: int, max: int):
-	value = current
 	max_value = max
+	# Wert deferred setzen, um UI-Update zu erzwingen
+	call_deferred("_set_value", current)
+
+func _set_value(val):
+	value = val
+	visible = value < max_value and value > min_value_amount

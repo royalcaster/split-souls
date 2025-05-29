@@ -7,9 +7,32 @@ var controller: Node
 @export var player_1_frames: SpriteFrames
 @export var player_2_frames: SpriteFrames
 
-var health = 100
-var health_max = 100
-var health_min = 0
+var _health: int = 100
+
+var health: int:
+	set(value):
+		_health = clamp(value, 0, health_max)
+		print("Health set to:", _health)
+
+		if $HealthBar:
+			$HealthBar.visible = true  # <–– HealthBar jetzt sichtbar
+			$HealthBar.update_health(_health, health_max)
+
+		if multiplayer.is_server():
+			rpc("update_healthbar_clients", _health, health_max)
+
+		if _health <= 0 and not dead:
+			dead = true
+			Globals.playerAlive = false
+			if multiplayer.is_server():
+				rpc("on_player_dead")
+				SceneManager.goto_scene("res://scenes/ui/GameOverMenu.tscn")
+	get:
+		return _health
+
+
+var health_max: int = 100
+var health_min: int = 0
 var can_take_damage: bool
 var dead: bool
 
@@ -23,6 +46,10 @@ func _enter_tree():
 		self.position = updated_spawn_position
 
 func _ready():
+	# HealthBar zu Beginn ausblenden
+	if $HealthBar:
+		$HealthBar.visible = false
+	
 	if is_multiplayer_authority():
 		$Camera2D.make_current()
 
@@ -31,6 +58,7 @@ func _ready():
 		animatedSprite2D.sprite_frames = player_1_frames
 	else:
 		animatedSprite2D.sprite_frames = player_2_frames
+
 	update_visibility()
 
 	dead = false
@@ -44,7 +72,7 @@ func update_visibility():
 		animatedSprite2D.visible = true
 
 func _physics_process(delta):
-	if !dead:
+	if not dead:
 		if Globals.control_mode == Globals.ControlMode.INDIVIDUAL:
 			if is_multiplayer_authority():
 				velocity = Input.get_vector("move_left", "move_right", "move_up", "move_down") * speed
@@ -86,7 +114,7 @@ func updateAnimation():
 		elif velocity.y < 0:
 			direction = "_up"
 		animatedSprite2D.play("move" + direction)
-		
+
 func check_hitbox():
 	var hitbox_areas = $PlayerHitbox.get_overlapping_areas()
 	var damage: int
@@ -97,42 +125,28 @@ func check_hitbox():
 
 		if parent is BatEnemy:
 			damage = Globals.batDamageAmount
-			if can_take_damage:
-				take_damage(damage)
+		if can_take_damage:
+			take_damage(damage)
 
-			if parent.has_method("take_damage"):
-				if multiplayer.is_server():
-					parent.take_damage(25)
-				else:
-					parent.take_damage.rpc_id(parent.get_multiplayer_authority(), 25)
+@rpc("authority", "reliable")
+func take_damage(damage: int):
+	if damage == 0 or dead:
+		return
 
-
-func take_damage(damage):
-	if damage != 0:
-		if health > 0:
-			health -= damage
-			print("player_health: ", health)
-			if health <= 0:
-				health = 0
-				dead = true
-				Globals.playerAlive = false
-				#handle_death_animation()
-				SceneManager.goto_scene("res://scenes/ui/GameOverMenu.tscn")
-			take_damage_cooldown(1.0)
-
-# ToDo:
-#func handle_death_animation():
-#	animated_sprite.play("death") --> Sprite noch nicht vorhanden
-#	await get_tree().create_timer(3.5).timeout --> Zeit, um Animation abspielen zu lassen
-#	self.queue_free() --> Spielernode wird entfernt
+	health -= damage  # Automatisch über Setter synchronisiert
+	take_damage_cooldown(1.0)
 
 func take_damage_cooldown(wait_time):
 	can_take_damage = false
 	await get_tree().create_timer(wait_time).timeout
 	can_take_damage = true
 
-func get_health():
-	return health
+@rpc("any_peer", "reliable")
+func update_healthbar_clients(current: int, max: int):
+	if $HealthBar:
+		$HealthBar.update_health(current, max)
 
-func get_health_max():
-	return health_max
+@rpc("any_peer", "reliable")
+func on_player_dead():
+	Globals.playerAlive = false
+	SceneManager.goto_scene("res://scenes/ui/GameOverMenu.tscn")

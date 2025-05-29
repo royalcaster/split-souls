@@ -74,3 +74,5 @@ offset_bottom = -65.0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BatDealDamageArea"]
 position = Vector2(1, -31)
 shape = SubResource("CapsuleShape2D_8wve5")
+
+[connection signal="body_entered" from="BatDealDamageArea" to="." method="_on_bat_deal_damage_area_body_entered"]
