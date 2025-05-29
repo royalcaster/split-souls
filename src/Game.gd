@@ -24,6 +24,11 @@ var active_minigame = null
 
 func _ready():
 	spawn_crystals()
+	
+	### ✅ Gegner-Authority zuweisen, wenn Server
+	if multiplayer.is_server():
+		assign_enemy_authority()
+
 	if Globals.control_mode == Globals.ControlMode.SHARED:
 		multiplayer.peer_connected.connect(_on_peer_connected)
 		multiplayer.peer_disconnected.connect(_on_peer_disconnected)
@@ -173,6 +178,10 @@ func on_crystal_collected(value):
 func tile_to_world_position(input_pos: Vector2):
 	return Vector2((input_pos.x * 32) + 16, (input_pos.y * 32) + 16)
 
+
+func assign_enemy_authority():
+	for enemy in get_tree().get_nodes_in_group("enemies"):
+		enemy.set_multiplayer_authority(1)  # Server hat Authority
 
 @rpc("any_peer", "call_local", "reliable")
 func open_minigame(barrier_path):

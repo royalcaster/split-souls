@@ -2636,7 +2636,7 @@ layout_mode = 2
 text = "Join"
 
 [node name="EnemieBat" parent="." instance=ExtResource("3_vrspl")]
-position = Vector2(410, 249)
+position = Vector2(309, 383)
 scale = Vector2(0.9, 0.9)
 
 [node name="HUD" type="CanvasLayer" parent="."]

@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://byixxiqjq0w47"]
+[gd_scene load_steps=11 format=3 uid="uid://byixxiqjq0w47"]
 
 [ext_resource type="Script" uid="uid://ylks8xp3cjhb" path="res://src/enemie_bat.gd" id="1_ayue0"]
 [ext_resource type="Texture2D" uid="uid://j7foj5856ges" path="res://assets/bat_spritesheet.png" id="1_rf1a6"]
+[ext_resource type="PackedScene" uid="uid://d1k0y6na2qb32" path="res://scenes/game/health_bar.tscn" id="3_8wve5"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ayue0"]
 atlas = ExtResource("1_rf1a6")
@@ -39,7 +40,16 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="EnemieBat" type="CharacterBody2D"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ayue0"]
+radius = 24.0
+height = 54.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8wve5"]
+radius = 35.0
+height = 70.0
+
+[node name="EnemieBat" type="CharacterBody2D" groups=["enemies"]]
+position = Vector2(66, 109)
 script = ExtResource("1_ayue0")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -48,3 +58,21 @@ position = Vector2(-1, -27)
 scale = Vector2(2.25, 2.25)
 sprite_frames = SubResource("SpriteFrames_bepsl")
 animation = &"bat_movement"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -30)
+shape = SubResource("CapsuleShape2D_ayue0")
+
+[node name="HealthBar" parent="." instance=ExtResource("3_8wve5")]
+offset_left = -18.0
+offset_top = -74.0
+offset_right = 18.0
+offset_bottom = -65.0
+
+[node name="BatDealDamageArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BatDealDamageArea"]
+position = Vector2(1, -31)
+shape = SubResource("CapsuleShape2D_8wve5")
+
+[connection signal="body_entered" from="BatDealDamageArea" to="." method="_on_bat_deal_damage_area_body_entered"]

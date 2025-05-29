@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://b184syehau03x"]
+[gd_scene load_steps=9 format=3 uid="uid://b184syehau03x"]
 
 [ext_resource type="Script" uid="uid://dc1xelhjg57mu" path="res://src/player_1.gd" id="1_hvohr"]
 [ext_resource type="SpriteFrames" uid="uid://jrfq8bcwahhu" path="res://scenes/player/dark.tres" id="2_hvohr"]
 [ext_resource type="SpriteFrames" uid="uid://byjeglv07o1vr" path="res://scenes/player/light.tres" id="3_gok7g"]
+[ext_resource type="PackedScene" uid="uid://d1k0y6na2qb32" path="res://scenes/game/health_bar.tscn" id="4_x2oxy"]
+[ext_resource type="PackedScene" uid="uid://dvriyiicr3unw" path="res://scenes/game/shoot.tscn" id="5_rtiyx"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_hvohr"]
 properties/0/path = NodePath(".:position")
@@ -19,7 +21,9 @@ properties/2/replication_mode = 1
 radius = 1.0
 height = 23.997
 
-[node name="Player1" type="CharacterBody2D"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_x2oxy"]
+
+[node name="Player1" type="CharacterBody2D" groups=["players"]]
 y_sort_enabled = true
 script = ExtResource("1_hvohr")
 player_1_frames = ExtResource("2_hvohr")
@@ -45,3 +49,17 @@ position_smoothing_speed = 20.0
 position = Vector2(-2.91323e-13, 15)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_gok7g")
+
+[node name="HealthBar" parent="." instance=ExtResource("4_x2oxy")]
+offset_left = -11.0
+offset_top = -27.0
+offset_right = 11.0
+offset_bottom = -22.0
+
+[node name="PlayerHitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerHitbox"]
+shape = SubResource("CapsuleShape2D_x2oxy")
+
+[node name="Shoot" parent="." instance=ExtResource("5_rtiyx")]
+position = Vector2(0, 1)

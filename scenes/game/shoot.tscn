@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://dvriyiicr3unw"]
+
+[ext_resource type="Texture2D" uid="uid://cbuntic6w2iak" path="res://assets/Sprite-shoot.png" id="1_c2bix"]
+[ext_resource type="Script" uid="uid://b30cfuekuc7m4" path="res://src/shoot.gd" id="1_erwv1"]
+
+[node name="Shoot" type="Node2D"]
+script = ExtResource("1_erwv1")
+
+[node name="RotationOffSet" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="RotationOffSet"]
+texture_filter = 1
+texture = ExtResource("1_c2bix")
+region_enabled = true
+region_rect = Rect2(4.47792, 11.5667, 31.1169, 8.24296)
+
+[node name="shoot_pos" type="Marker2D" parent="RotationOffSet/Sprite2D"]
+visible = false
+
+[node name="shoot_pos" type="Marker2D" parent="RotationOffSet"]
+
+[node name="ShootTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]
