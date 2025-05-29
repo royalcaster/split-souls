@@ -1,6 +1,7 @@
 extends Node2D
 
 @export var player_scene: PackedScene
+@export var mini_game: PackedScene
 @onready var tilemap = $TileMap
 @onready var hud = $HUD
 
@@ -12,6 +13,7 @@ var current_crystal_score = 0
 
 var player_inputs = {} # Dictionary of {peer_id: input_vector}
 var shared_player: CharacterBody2D
+var active_minigame = null
 
 @export var crystal_positions: Array[Vector2] = [
 	Vector2(12, 6),
@@ -35,6 +37,7 @@ func _on_host_pressed():
 	peer.create_server(4455)
 	multiplayer.multiplayer_peer = peer
 	hide_ui()
+	hide_barriers()
 
 # connect either one player instance per player (individual steering) or one player instance for both (shared)
 	if Globals.control_mode == Globals.ControlMode.INDIVIDUAL:
@@ -175,6 +178,42 @@ func on_crystal_collected(value):
 func tile_to_world_position(input_pos: Vector2):
 	return Vector2((input_pos.x * 32) + 16, (input_pos.y * 32) + 16)
 
+
 func assign_enemy_authority():
 	for enemy in get_tree().get_nodes_in_group("enemies"):
 		enemy.set_multiplayer_authority(1)  # Server hat Authority
+
+@rpc("any_peer", "call_local", "reliable")
+func open_minigame(barrier_path):
+	active_minigame = mini_game.instantiate()
+	add_child(active_minigame)
+	
+	# add barrier to group (this group keeps track of which barrier was clicked)
+	var barrier = get_node(barrier_path)
+	if not barrier.is_in_group("activeTree"):
+		barrier.add_to_group("activeTree")
+
+	# deactivate player movement outside the minigame
+	if shared_player:
+		shared_player.set_physics_process(false)
+		
+@rpc("any_peer", "call_local", "reliable")
+func close_minigame(won_game):
+	remove_child(active_minigame)
+	
+	# reactivate player movement outside the minigame
+	if shared_player:
+		shared_player.set_physics_process(true)
+	
+	if won_game: 
+		var barriers = get_tree().get_nodes_in_group("activeTree")
+		if barriers.size() > 0: # remove barrier which was added to group when the minigame was opened
+			var barrier = barriers[0]
+			var parent = barrier.get_parent()
+			parent.remove_child(barrier)
+			
+# only light player should be able to see barriers 
+func hide_barriers():
+	if multiplayer.is_server():
+		for barrier in $Barriers.get_children():
+			barrier.visible = false

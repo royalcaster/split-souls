@@ -22,11 +22,13 @@ MultiplayerServer="*res://src/multiplayer_server.gd"
 Noray="*res://addons/netfox.noray/noray.gd"
 PacketHandshake="*res://addons/netfox.noray/packet-handshake.gd"
 Globals="*res://src/Globals.gd"
+Cursor="*res://src/cursor.gd"
 
 [display]
 
-window/size/viewport_width=1280
-window/size/viewport_height=720
+window/size/viewport_width=720
+window/size/viewport_height=480
+window/stretch/mode="viewport"
 
 [editor_plugins]
 
