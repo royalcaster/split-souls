@@ -1,0 +1,93 @@
+[gd_scene load_steps=7 format=3 uid="uid://cbvvfl7uj2qvg"]
+
+[ext_resource type="Script" uid="uid://cni6u41bfw2ci" path="res://scenes/friends/scarecrow/scarecrow.gd" id="1_8mpuc"]
+[ext_resource type="Texture2D" uid="uid://dj4tryxayowr3" path="res://assets/img/friends/scarecrow.png" id="1_8q0l5"]
+[ext_resource type="Texture2D" uid="uid://s14xp3a73gbm" path="res://assets/img/friends/speechbubble.png" id="3_4te0q"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fpxsw"]
+radius = 15.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8q0l5"]
+radius = 44.0
+height = 88.0
+
+[sub_resource type="Theme" id="Theme_qrfk6"]
+default_font_size = 12
+
+[node name="Scarecrow" type="StaticBody2D"]
+input_pickable = true
+script = ExtResource("1_8mpuc")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+y_sort_enabled = true
+position = Vector2(2, -15)
+texture = ExtResource("1_8q0l5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -15)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_fpxsw")
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(1, 5)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-1, -12)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_8q0l5")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="SpeechbubbleDark" type="Sprite2D" parent="CanvasLayer"]
+visible = false
+z_index = 1
+position = Vector2(395, 430)
+scale = Vector2(1.12807, 1.09328)
+texture = ExtResource("3_4te0q")
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/SpeechbubbleDark"]
+y_sort_enabled = true
+position = Vector2(-295.193, 0)
+rotation = 3.14159
+scale = Vector2(2.67358, -2.75868)
+texture = ExtResource("1_8q0l5")
+
+[node name="Text" type="RichTextLabel" parent="CanvasLayer/SpeechbubbleDark"]
+offset_left = -223.39
+offset_top = -24.6964
+offset_right = 222.61
+offset_bottom = 21.3036
+theme = SubResource("Theme_qrfk6")
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+text = "HALT!!! Bist du auch eins dieser Monster?! Verschwinde sofort von meinem Friedhof, hier gibt es schon genug von euch!!!"
+metadata/_edit_use_anchors_ = true
+
+[node name="SpeechbubbleLight" type="Sprite2D" parent="CanvasLayer"]
+visible = false
+z_index = 1
+position = Vector2(395, 430)
+scale = Vector2(1.12807, 1.09328)
+texture = ExtResource("3_4te0q")
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/SpeechbubbleLight"]
+y_sort_enabled = true
+position = Vector2(-295.193, 0)
+rotation = 3.14159
+scale = Vector2(2.67358, -2.75868)
+texture = ExtResource("1_8q0l5")
+
+[node name="Text" type="RichTextLabel" parent="CanvasLayer/SpeechbubbleLight"]
+offset_left = -223.39
+offset_top = -24.6964
+offset_right = 222.61
+offset_bottom = 21.3036
+theme = SubResource("Theme_qrfk6")
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+text = "Oh wie schön, dass endlich jemand diesen Friedhof besucht. Es war schon seit Jahren niemand mehr hier, ich bin so einsam. "
+metadata/_edit_use_anchors_ = true
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="mouse_shape_entered" from="." to="." method="_on_mouse_shape_entered"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
