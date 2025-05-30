@@ -1,0 +1,122 @@
+[gd_scene load_steps=7 format=3 uid="uid://btpvmbwyiag3a"]
+
+[ext_resource type="Texture2D" uid="uid://cbuntic6w2iak" path="res://assets/Sprite-shoot.png" id="1_xhiv3"]
+[ext_resource type="Script" uid="uid://23el2vjgi2iw" path="res://src/bullet.gd" id="2_1bog7"]
+
+[sub_resource type="Animation" id="Animation_cn7gg"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_1bog7"]
+resource_name = "appear"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.433333),
+"transitions": PackedFloat32Array(0.5, 2),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05), Vector2(5, 5)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.433333),
+"transitions": PackedFloat32Array(0.5, 2),
+"update": 0,
+"values": [Color(1, 1, 1, 0.556863), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_q06xv"]
+resource_name = "remove"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.5, 2),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 2),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pknh1"]
+_data = {
+&"RESET": SubResource("Animation_cn7gg"),
+&"appear": SubResource("Animation_1bog7"),
+&"remove": SubResource("Animation_q06xv")
+}
+
+[node name="Bullet" type="Sprite2D"]
+modulate = Color(1, 1, 1, 0)
+z_index = 4
+texture_filter = 1
+position = Vector2(-1.25e-05, -1.25e-05)
+scale = Vector2(1e-05, 1e-05)
+texture = ExtResource("1_xhiv3")
+region_enabled = true
+region_rect = Rect2(45.9585, 12.9527, 5.08183, 5.06174)
+script = ExtResource("2_1bog7")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_pknh1")
+}
+autoplay = "appear"
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(0, 0)
+hit_from_inside = true
+
+[node name="DistanceTimeout" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="timeout" from="DistanceTimeout" to="." method="_on_distance_timeout_timeout"]

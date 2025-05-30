@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://jynqgtiojqyc"]
+
+[ext_resource type="Script" uid="uid://ny7fmrv17nc2" path="res://scenes/static_barriers/tree_barrier.gd" id="1_ewys5"]
+[ext_resource type="Texture2D" uid="uid://dpxciqdvaq62t" path="res://assets/img/tree_placeholder.png" id="1_y22u3"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ewys5"]
+radius = 9.0
+height = 52.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bpg3t"]
+radius = 26.0
+height = 94.0
+
+[node name="TreeBarrier" type="StaticBody2D"]
+y_sort_enabled = true
+input_pickable = true
+script = ExtResource("1_ewys5")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_y22u3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 5)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_ewys5")
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(1, 5)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-1, 0)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_bpg3t")
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
