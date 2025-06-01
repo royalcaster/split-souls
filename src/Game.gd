@@ -36,7 +36,7 @@ func _ready():
 func _on_host_pressed():
 	peer.create_server(4455)
 	multiplayer.multiplayer_peer = peer
-	hide_ui()
+	start_game()
 	hide_barriers()
 
 # connect either one player instance per player (individual steering) or one player instance for both (shared)
@@ -107,7 +107,7 @@ func update_arrows(input: Array):
 func _on_join_pressed():
 	peer.create_client( "127.0.0.1",4455)
 	multiplayer.multiplayer_peer = peer
-	hide_ui()
+	start_game()
 
 # used to update shared input 
 @rpc("any_peer", "call_local", "reliable")
@@ -159,9 +159,13 @@ func switch_control_mode(mode):
 		for id in multiplayer.get_peers():
 			_on_peer_connected(id)
 		_on_peer_connected(multiplayer.get_unique_id())
+	
+func start_game():
+    # makes all gaming contents visible after joining/hosting the game
+	var nodes_in_group = get_tree().get_nodes_in_group("map_content")
+	for node in nodes_in_group:
+		node.visible = true
 		
-# hides ui after clicking host button/join button
-func hide_ui():
 	$Multiplayer.visible = false
 
 func spawn_crystals():
@@ -170,6 +174,7 @@ func spawn_crystals():
 		add_child(crystal_instance)
 		crystal_instance.collected.connect(on_crystal_collected)
 		crystal_instance.start_position = tile_to_world_position(pos)
+		crystal_instance.add_to_group("map_content")
 		print("Spawned crystal at tile ", tile_to_world_position(pos))
 	
 func on_crystal_collected(value):
