@@ -161,12 +161,24 @@ func switch_control_mode(mode):
 		_on_peer_connected(multiplayer.get_unique_id())
 	
 func start_game():
-    # makes all gaming contents visible after joining/hosting the game
+	# makes all gaming contents visible after joining/hosting the game
 	var nodes_in_group = get_tree().get_nodes_in_group("map_content")
 	for node in nodes_in_group:
 		node.visible = true
 		
-	$Multiplayer.visible = false
+	$Multiplayer.visible= false # hide host/join buttons
+	 
+	# replace tileset for host
+	if multiplayer.is_server():
+		var ground_tileset = preload("res://src/dark_tileset_ground.tres")
+		$ground.tile_set = ground_tileset
+#
+		var trees_tileset = preload("res://src/dark_tileset_trees.tres")
+		$trees.tile_set = trees_tileset
+#
+		var objects_tileset = preload("res://src/dark_tileset_objects.tres")
+		$objects.tile_set = objects_tileset
+	
 
 func spawn_crystals():
 	for pos in crystal_positions:
