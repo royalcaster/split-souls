@@ -1,0 +1,45 @@
+[gd_resource type="TileSet" load_steps=6 format=3 uid="uid://b8khe71w6s1i4"]
+
+[ext_resource type="Texture2D" uid="uid://ej3p67si0637" path="res://assets/dark_assets/tilemap_dark.png" id="1_1d5cm"]
+[ext_resource type="Texture2D" uid="uid://biut4bv48mpn1" path="res://assets/img/gate_closed_tiles.png" id="2_3rmdr"]
+
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_c7s16"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lwuvd"]
+texture = ExtResource("1_1d5cm")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, 0.63726, -2.86768, 4.77946, -2.86768, 9.87755, -5.73535, 13.3825, -1.59315, 16, 4.1422, 16, 7.64714, 13.3825, 4.46083, 10.5148, 4.46083, 4.46083, 16, 1.91179, 16, 1.91179, 16, -4.46083, 6.37262, -16, -2.86768, -16)
+1:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+0:1/0 = 0
+2:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+0:2/0 = 0
+0:3/0 = 0
+0:4/0 = 0
+0:5/0 = 0
+0:6/0 = 0
+0:7/0 = 0
+0:8/0 = 0
+0:9/0 = 0
+0:10/0 = 0
+0:11/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8mer8"]
+texture = ExtResource("2_3rmdr")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -4.1422, 16, -4.1422, 16, 16, -16, 16)
+1:0/0 = 0
+2:0/0 = 0
+
+[resource]
+tile_size = Vector2i(32, 32)
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetScenesCollectionSource_c7s16")
+sources/1 = SubResource("TileSetAtlasSource_lwuvd")
+sources/2 = SubResource("TileSetAtlasSource_8mer8")

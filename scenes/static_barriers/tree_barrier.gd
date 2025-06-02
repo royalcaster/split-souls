@@ -7,7 +7,6 @@ func _on_mouse_exited():
 	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
 
 func _on_input_event(viewport, event, shape_idx):
-	print("input tree")
 	if event is InputEventMouseMotion and interactable:
 		Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND)
 	elif event is InputEventMouseButton and interactable:
