@@ -37,7 +37,7 @@ func _on_host_pressed():
 	peer.create_server(4455)
 	multiplayer.multiplayer_peer = peer
 	start_game()
-	hide_barriers()
+	hide_barriers_for_darkplayer()
 
 # connect either one player instance per player (individual steering) or one player instance for both (shared)
 	if Globals.control_mode == Globals.ControlMode.INDIVIDUAL:
@@ -108,6 +108,7 @@ func _on_join_pressed():
 	peer.create_client( "127.0.0.1",4455)
 	multiplayer.multiplayer_peer = peer
 	start_game()
+	hide_enemies_for_lightplayer()
 
 # used to update shared input 
 @rpc("any_peer", "call_local", "reliable")
@@ -178,7 +179,7 @@ func start_game():
 #
 		var objects_tileset = preload("res://src/dark_tileset_objects.tres")
 		$objects.tile_set = objects_tileset
-	
+
 
 func spawn_crystals():
 	for pos in crystal_positions:
@@ -230,7 +231,24 @@ func close_minigame(won_game):
 			parent.remove_child(barrier)
 			
 # only light player should be able to see barriers 
-func hide_barriers():
+func hide_barriers_for_darkplayer():
 	if multiplayer.is_server():
 		for barrier in $Barriers.get_children():
 			barrier.visible = false
+			
+# hide enemies for light player (client)
+func hide_enemies_for_lightplayer():
+	if not multiplayer.is_server():
+		$EnemieBat.visible = false
+		
+# special power TODO: use
+func make_enemies_and_barriers_visible_for_5s():
+	for barrier in $Barriers.get_children():
+		barrier.visible = true
+		
+	$EnemieBat.visible = true 
+
+	# wait 5 seconds and hide them again 
+	await get_tree().create_timer(5.0).timeout
+	hide_enemies_for_lightplayer()
+	hide_barriers_for_darkplayer()
