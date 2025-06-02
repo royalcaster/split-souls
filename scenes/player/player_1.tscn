@@ -25,6 +25,7 @@ height = 23.997
 
 [node name="Player1" type="CharacterBody2D" groups=["players"]]
 y_sort_enabled = true
+scale = Vector2(0.319999, 0.319999)
 script = ExtResource("1_hvohr")
 player_1_frames = ExtResource("2_hvohr")
 player_2_frames = ExtResource("3_gok7g")
@@ -37,6 +38,7 @@ animation = &"move_down"
 replication_config = SubResource("SceneReplicationConfig_hvohr")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2, 2)
 limit_left = 0
 limit_top = 0
 limit_right = 1200
