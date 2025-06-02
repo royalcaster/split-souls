@@ -2,6 +2,9 @@ extends Node2D
 
 @export var player_scene: PackedScene
 @export var mini_game: PackedScene
+@export var bug_scene: PackedScene
+@export var map_size: Vector2 = Vector2(1024, 768)
+@export var bug_count: int = 35
 @onready var tilemap = $TileMap
 @onready var hud = $HUD
 
@@ -32,12 +35,15 @@ func _ready():
 	if Globals.control_mode == Globals.ControlMode.SHARED:
 		multiplayer.peer_connected.connect(_on_peer_connected)
 		multiplayer.peer_disconnected.connect(_on_peer_disconnected)
+	
 
 func _on_host_pressed():
 	peer.create_server(4455)
 	multiplayer.multiplayer_peer = peer
 	start_game()
 	hide_barriers()
+	spawn_bugs()
+	
 
 # connect either one player instance per player (individual steering) or one player instance for both (shared)
 	if Globals.control_mode == Globals.ControlMode.INDIVIDUAL:
@@ -108,6 +114,7 @@ func _on_join_pressed():
 	peer.create_client( "127.0.0.1",4455)
 	multiplayer.multiplayer_peer = peer
 	start_game()
+	spawn_bugs()
 
 # used to update shared input 
 @rpc("any_peer", "call_local", "reliable")
@@ -188,6 +195,15 @@ func spawn_crystals():
 		crystal_instance.start_position = tile_to_world_position(pos)
 		crystal_instance.add_to_group("map_content")
 		print("Spawned crystal at tile ", tile_to_world_position(pos))
+	
+func spawn_bugs():
+	for i in bug_count:
+		var bug = bug_scene.instantiate()
+		bug.position = Vector2(
+		randf_range(0, map_size.x),
+		randf_range(0, map_size.y)
+		)
+		add_child(bug)
 	
 func on_crystal_collected(value):
 	current_crystal_score += 1

@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://cgx4s28rosjof"]
+
+[ext_resource type="Script" path="res://scenes/deko/kaefer.gd" id="1_coij5"]
+[ext_resource type="Texture2D" uid="uid://bvvib7ofrujd2" path="res://scenes/deko/bug.png" id="2_coij5"]
+
+[node name="Kaefer" type="CharacterBody2D"]
+scale = Vector2(4.84, 4.84)
+script = ExtResource("1_coij5")
+map_bounds = Rect2(0, 0, 720, 480)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 1.5708
+scale = Vector2(0.0422833, 0.0422833)
+texture = ExtResource("2_coij5")
