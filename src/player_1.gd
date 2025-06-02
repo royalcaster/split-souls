@@ -67,9 +67,9 @@ func _ready():
 
 func update_visibility():
 	if Globals.control_mode == Globals.ControlMode.INDIVIDUAL:
-		animatedSprite2D.visible = is_multiplayer_authority()
+		self.visible = is_multiplayer_authority()
 	else:
-		animatedSprite2D.visible = true
+		self.visible = true
 
 func _physics_process(delta):
 	if not dead:
