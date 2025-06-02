@@ -12,7 +12,7 @@ var can_shoot: bool = true
 
 func _ready() -> void:
 	# Mauszeiger verstecken (vllt noch ändern?)
-	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+	#Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 	
 	# Timer zur Schussverzögerung initialisieren
 	ShootTimer.wait_time = time_between_shot

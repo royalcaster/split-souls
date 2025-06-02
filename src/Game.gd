@@ -5,7 +5,6 @@ extends Node2D
 @export var bug_scene: PackedScene
 @export var map_size: Vector2 = Vector2(1024, 768)
 @export var bug_count: int = 35
-@onready var tilemap = $TileMap
 @onready var hud = $HUD
 
 const CRYSTAL = preload("res://scenes/items/crystal.tscn")
@@ -90,7 +89,7 @@ func _process(_delta):
 
 var last_input = [false, false, false, false]  # necessary because otherwise if e.g. player1 does not press any key, player2 will see player1's last input permanently
 # methods watches the inputs and sends them via rpc
-func measure_input(delta):
+func measure_input(_delta):
 	var input = [
 		Input.is_action_pressed("move_left"),
 		Input.is_action_pressed("move_up"),
@@ -105,10 +104,10 @@ func measure_input(delta):
 # call_remote makes ONLY other player receive packages and updates their arrows opacity
 @rpc("any_peer", "call_remote", "reliable")
 func update_arrows(input: Array):
-	$HUD/ArrowLeft.self_modulate.a  = 1.0 if input[0] else 0.5
-	$HUD/ArrowUp.self_modulate.a    = 1.0 if input[1] else 0.5
-	$HUD/ArrowDown.self_modulate.a  = 1.0 if input[2] else 0.5
-	$HUD/ArrowRight.self_modulate.a = 1.0 if input[3] else 0.5
+	$HUD/ArrowLeft.self_modulate.a  = 1.0 if input[0] else 0.1
+	$HUD/ArrowUp.self_modulate.a    = 1.0 if input[1] else 0.1
+	$HUD/ArrowDown.self_modulate.a  = 1.0 if input[2] else 0.1
+	$HUD/ArrowRight.self_modulate.a = 1.0 if input[3] else 0.1
 
 func _on_join_pressed():
 	peer.create_client( "127.0.0.1",4455)
@@ -132,7 +131,7 @@ func get_combined_input() -> Vector2:
 
 # called when both players walk in the gate to switch the control mode
 @rpc("authority", "call_local", "reliable")
-func switch_control_mode(mode):
+func switch_control_mode(_mode):
 	# open gate & spawn players behind it 
 	$Gate/CollisionShape2D.set_deferred("disabled", true) # deactivate gate after walking through
 	$Gate/Wall/Door.set_deferred("disabled", true) # deactivate wall in gate, so that players can walk out
@@ -174,17 +173,23 @@ func start_game():
 		node.visible = true
 		
 	$Multiplayer.visible= false # hide host/join buttons
-	 
+	$Gate.visible = true
 	# replace tileset for host
 	if multiplayer.is_server():
-		var ground_tileset = preload("res://src/dark_tileset_ground.tres")
-		$ground.tile_set = ground_tileset
-#
-		var trees_tileset = preload("res://src/dark_tileset_trees.tres")
-		$trees.tile_set = trees_tileset
-#
-		var objects_tileset = preload("res://src/dark_tileset_objects.tres")
-		$objects.tile_set = objects_tileset
+		#var ground_tileset = preload("res://assets/tiles/test_dark_set.tres")
+		#$ground.tile_set = ground_tileset
+##
+		#var objects_tileset = preload("res://assets/tiles/test_dark_set.tres")
+		#$objects.tile_set = objects_tileset
+		$ground_dark.visible = true
+		$objects_dark.visible = true
+		$ground.visible = false
+		$objects.visible = false
+	else:
+		$ground.visible = true
+		$objects.visible = true
+		$ground_dark.visible = false
+		$objects_dark.visible = false
 	
 
 func spawn_crystals():
@@ -205,7 +210,7 @@ func spawn_bugs():
 		)
 		add_child(bug)
 	
-func on_crystal_collected(value):
+func on_crystal_collected(_value):
 	current_crystal_score += 1
 	
 func tile_to_world_position(input_pos: Vector2):

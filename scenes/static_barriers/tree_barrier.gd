@@ -6,7 +6,7 @@ var interactable = false
 func _on_mouse_exited():
 	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
 
-func _on_input_event(viewport, event, shape_idx):
+func _on_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseMotion and interactable:
 		Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND)
 	elif event is InputEventMouseButton and interactable:
@@ -21,5 +21,5 @@ func _on_area_2d_body_entered(body):
 		
 	interactable = true
 
-func _on_area_2d_body_exited(body):
+func _on_area_2d_body_exited(_body):
 	interactable = false
