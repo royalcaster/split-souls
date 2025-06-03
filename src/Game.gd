@@ -41,7 +41,8 @@ func _on_host_pressed():
 	multiplayer.multiplayer_peer = peer
 	start_game()
 
-	hide_barriers()
+	#hide_barriers()
+	hide_barriers_for_darkplayer()
 	spawn_bugs()
 	
 
@@ -278,4 +279,3 @@ func make_enemies_and_barriers_visible_for_5s():
 	await get_tree().create_timer(5.0).timeout
 	hide_enemies_for_lightplayer()
 	hide_barriers_for_darkplayer()
-

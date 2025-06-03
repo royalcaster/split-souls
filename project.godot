@@ -25,7 +25,6 @@ PacketHandshake="*res://addons/netfox.noray/packet-handshake.gd"
 
 [display]
 
-window/size/viewport_width=720
 window/size/viewport_height=480
 window/stretch/mode="viewport"
 
