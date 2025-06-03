@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://jynqgtiojqyc"]
 
 [ext_resource type="Script" uid="uid://ny7fmrv17nc2" path="res://scenes/static_barriers/tree_barrier.gd" id="1_ewys5"]
-[ext_resource type="Texture2D" uid="uid://dpxciqdvaq62t" path="res://assets/img/tree_placeholder.png" id="1_y22u3"]
+[ext_resource type="Texture2D" uid="uid://dee6b6nskkyel" path="res://assets/img/tree_placeholder-removebg-preview.png" id="2_ewys5"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ewys5"]
 radius = 9.0
@@ -18,7 +18,7 @@ script = ExtResource("1_ewys5")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.2, 0.2)
-texture = ExtResource("1_y22u3")
+texture = ExtResource("2_ewys5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 5)
