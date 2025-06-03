@@ -2,7 +2,9 @@ extends Node2D
 
 @export var player_scene: PackedScene
 @export var mini_game: PackedScene
-@onready var tilemap = $TileMap
+@export var bug_scene: PackedScene
+@export var map_size: Vector2 = Vector2(1024, 768)
+@export var bug_count: int = 35
 @onready var hud = $HUD
 
 const CRYSTAL = preload("res://scenes/items/crystal.tscn")
@@ -32,12 +34,17 @@ func _ready():
 	if Globals.control_mode == Globals.ControlMode.SHARED:
 		multiplayer.peer_connected.connect(_on_peer_connected)
 		multiplayer.peer_disconnected.connect(_on_peer_disconnected)
+	
 
 func _on_host_pressed():
 	peer.create_server(4455)
 	multiplayer.multiplayer_peer = peer
 	start_game()
-	hide_barriers_for_darkplayer()
+
+	hide_barriers()
+	spawn_bugs()
+	
+
 
 # connect either one player instance per player (individual steering) or one player instance for both (shared)
 	if Globals.control_mode == Globals.ControlMode.INDIVIDUAL:
@@ -84,7 +91,7 @@ func _process(_delta):
 
 var last_input = [false, false, false, false]  # necessary because otherwise if e.g. player1 does not press any key, player2 will see player1's last input permanently
 # methods watches the inputs and sends them via rpc
-func measure_input(delta):
+func measure_input(_delta):
 	var input = [
 		Input.is_action_pressed("move_left"),
 		Input.is_action_pressed("move_up"),
@@ -99,16 +106,17 @@ func measure_input(delta):
 # call_remote makes ONLY other player receive packages and updates their arrows opacity
 @rpc("any_peer", "call_remote", "reliable")
 func update_arrows(input: Array):
-	$HUD/ArrowLeft.self_modulate.a  = 1.0 if input[0] else 0.5
-	$HUD/ArrowUp.self_modulate.a    = 1.0 if input[1] else 0.5
-	$HUD/ArrowDown.self_modulate.a  = 1.0 if input[2] else 0.5
-	$HUD/ArrowRight.self_modulate.a = 1.0 if input[3] else 0.5
+	$HUD/ArrowLeft.self_modulate.a  = 1.0 if input[0] else 0.1
+	$HUD/ArrowUp.self_modulate.a    = 1.0 if input[1] else 0.1
+	$HUD/ArrowDown.self_modulate.a  = 1.0 if input[2] else 0.1
+	$HUD/ArrowRight.self_modulate.a = 1.0 if input[3] else 0.1
 
 func _on_join_pressed():
 	peer.create_client( "127.0.0.1",4455)
 	multiplayer.multiplayer_peer = peer
 	start_game()
-	hide_enemies_for_lightplayer()
+	spawn_bugs()
+
 
 # used to update shared input 
 @rpc("any_peer", "call_local", "reliable")
@@ -126,7 +134,7 @@ func get_combined_input() -> Vector2:
 
 # called when both players walk in the gate to switch the control mode
 @rpc("authority", "call_local", "reliable")
-func switch_control_mode(mode):
+func switch_control_mode(_mode):
 	# open gate & spawn players behind it 
 	$Gate/CollisionShape2D.set_deferred("disabled", true) # deactivate gate after walking through
 	$Gate/Wall/Door.set_deferred("disabled", true) # deactivate wall in gate, so that players can walk out
@@ -168,17 +176,25 @@ func start_game():
 		node.visible = true
 		
 	$Multiplayer.visible= false # hide host/join buttons
-	 
+	$Gate.visible = true
 	# replace tileset for host
 	if multiplayer.is_server():
-		var ground_tileset = preload("res://src/dark_tileset_ground.tres")
-		$ground.tile_set = ground_tileset
-#
-		var trees_tileset = preload("res://src/dark_tileset_trees.tres")
-		$trees.tile_set = trees_tileset
-#
-		var objects_tileset = preload("res://src/dark_tileset_objects.tres")
-		$objects.tile_set = objects_tileset
+
+		#var ground_tileset = preload("res://assets/tiles/test_dark_set.tres")
+		#$ground.tile_set = ground_tileset
+##
+		#var objects_tileset = preload("res://assets/tiles/test_dark_set.tres")
+		#$objects.tile_set = objects_tileset
+		$ground_dark.visible = true
+		$objects_dark.visible = true
+		$ground.visible = false
+		$objects.visible = false
+	else:
+		$ground.visible = true
+		$objects.visible = true
+		$ground_dark.visible = false
+		$objects_dark.visible = false
+	
 
 
 func spawn_crystals():
@@ -190,7 +206,16 @@ func spawn_crystals():
 		crystal_instance.add_to_group("map_content")
 		print("Spawned crystal at tile ", tile_to_world_position(pos))
 	
-func on_crystal_collected(value):
+func spawn_bugs():
+	for i in bug_count:
+		var bug = bug_scene.instantiate()
+		bug.position = Vector2(
+		randf_range(0, map_size.x),
+		randf_range(0, map_size.y)
+		)
+		add_child(bug)
+	
+func on_crystal_collected(_value):
 	current_crystal_score += 1
 	
 func tile_to_world_position(input_pos: Vector2):
@@ -235,6 +260,7 @@ func hide_barriers_for_darkplayer():
 	if multiplayer.is_server():
 		for barrier in $Barriers.get_children():
 			barrier.visible = false
+
 			
 # hide enemies for light player (client)
 func hide_enemies_for_lightplayer():
@@ -252,3 +278,4 @@ func make_enemies_and_barriers_visible_for_5s():
 	await get_tree().create_timer(5.0).timeout
 	hide_enemies_for_lightplayer()
 	hide_barriers_for_darkplayer()
+

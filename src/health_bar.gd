@@ -26,10 +26,10 @@ func _process(_delta):
 
 	visible = value < max_value_amount and value > min_value_amount
 
-func update_health(current: int, max: int):
-	max_value = max
+func update_health(_current: int, _max: int):
+	max_value = _max
 	# Wert deferred setzen, um UI-Update zu erzwingen
-	call_deferred("_set_value", current)
+	call_deferred("_set_value", _current)
 
 func _set_value(val):
 	value = val

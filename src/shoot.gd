@@ -13,6 +13,11 @@ var time_between_shot: float = 0.25
 var can_shoot: bool = true
 
 func _ready() -> void:
+
+	# Mauszeiger verstecken (vllt noch ändern?)
+	#Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+	
+
 	# Timer zur Schussverzögerung initialisieren
 	ShootTimer.wait_time = time_between_shot
 	ShootTimer.connect("timeout", Callable(self, "_on_shoot_timer_timeout"))
