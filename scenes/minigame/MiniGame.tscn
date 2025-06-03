@@ -1,7 +1,7 @@
-[gd_scene load_steps=7 format=4 uid="uid://c02kcbepe14nj"]
+[gd_scene load_steps=8 format=3 uid="uid://c02kcbepe14nj"]
 
 [ext_resource type="Script" uid="uid://l6nmsax7u8h3" path="res://scenes/minigame/mini_game.gd" id="1_pb5i6"]
-[ext_resource type="TileSet" uid="uid://q6atbqfv2hri" path="res://assets/tiles/test_light_set.tres" id="2_re4xa"]
+[ext_resource type="Texture2D" uid="uid://boa5kbfty7nu8" path="res://assets/light_assets/Rechteck.png" id="3_diy0u"]
 [ext_resource type="Texture2D" uid="uid://b1ijjnlvqdii0" path="res://icon.svg" id="3_re4xa"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_diy0u"]
@@ -9,47 +9,16 @@ size = Vector2(45, 63)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kxtkx"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_re4xa"]
-size = Vector2(48, 330)
+[sub_resource type="CanvasTexture" id="CanvasTexture_kxtkx"]
+diffuse_texture = ExtResource("3_diy0u")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_66ly0"]
 
 [node name="MiniGame" type="Window"]
 mode = 3
-position = Vector2i(0, 36)
-size = Vector2i(500, 300)
+initial_position = 2
+size = Vector2i(540, 365)
 script = ExtResource("1_pb5i6")
-
-[node name="TileMapLayer" type="TileMapLayer" parent="."]
-position = Vector2(48, 0)
-tile_map_data = PackedByteArray("AAAAAAsAAQAQAAEAAAAAAAoAAQAQAAEAAAAAAAkAAQAQAAEAAAAAAAgAAQAQAAEAAAAAAAcAAQAQAAEAAAAAAAYAAQAQAAEAAAAAAAUAAQAQAAEAAAAAAAQAAQAQAAEAAAD+/wsAAQAQAAEAAAD+/woAAQAQAAEAAAD+/wkAAQAQAAEAAAD+/wgAAQAQAAEAAAD+/wcAAQAQAAEAAAD+/wYAAQAQAAEAAAD+/wUAAQAQAAEAAAD+/wQAAQAQAAEAAAD+/wMAAQAQAAEAAAD+/wIAAQAQAAEAAAA=")
-tile_set = ExtResource("2_re4xa")
-
-[node name="StartPosition" type="Node2D" parent="."]
-position = Vector2(56, 285)
-
-[node name="EndZone" type="Area2D" parent="."]
-position = Vector2(477, 124)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="EndZone"]
-position = Vector2(0.5, 4.5)
-shape = SubResource("RectangleShape2D_diy0u")
-
-[node name="Player" type="CharacterBody2D" parent="."]
-position = Vector2(32, 280)
-
-[node name="Sprite2D" type="Sprite2D" parent="Player"]
-position = Vector2(-1.645, -0.895)
-scale = Vector2(0.171875, 0.171875)
-texture = ExtResource("3_re4xa")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
-position = Vector2(-0.999991, -0.999988)
-shape = SubResource("RectangleShape2D_kxtkx")
-
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(56, 465)
-shape = SubResource("RectangleShape2D_re4xa")
 
 [node name="Label" type="Label" parent="."]
 visible = false
@@ -59,5 +28,96 @@ offset_right = 397.0
 offset_bottom = 157.0
 text = "You successfully removed the barrier!"
 
+[node name="Map" type="Node2D" parent="."]
+
+[node name="StartPosition" type="Node2D" parent="Map"]
+position = Vector2(31, 285)
+
+[node name="EndZone" type="Area2D" parent="Map"]
+position = Vector2(477, 124)
+scale = Vector2(0.719998, 1.5918)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Map/EndZone"]
+position = Vector2(0.5, 4.5)
+shape = SubResource("RectangleShape2D_diy0u")
+
+[node name="Sprite2D" type="Sprite2D" parent="Map/EndZone"]
+modulate = Color(0.987428, 0.514211, 0.462817, 1)
+position = Vector2(-1.38889, 1.88466)
+scale = Vector2(1.27778, 1.27642)
+texture = ExtResource("3_diy0u")
+
+[node name="Player" type="CharacterBody2D" parent="Map"]
+position = Vector2(32, 280)
+
+[node name="Sprite2D" type="Sprite2D" parent="Map/Player"]
+position = Vector2(-1.645, -0.895)
+scale = Vector2(0.171875, 0.171875)
+texture = ExtResource("3_re4xa")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Map/Player"]
+position = Vector2(-0.999991, -0.999988)
+shape = SubResource("RectangleShape2D_kxtkx")
+
+[node name="Barriers" type="Node2D" parent="Map"]
+
+[node name="Barriere" type="StaticBody2D" parent="Map/Barriers"]
+position = Vector2(-4, 155)
+scale = Vector2(1, 9.4)
+
+[node name="Sprite2D" type="Sprite2D" parent="Map/Barriers/Barriere"]
+texture = SubResource("CanvasTexture_kxtkx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Map/Barriers/Barriere"]
+scale = Vector2(1.59, 1.59)
+shape = SubResource("RectangleShape2D_66ly0")
+
+[node name="Barriere2" type="StaticBody2D" parent="Map/Barriers"]
+position = Vector2(66, 305)
+scale = Vector2(1, 9.4)
+
+[node name="Sprite2D" type="Sprite2D" parent="Map/Barriers/Barriere2"]
+texture = SubResource("CanvasTexture_kxtkx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Map/Barriers/Barriere2"]
+scale = Vector2(1.59, 1.59)
+shape = SubResource("RectangleShape2D_66ly0")
+
+[node name="Barriere3" type="StaticBody2D" parent="Map/Barriers"]
+position = Vector2(256, 75)
+rotation = 1.5745
+scale = Vector2(1, 15.3582)
+
+[node name="Sprite2D" type="Sprite2D" parent="Map/Barriers/Barriere3"]
+texture = SubResource("CanvasTexture_kxtkx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Map/Barriers/Barriere3"]
+scale = Vector2(1.59, 1.59)
+shape = SubResource("RectangleShape2D_66ly0")
+
+[node name="Barriere4" type="StaticBody2D" parent="Map/Barriers"]
+position = Vector2(300, 177)
+rotation = 1.5745
+scale = Vector2(1, 15.3582)
+
+[node name="Sprite2D" type="Sprite2D" parent="Map/Barriers/Barriere4"]
+texture = SubResource("CanvasTexture_kxtkx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Map/Barriers/Barriere4"]
+scale = Vector2(1.59, 1.59)
+shape = SubResource("RectangleShape2D_66ly0")
+
+[node name="Barriere5" type="StaticBody2D" parent="Map/Barriers"]
+position = Vector2(37, 318)
+rotation = 1.5745
+scale = Vector2(1, 3.75619)
+
+[node name="Sprite2D" type="Sprite2D" parent="Map/Barriers/Barriere5"]
+texture = SubResource("CanvasTexture_kxtkx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Map/Barriers/Barriere5"]
+scale = Vector2(1.59, 1.59)
+shape = SubResource("RectangleShape2D_66ly0")
+
 [connection signal="close_requested" from="." to="." method="_on_close_requested"]
-[connection signal="body_entered" from="EndZone" to="." method="_on_end_zone_body_entered"]
+[connection signal="body_entered" from="Map/EndZone" to="." method="_on_end_zone_body_entered"]
