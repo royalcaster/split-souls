@@ -25,7 +25,6 @@ height = 23.997
 
 [node name="Player1" type="CharacterBody2D" groups=["players"]]
 y_sort_enabled = true
-scale = Vector2(0.319999, 0.319999)
 script = ExtResource("1_hvohr")
 player_1_frames = ExtResource("2_hvohr")
 player_2_frames = ExtResource("3_gok7g")
