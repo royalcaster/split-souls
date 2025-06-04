@@ -13,6 +13,7 @@ var time_passed: float = 0.0
 func _ready():
 	# start_position = global_position
 	self.visible = false    # will be set visible in Game.gd after host/client clicks join game
+	add_to_group("crystals")
 
 func _process(delta):
 	time_passed += delta

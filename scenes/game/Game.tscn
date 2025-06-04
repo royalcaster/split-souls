@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://byixxiqjq0w47" path="res://scenes/enemies/enemie_bat.tscn" id="3_vrspl"]
 [ext_resource type="Texture2D" uid="uid://nbvyb4nw5db1" path="res://assets/light_assets/Tilemap.png" id="4_56wml"]
 [ext_resource type="Texture2D" uid="uid://biut4bv48mpn1" path="res://assets/img/gate_closed_tiles.png" id="5_aptqa"]
-[ext_resource type="Script" uid="uid://cm0mfxlop7ysq" path="res://scenes/game/hud.gd" id="6_wnrko"]
+[ext_resource type="Script" uid="uid://cm0mfxlop7ysq" path="res://src/hud.gd" id="6_wnrko"]
 [ext_resource type="PackedScene" uid="uid://c0dwtyimchwxc" path="res://scenes/static_barriers/gate.tscn" id="7_gg4pt"]
 [ext_resource type="TileSet" uid="uid://s3qxvfulnqbi" path="res://src/light_tileset_objects.tres" id="7_vg8p7"]
 [ext_resource type="PackedScene" uid="uid://ds0pgagbgkhf0" path="res://scenes/items/CrystalDirectionItem.tscn" id="8_2kuj7"]

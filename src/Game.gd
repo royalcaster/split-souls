@@ -258,31 +258,59 @@ func make_enemies_and_barriers_visible_for_5s():
 	hide_barriers_for_darkplayer()
 	
 func find_and_connect_event_triggers():
-	var crystal_direction_items = get_tree().get_nodes_in_group("crystal_direction_items")
+	var crystal_direction_items_nodes = get_tree().get_nodes_in_group("crystal_direction_items") # Renamed variable to avoid conflict
 	print("finding triggers")
-	for item in crystal_direction_items:
+	for item_node in crystal_direction_items_nodes: # Renamed loop variable
 		print("trigger found")
-		item.collected.connect(on_crystal_direction_item_collected)
+		# Ensure not to connect multiple times if this function is called again
+		if not item_node.collected.is_connected(on_crystal_direction_item_collected):
+			item_node.collected.connect(on_crystal_direction_item_collected)
 
 func on_crystal_direction_item_collected():
-	current_crystal_direction_items += 1
+	# This function is called when an item is collected.
+	# The server should be the authority for changing the count.
+	if multiplayer.is_server():
+		current_crystal_direction_items += 1
+		print("Game.gd (Server): Crystal direction item collected. New total: %d" % current_crystal_direction_items)
+		# Notify all clients of the new count
+		rpc("update_client_item_count", current_crystal_direction_items)
+	# else: Client does not modify the count directly. It will receive an update.
 	
-@rpc("any_peer", "call_local") # 'call_local' allows the server to call this on itself
+@rpc("any_peer", "call_local")
 func request_consume_crystal_item(p_player_id: int):
-	print("game.gd got request")
-	# Only server validates and processes
+	print("Game.gd: Received request_consume_crystal_item for player_id: %s" % p_player_id)
+	
 	if not multiplayer.is_server():
+		print("Game.gd: Not the server. Ignoring consume request.")
 		return
 		
-	var requesting_peer_id = multiplayer.get_rpc_sender_id()
-	print("Server received consume request from peer %d for player %d" % [requesting_peer_id, p_player_id])
+	var actual_sender_peer_id = multiplayer.get_remote_sender_id()
+	print("Game.gd (Server): Processing consume request from actual sending peer %s for player %s" % [actual_sender_peer_id, p_player_id])
 
-	# --- Server-side validation ---
-	if current_crystal_direction_items > 0:
-		print("no crystal_direction_items to consume")
+	if current_crystal_direction_items <= 0:
+		print("Game.gd (Server): Validation FAILED for player %s. No items. Global: %d" % [p_player_id, current_crystal_direction_items])
 		return
 	
-	print("Server consumed crystal item for player %d." % requesting_peer_id)
+	current_crystal_direction_items -= 1 
+	print("Game.gd (Server): Item consumed for player %s. Global items remaining: %d" % [p_player_id, current_crystal_direction_items])
 	
-	# Inform all clients to update visuals for the specific player who consumed the item
 	rpc("client_consume_item_visuals", p_player_id)
+	
+	rpc("update_client_item_count", current_crystal_direction_items)
+
+	var target_player_nodes_for_indicator = []
+	if Globals.control_mode == Globals.ControlMode.INDIVIDUAL:
+		target_player_nodes_for_indicator = players 
+	elif Globals.control_mode == Globals.ControlMode.SHARED:
+		if is_instance_valid(shared_player):
+			target_player_nodes_for_indicator.append(shared_player)
+
+	for player_node_instance in target_player_nodes_for_indicator:
+		if is_instance_valid(player_node_instance):
+			player_node_instance.rpc("show_consumption_indicator")
+			print("Game.gd (Server): Requested show_consumption_indicator for player character: %s" % player_node_instance.name)
+
+@rpc("any_peer", "reliable")
+func update_client_item_count(new_count: int):
+	if not multiplayer.is_server():
+		self.current_crystal_direction_items = new_count

@@ -1,3 +1,5 @@
+# Player.gd
+
 extends CharacterBody2D
 class_name Player
 
@@ -6,10 +8,16 @@ var controller: Node
 @onready var animatedSprite2D = $AnimatedSprite2D
 @export var player_1_frames: SpriteFrames
 @export var player_2_frames: SpriteFrames
+@onready var direction_pointer_arrow: Node2D = get_node_or_null("Arrow")
 
 var _health: int = 100
 
-signal crystal_directions_item_consumed(player_id)
+# signal crystal_directions_item_consumed(player_id) # This signal is not used for network
+
+# Get a reference to your main game scene's root node.
+# IMPORTANT: Replace "Game" with the actual name of your main game scene's root node
+# if it's different (e.g., if your game.tscn's root node is named "MainGameScene").
+@onready var game_node_ref = get_tree().get_root().get_node_or_null("Game")
 
 var health: int:
 	set(value):
@@ -67,6 +75,12 @@ func _ready():
 	can_take_damage = true
 	Globals.playerAlive = true
 
+	if not game_node_ref:
+		var main_scene_root_name = get_tree().get_current_scene().name
+		game_node_ref = get_tree().get_root().get_node_or_null(main_scene_root_name)
+		if not game_node_ref:
+			printerr("Player.gd: Could not find the main game node. RPCs to Game.gd might fail.")
+
 func update_visibility():
 	if Globals.control_mode == Globals.ControlMode.INDIVIDUAL:
 		self.visible = is_multiplayer_authority()
@@ -84,8 +98,9 @@ func _physics_process(delta):
 				return
 			if controller:
 				velocity = controller.get_combined_input() * speed
+			if get_tree().get_multiplayer().get_unique_id() != 0:
 				listen_for_crystal_direction_consume()
-				
+
 		check_hitbox()
 	
 	move_and_slide()
@@ -93,26 +108,24 @@ func _physics_process(delta):
 
 func listen_for_crystal_direction_consume():
 	if Input.is_action_just_pressed("consume_crystal_direction_item"):
-		rpc_id(1, "request_consume_crystal_item", multiplayer.get_unique_id())
-		# crystal_directions_item_consumed.emit()
-		print("requested crystal_directions_item consume")
-		
-@rpc("any_peer")	
-func request_consume_crystal_item():
-	if not multiplayer.is_server():
-		return
-		
-	var requesting_peer_id = multiplayer.get_rpc_sender_id()
-	print("Server received consume request from client: %d" % requesting_peer_id)
+		if game_node_ref:
+			# Call the RPC on the specific Game.gd node instance.
+			# The RPC will be sent to the authority of game_node_ref (which is the server).
+			game_node_ref.rpc("request_consume_crystal_item", multiplayer.get_unique_id())
+			print("Player %s: Requested crystal_directions_item consume via Game.gd" % multiplayer.get_unique_id())
+		else:
+			printerr("Player %s: Cannot request consume, game_node_ref is null." % multiplayer.get_unique_id())
 	
 @rpc("reliable")
-func client_consume_item_visuals(p_player_id: int):
-	print("Client received visual update for player: ", p_player_id)
+func client_consume_item_visuals(p_player_id_who_consumed: int):
+	print("Client %s: Received visual update for player %s consuming an item." % [multiplayer.get_unique_id(), p_player_id_who_consumed])
 	
-	if multiplayer.get_unique_id() == p_player_id:
-		print("My item consumed!")
+	if multiplayer.get_unique_id() == p_player_id_who_consumed:
+		print("My item was consumed!")
+		# Add actual visual/audio feedback here for this client
 	else:
-		print("Another player's item consumed!")
+		print("Another player's (%s) item was consumed!" % p_player_id_who_consumed)
+		# Add visual/audio feedback for another player consuming, if needed
 
 func is_player():
 	return true
@@ -179,3 +192,65 @@ func update_healthbar_clients(current: int, max: int):
 func on_player_dead():
 	Globals.playerAlive = false
 	SceneManager.goto_scene("res://scenes/ui/GameOverMenu.tscn")
+
+@rpc("reliable")
+func show_consumption_indicator():
+	var current_peer_id = -1
+	if multiplayer.has_multiplayer_peer():
+		current_peer_id = multiplayer.get_unique_id()
+
+	var is_host = (current_peer_id == 1)
+	var context_string = "Host" if is_host else "Client"
+
+	print("Player '%s' (%s - Peer %s): show_consumption_indicator CALLED. Arrow node valid: %s" % [name, context_string, current_peer_id, is_instance_valid(direction_pointer_arrow)])
+
+	if not is_instance_valid(direction_pointer_arrow):
+		printerr("Player '%s' (%s - Peer %s): DirectionPointerArrow node is NOT VALID. Cannot proceed." % [name, context_string, current_peer_id])
+		return
+	
+	if is_host: 
+		direction_pointer_arrow.visible = false
+		print("Player '%s' (Host - Peer %s): Hiding arrow as per host-specific rule." % [name, current_peer_id])
+		return
+	
+	var crystal_nodes = get_tree().get_nodes_in_group("crystals")
+	print("Player '%s' (Client - Peer %s): Found %s crystal(s) in group 'crystals'." % [name, current_peer_id, crystal_nodes.size()])
+	
+	if crystal_nodes.is_empty():
+		direction_pointer_arrow.visible = false 
+		print("Player '%s' (Client - Peer %s): No crystals found, hiding arrow." % [name, current_peer_id])
+		return
+
+	var nearest_crystal_node = null
+	var min_distance_squared_to_player = INF
+	
+	var player_global_position = self.global_position 
+
+	for crystal in crystal_nodes:
+		if not is_instance_valid(crystal):
+			continue
+		var distance_sq = player_global_position.distance_squared_to(crystal.global_position)
+		
+		if distance_sq < min_distance_squared_to_player:
+			min_distance_squared_to_player = distance_sq
+			nearest_crystal_node = crystal
+
+	if is_instance_valid(nearest_crystal_node):
+		var arrow_current_global_position = direction_pointer_arrow.global_position
+		var crystal_pos = nearest_crystal_node.global_position 
+		
+		var direction_vector_from_arrow = crystal_pos - arrow_current_global_position
+		
+		var target_angle_rad = direction_vector_from_arrow.angle()
+		direction_pointer_arrow.rotation = target_angle_rad
+
+		direction_pointer_arrow.visible = true
+
+		var timer = get_tree().create_timer(3.0)
+		await timer.timeout
+		
+		if is_instance_valid(direction_pointer_arrow):
+			direction_pointer_arrow.visible = false
+	else:
+		direction_pointer_arrow.visible = false
+		print("Player '%s' (Client - Peer %s): No valid nearest crystal (to player) found after search, hiding arrow." % [name, current_peer_id])

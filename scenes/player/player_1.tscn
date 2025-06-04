@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://b184syehau03x"]
+[gd_scene load_steps=10 format=3 uid="uid://b184syehau03x"]
 
 [ext_resource type="Script" uid="uid://dc1xelhjg57mu" path="res://src/player_1.gd" id="1_hvohr"]
 [ext_resource type="SpriteFrames" uid="uid://jrfq8bcwahhu" path="res://scenes/player/dark.tres" id="2_hvohr"]
 [ext_resource type="SpriteFrames" uid="uid://byjeglv07o1vr" path="res://scenes/player/light.tres" id="3_gok7g"]
 [ext_resource type="PackedScene" uid="uid://d1k0y6na2qb32" path="res://scenes/game/health_bar.tscn" id="4_x2oxy"]
 [ext_resource type="PackedScene" uid="uid://dvriyiicr3unw" path="res://scenes/game/shoot.tscn" id="5_rtiyx"]
+[ext_resource type="Texture2D" uid="uid://c7scnv10bvrrt" path="res://assets/img/arrow1.png" id="6_sss8k"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_hvohr"]
 properties/0/path = NodePath(".:position")
@@ -63,3 +64,10 @@ shape = SubResource("CapsuleShape2D_x2oxy")
 
 [node name="Shoot" parent="." instance=ExtResource("5_rtiyx")]
 position = Vector2(0, 1)
+
+[node name="Arrow" type="Sprite2D" parent="."]
+visible = false
+z_index = 1000
+position = Vector2(0, -46)
+scale = Vector2(0.095, 0.095)
+texture = ExtResource("6_sss8k")
