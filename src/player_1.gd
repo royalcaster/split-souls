@@ -71,7 +71,7 @@ func update_visibility():
 	else:
 		self.visible = true
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if not dead:
 		if Globals.control_mode == Globals.ControlMode.INDIVIDUAL:
 			if is_multiplayer_authority():
@@ -142,9 +142,9 @@ func take_damage_cooldown(wait_time):
 	can_take_damage = true
 
 @rpc("any_peer", "reliable")
-func update_healthbar_clients(current: int, max: int):
+func update_healthbar_clients(_current: int, _max: int):
 	if $HealthBar:
-		$HealthBar.update_health(current, max)
+		$HealthBar.update_health(_current, _max)
 
 @rpc("any_peer", "reliable")
 func on_player_dead():

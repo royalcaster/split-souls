@@ -37,10 +37,11 @@ animation = &"move_down"
 replication_config = SubResource("SceneReplicationConfig_hvohr")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2, 2)
 limit_left = 0
 limit_top = 0
-limit_right = 1200
-limit_bottom = 700
+limit_right = 1430
+limit_bottom = 1071
 limit_smoothed = true
 position_smoothing_enabled = true
 position_smoothing_speed = 20.0

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ej3p67si0637"
-path="res://.godot/imported/tilemap_dark.png-ec201416e8ca6a953ab8b186aab4c79f.ctex"
+uid="uid://wwnv3u126qvl"
+path="res://.godot/imported/This-Notes-Handwritten-Marker-Note-Font-11.jpg-42821c5e82479f39ba695794f98d34cd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/dark_assets/tilemap_dark.png"
-dest_files=["res://.godot/imported/tilemap_dark.png-ec201416e8ca6a953ab8b186aab4c79f.ctex"]
+source_file="res://fonts/this_notes/This-Notes-Handwritten-Marker-Note-Font-11.jpg"
+dest_files=["res://.godot/imported/This-Notes-Handwritten-Marker-Note-Font-11.jpg-42821c5e82479f39ba695794f98d34cd.ctex"]
 
 [params]
 

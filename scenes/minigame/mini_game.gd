@@ -1,8 +1,8 @@
 extends Window
 
-@onready var player = $Player
-@onready var start_pos = $StartPosition
-@onready var end_zone = $EndZone
+@onready var player = $Map/Player
+@onready var start_pos = $Map/StartPosition
+@onready var end_zone = $Map/EndZone
 
 var player_inputs = {} # Dictionary of {peer_id: input_vector}
 var move_speed = 100.0
@@ -83,7 +83,6 @@ func _on_close_requested():
 
 func _on_end_zone_body_entered(body):
 	if body == player: 
-		$TileMap.visible = false
-		$Player.visible = false
+		$Map.visible = false
 		$Label.visible = true
 		won_game = true
