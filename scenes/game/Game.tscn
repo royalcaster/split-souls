@@ -143,6 +143,7 @@ vframes = 2
 frame = 3
 
 [node name="Barriers" type="Node2D" parent="." groups=["map_content"]]
+visible = false
 
 [node name="TreeBarrier1" parent="Barriers" instance=ExtResource("11_aptqa")]
 position = Vector2(1231, 872)
@@ -154,6 +155,7 @@ position = Vector2(769, 319)
 position = Vector2(316, 1007)
 
 [node name="Friends" type="Node2D" parent="." groups=["map_content"]]
+visible = false
 
 [node name="Scarecrow" parent="Friends" instance=ExtResource("15_vg8p7")]
 y_sort_enabled = true

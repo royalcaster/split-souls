@@ -20,13 +20,15 @@ var health: int:
 
 		if multiplayer.is_server():
 			rpc("update_healthbar_clients", _health, health_max)
-
+			
+		await get_tree().create_timer(0.1).timeout # wait shortly so that both players call change the scene
 		if _health <= 0 and not dead:
 			dead = true
 			Globals.playerAlive = false
 			if multiplayer.is_server():
-				rpc("on_player_dead")
-				SceneManager.goto_scene("res://scenes/ui/GameOverMenu.tscn")
+				rpc("on_player_dead") # call function for client
+				on_player_dead() # call function for host
+
 	get:
 		return _health
 
@@ -146,7 +148,11 @@ func update_healthbar_clients(_current: int, _max: int):
 	if $HealthBar:
 		$HealthBar.update_health(_current, _max)
 
+	if _current <= 0:
+		on_player_dead()
+
 @rpc("any_peer", "reliable")
 func on_player_dead():
 	Globals.playerAlive = false
+	multiplayer.multiplayer_peer = null # todo check if working
 	SceneManager.goto_scene("res://scenes/ui/GameOverMenu.tscn")
