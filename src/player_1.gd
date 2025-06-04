@@ -9,6 +9,8 @@ var controller: Node
 
 var _health: int = 100
 
+signal crystal_directions_item_consumed(player_id)
+
 var health: int:
 	set(value):
 		_health = clamp(value, 0, health_max)
@@ -76,14 +78,41 @@ func _physics_process(delta):
 		if Globals.control_mode == Globals.ControlMode.INDIVIDUAL:
 			if is_multiplayer_authority():
 				velocity = Input.get_vector("move_left", "move_right", "move_up", "move_down") * speed
+				listen_for_crystal_direction_consume()
 		else:
 			if not is_multiplayer_authority():
 				return
 			if controller:
 				velocity = controller.get_combined_input() * speed
+				listen_for_crystal_direction_consume()
+				
 		check_hitbox()
+	
 	move_and_slide()
 	updateAnimation()
+
+func listen_for_crystal_direction_consume():
+	if Input.is_action_just_pressed("consume_crystal_direction_item"):
+		rpc_id(1, "request_consume_crystal_item", multiplayer.get_unique_id())
+		# crystal_directions_item_consumed.emit()
+		print("requested crystal_directions_item consume")
+		
+@rpc("any_peer")	
+func request_consume_crystal_item():
+	if not multiplayer.is_server():
+		return
+		
+	var requesting_peer_id = multiplayer.get_rpc_sender_id()
+	print("Server received consume request from client: %d" % requesting_peer_id)
+	
+@rpc("reliable")
+func client_consume_item_visuals(p_player_id: int):
+	print("Client received visual update for player: ", p_player_id)
+	
+	if multiplayer.get_unique_id() == p_player_id:
+		print("My item consumed!")
+	else:
+		print("Another player's item consumed!")
 
 func is_player():
 	return true

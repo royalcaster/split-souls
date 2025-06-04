@@ -10,6 +10,7 @@ const CRYSTAL = preload("res://scenes/items/crystal.tscn")
 var peer = ENetMultiplayerPeer.new()
 var players = []
 var current_crystal_score = 0
+var current_crystal_direction_items = 0
 
 var player_inputs = {} # Dictionary of {peer_id: input_vector}
 var shared_player: CharacterBody2D
@@ -81,6 +82,7 @@ func _process(_delta):
 			
 	# Update HUD
 	hud.update_crystal_score(current_crystal_score)
+	hud.update_crystal_direction_items(current_crystal_direction_items)
 
 var last_input = [false, false, false, false]  # necessary because otherwise if e.g. player1 does not press any key, player2 will see player1's last input permanently
 # methods watches the inputs and sends them via rpc
@@ -179,6 +181,8 @@ func start_game():
 #
 		var objects_tileset = preload("res://src/dark_tileset_objects.tres")
 		$objects.tile_set = objects_tileset
+	
+	find_and_connect_event_triggers()
 
 
 func spawn_crystals():
@@ -252,3 +256,33 @@ func make_enemies_and_barriers_visible_for_5s():
 	await get_tree().create_timer(5.0).timeout
 	hide_enemies_for_lightplayer()
 	hide_barriers_for_darkplayer()
+	
+func find_and_connect_event_triggers():
+	var crystal_direction_items = get_tree().get_nodes_in_group("crystal_direction_items")
+	print("finding triggers")
+	for item in crystal_direction_items:
+		print("trigger found")
+		item.collected.connect(on_crystal_direction_item_collected)
+
+func on_crystal_direction_item_collected():
+	current_crystal_direction_items += 1
+	
+@rpc("any_peer", "call_local") # 'call_local' allows the server to call this on itself
+func request_consume_crystal_item(p_player_id: int):
+	print("game.gd got request")
+	# Only server validates and processes
+	if not multiplayer.is_server():
+		return
+		
+	var requesting_peer_id = multiplayer.get_rpc_sender_id()
+	print("Server received consume request from peer %d for player %d" % [requesting_peer_id, p_player_id])
+
+	# --- Server-side validation ---
+	if current_crystal_direction_items > 0:
+		print("no crystal_direction_items to consume")
+		return
+	
+	print("Server consumed crystal item for player %d." % requesting_peer_id)
+	
+	# Inform all clients to update visuals for the specific player who consumed the item
+	rpc("client_consume_item_visuals", p_player_id)

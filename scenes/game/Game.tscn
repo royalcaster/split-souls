@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=4 uid="uid://dur7c4brk3lfn"]
+[gd_scene load_steps=29 format=4 uid="uid://dur7c4brk3lfn"]
 
 [ext_resource type="Script" uid="uid://dcgeiwsr6pwq6" path="res://src/Game.gd" id="1_lyhax"]
 [ext_resource type="PackedScene" uid="uid://b184syehau03x" path="res://scenes/player/player_1.tscn" id="2_7qcb4"]
@@ -9,11 +9,13 @@
 [ext_resource type="Script" uid="uid://cm0mfxlop7ysq" path="res://scenes/game/hud.gd" id="6_wnrko"]
 [ext_resource type="PackedScene" uid="uid://c0dwtyimchwxc" path="res://scenes/static_barriers/gate.tscn" id="7_gg4pt"]
 [ext_resource type="TileSet" uid="uid://s3qxvfulnqbi" path="res://src/light_tileset_objects.tres" id="7_vg8p7"]
+[ext_resource type="PackedScene" uid="uid://ds0pgagbgkhf0" path="res://scenes/items/CrystalDirectionItem.tscn" id="8_2kuj7"]
 [ext_resource type="Texture2D" uid="uid://b06qxd36nxmvl" path="res://assets/img/crystals_spritesheet.png" id="8_qf6a8"]
 [ext_resource type="Texture2D" uid="uid://c7scnv10bvrrt" path="res://assets/img/arrow1.png" id="8_wnrko"]
 [ext_resource type="PackedScene" uid="uid://jynqgtiojqyc" path="res://scenes/static_barriers/TreeBarrier.tscn" id="11_aptqa"]
 [ext_resource type="PackedScene" uid="uid://c02kcbepe14nj" path="res://scenes/minigame/MiniGame.tscn" id="12_gynul"]
 [ext_resource type="PackedScene" uid="uid://bjo82svgfw2px" path="res://scenes/friends/dog/Dog.tscn" id="14_5xhyk"]
+[ext_resource type="Texture2D" uid="uid://bwvv5p5m7pg0i" path="res://assets/img/direcitons.png" id="14_vj8ay"]
 [ext_resource type="PackedScene" uid="uid://blcf0l1sqw4iq" path="res://scenes/friends/witch/Witch.tscn" id="15_2iokk"]
 [ext_resource type="PackedScene" uid="uid://cbvvfl7uj2qvg" path="res://scenes/friends/scarecrow/Scarecrow.tscn" id="15_vg8p7"]
 
@@ -2503,6 +2505,12 @@ physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_5xhyk")
 sources/1 = SubResource("TileSetAtlasSource_2iokk")
 
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_vj8ay"]
+scenes/1/scene = ExtResource("8_2kuj7")
+
+[sub_resource type="TileSet" id="TileSet_07vrc"]
+sources/0 = SubResource("TileSetScenesCollectionSource_vj8ay")
+
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_wnrko"]
 
 [node name="Game" type="Node2D"]
@@ -2530,6 +2538,12 @@ visible = false
 y_sort_enabled = true
 tile_map_data = PackedByteArray("AAASAAUAAAAAAAAAAAAEABIAAAAEAAAAAAAFABIAAAAFAAAAAAAEABMAAAAEAAEAAAAFABMAAAAFAAEAAAALAAUAAAADAAAAAAAKAAUAAAADAAAAAAAJAAcAAAADAAAAAAALAAYAAAADAAAAAAAEABQAAAAAAAAAAAAFABQAAAAAAAAAAAAHABQAAAAAAAAAAAAIABQAAAAAAAAAAAAJABQAAAAAAAAAAAAKABQAAAAAAAAAAAALABQAAAAAAAAAAAAMABQAAAAAAAAAAAANABQAAAAAAAAAAAAOABQAAAAAAAAAAAAPABQAAAAAAAAAAAAQABQAAAAAAAAAAAAQABMAAAAAAAAAAAAPABMAAAAAAAAAAAAPABIAAAAAAAAAAAAOABIAAAAAAAAAAAAKABEAAAAAAAAAAAAKABAAAAAAAAAAAAAKAA8AAAAAAAAAAAAJAA8AAAAAAAAAAAAIAA8AAAAAAAAAAAAJABAAAAAAAAAAAAADABIAAAAAAAAAAAACABIAAAAAAAAAAAAOABAAAAAAAAAAAAAPABAAAAAAAAAAAAAPAA8AAAAAAAAAAAAEAAsAAAAAAAAAAAAEAAwAAAAAAAAAAAAEAA0AAAAAAAAAAAADAAwAAAAAAAAAAAAFAAgAAAAAAAAAAAAFAAkAAAAAAAAAAAAJAAgAAAAAAAAAAAAKAAgAAAAAAAAAAAALAAgAAAAAAAAAAAAHAAUAAAAAAAAAAAAIAAYAAAAAAAAAAAAIAAcAAAAAAAAAAAAJAAQAAAAAAAAAAAAKAAQAAAAAAAAAAAALAAQAAAAAAAAAAAAPAAUAAAAAAAAAAAAQAAUAAAAAAAAAAAARAAUAAAAAAAAAAAARAAEAAAAAAAAAAAAQAAEAAAAAAAAAAAACAAUAAAAAAAAAAAABAAUAAAAAAAAAAAABAAQAAAAAAAAAAAABAAYAAAAAAAAAAAAMAAUAAAAAAAAAAAANAAYAAAAAAAAAAAAMAAcAAAAAAAAAAAA=")
 tile_set = ExtResource("7_vg8p7")
+
+[node name="items" type="TileMapLayer" parent="." groups=["map_content"]]
+visible = false
+y_sort_enabled = true
+tile_map_data = PackedByteArray("AAAPAAUAAAAAAAAAAQARAAUAAAAAAAAAAQATAAUAAAAAAAAAAQA=")
+tile_set = SubResource("TileSet_07vrc")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("uid://b184syehau03x")
@@ -2573,7 +2587,6 @@ scale = Vector2(0.9, 0.9)
 
 [node name="HUD" type="CanvasLayer" parent="." groups=["map_content"]]
 unique_name_in_owner = true
-visible = false
 offset = Vector2(0.17, 0.13)
 transform = Transform2D(1, 0, 0, 1, 0.17, 0.13)
 script = ExtResource("6_wnrko")
@@ -2605,6 +2618,14 @@ position = Vector2(678.58, 63.62)
 scale = Vector2(0.131836, 0.112305)
 texture = ExtResource("8_wnrko")
 
+[node name="CrystalDirectionItems" type="Label" parent="HUD"]
+offset_left = 114.35
+offset_top = 0.87
+offset_right = 154.35
+offset_bottom = 42.87
+theme_override_font_sizes/font_size = 30
+text = "0"
+
 [node name="CrystalScore" type="Label" parent="HUD"]
 offset_left = 39.0
 offset_top = 1.0
@@ -2620,6 +2641,11 @@ texture = ExtResource("8_qf6a8")
 hframes = 2
 vframes = 2
 frame = 3
+
+[node name="Direcitons" type="Sprite2D" parent="HUD"]
+position = Vector2(96.35, 22.87)
+scale = Vector2(0.04, 0.04)
+texture = ExtResource("14_vj8ay")
 
 [node name="Barriers" type="Node2D" parent="." groups=["map_content"]]
 visible = false
