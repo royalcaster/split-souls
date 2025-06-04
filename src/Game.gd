@@ -41,12 +41,9 @@ func _on_host_pressed():
 	multiplayer.multiplayer_peer = peer
 	start_game()
 
-	#hide_barriers()
 	hide_barriers_for_darkplayer()
 	spawn_bugs()
 	
-
-
 # connect either one player instance per player (individual steering) or one player instance for both (shared)
 	if Globals.control_mode == Globals.ControlMode.INDIVIDUAL:
 		multiplayer.peer_connected.connect(_add_player)
@@ -180,23 +177,16 @@ func start_game():
 	$Gate.visible = true
 	# replace tileset for host
 	if multiplayer.is_server():
+		var ground_tileset = preload("res://assets/tiles/dark_set.tres")
+		$ground.tile_set = ground_tileset
+#
+		var objects_tileset = preload("res://assets/tiles/dark_set.tres")
+		$objects.tile_set = objects_tileset
+		
+		var trees_tileset = preload("res://assets/tiles/dark_set_border_trees.tres")
+		$border_trees.tile_set = trees_tileset
 
-		#var ground_tileset = preload("res://assets/tiles/test_dark_set.tres")
-		#$ground.tile_set = ground_tileset
-##
-		#var objects_tileset = preload("res://assets/tiles/test_dark_set.tres")
-		#$objects.tile_set = objects_tileset
-		$ground_dark.visible = true
-		$objects_dark.visible = true
-		$ground.visible = false
-		$objects.visible = false
-	else:
-		$ground.visible = true
-		$objects.visible = true
-		$ground_dark.visible = false
-		$objects_dark.visible = false
-	
-
+	hide_enemies_for_lightplayer()
 
 func spawn_crystals():
 	for pos in crystal_positions:
@@ -211,8 +201,8 @@ func spawn_bugs():
 	for i in bug_count:
 		var bug = bug_scene.instantiate()
 		bug.position = Vector2(
-		randf_range(0, map_size.x),
-		randf_range(0, map_size.y)
+			randf_range(0, map_size.x),
+			randf_range(0, map_size.y)
 		)
 		add_child(bug)
 	
@@ -221,7 +211,6 @@ func on_crystal_collected(_value):
 	
 func tile_to_world_position(input_pos: Vector2):
 	return Vector2((input_pos.x * 32) + 16, (input_pos.y * 32) + 16)
-
 
 func assign_enemy_authority():
 	for enemy in get_tree().get_nodes_in_group("enemies"):
