@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=4 uid="uid://dur7c4brk3lfn"]
+[gd_scene load_steps=18 format=4 uid="uid://dur7c4brk3lfn"]
 
 [ext_resource type="Script" uid="uid://dcgeiwsr6pwq6" path="res://src/Game.gd" id="1_lyhax"]
 [ext_resource type="PackedScene" uid="uid://b184syehau03x" path="res://scenes/player/player_1.tscn" id="2_7qcb4"]
@@ -7,9 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cgx4s28rosjof" path="res://scenes/deko/kaefer.tscn" id="4_2kuj7"]
 [ext_resource type="PackedScene" uid="uid://c0dwtyimchwxc" path="res://scenes/static_barriers/gate.tscn" id="6_5xhyk"]
 [ext_resource type="TileSet" uid="uid://cp33vcjdt12tm" path="res://assets/tiles/light_set_border_trees.tres" id="6_vg8p7"]
-[ext_resource type="Script" uid="uid://cm0mfxlop7ysq" path="res://scenes/game/hud.gd" id="6_wnrko"]
-
-[ext_resource type="PackedScene" uid="uid://ds0pgagbgkhf0" path="res://scenes/items/CrystalDirectionItem.tscn" id="8_2kuj7"]
+[ext_resource type="Script" uid="uid://cm0mfxlop7ysq" path="res://src/hud.gd" id="6_wnrko"]
 [ext_resource type="Texture2D" uid="uid://b06qxd36nxmvl" path="res://assets/img/crystals_spritesheet.png" id="8_qf6a8"]
 [ext_resource type="Texture2D" uid="uid://c7scnv10bvrrt" path="res://assets/img/arrow1.png" id="8_wnrko"]
 [ext_resource type="PackedScene" uid="uid://jynqgtiojqyc" path="res://scenes/static_barriers/TreeBarrier.tscn" id="11_aptqa"]
@@ -51,12 +49,6 @@ tile_set = ExtResource("2_56wml")
 visible = false
 position = Vector2(145, 148)
 game_node_path = NodePath("..")
-
-[node name="items" type="TileMapLayer" parent="." groups=["map_content"]]
-visible = false
-y_sort_enabled = true
-tile_map_data = PackedByteArray("AAAPAAUAAAAAAAAAAQARAAUAAAAAAAAAAQATAAUAAAAAAAAAAQA=")
-tile_set = SubResource("TileSet_07vrc")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("uid://b184syehau03x")
