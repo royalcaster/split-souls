@@ -105,7 +105,7 @@ func listen_for_crystal_direction_consume():
 		if game_node_ref:
 			# Call the RPC on the specific Game.gd node instance.
 			# The RPC will be sent to the authority of game_node_ref (which is the server).
-			game_node_ref.rpc("request_consume_crystal_item", multiplayer.get_unique_id())
+			game_node_ref.rpc("request_consume_crystal_item", multiplayer.is_server()) # give if host pressed to identify who can see the hint in the end
 
 func is_player():
 	return true
@@ -179,12 +179,12 @@ func on_player_dead():
 	
 @rpc("any_peer", "reliable")
 func set_arrow_visibility(isVisible, radius):
-	print("set arrow visibility ", multiplayer.is_server())
 	direction_pointer_arrow.rotation = radius
 	direction_pointer_arrow.visible = isVisible
 
 @rpc("reliable") 
-func show_consumption_indicator():
+func show_consumption_indicator(host_pressed):
+	
 	if not is_instance_valid(direction_pointer_arrow):
 		return
 	
@@ -216,17 +216,23 @@ func show_consumption_indicator():
 		
 		var target_angle_rad = direction_vector_from_arrow.angle()
 
-		rpc("set_arrow_visibility", true, target_angle_rad) # for host
-		direction_pointer_arrow.rotation = target_angle_rad  # for client
-		direction_pointer_arrow.visible = true
+		if not host_pressed: # only person who did not press the button sees the arrow
+			rpc("set_arrow_visibility", true, target_angle_rad) # for host
+		else: 
+			direction_pointer_arrow.rotation = target_angle_rad  # for client
+			direction_pointer_arrow.visible = true
 
 		var timer = get_tree().create_timer(3.0)
 		await timer.timeout
 		
 		if is_instance_valid(direction_pointer_arrow):
-			rpc("set_arrow_visibility", false, 0) # for host
-			direction_pointer_arrow.visible = false # for client
+			if not host_pressed: # only person who did not press the button sees the arrow
+				rpc("set_arrow_visibility", false, 0) # for host
+			else: 
+				direction_pointer_arrow.visible = false # for client
 
 	else:
-		rpc("set_arrow_visibility", false, 0) # for host
-		direction_pointer_arrow.visible = false  # for client
+		if not host_pressed: # only person who did not press the button sees the arrow
+			rpc("set_arrow_visibility", false, 0) # for host
+		else: 
+			direction_pointer_arrow.visible = false # for client

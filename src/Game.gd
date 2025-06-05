@@ -288,7 +288,7 @@ func on_crystal_direction_item_collected():
 	rpc("update_client_item_count", current_crystal_direction_items)
 
 @rpc("any_peer", "call_local")
-func request_consume_crystal_item(p_player_id: int):
+func request_consume_crystal_item(host_pressed: bool):
 
 	if current_crystal_direction_items <= 0:
 		return
@@ -305,7 +305,7 @@ func request_consume_crystal_item(p_player_id: int):
 
 	for player_node_instance in target_player_nodes_for_indicator:
 		if is_instance_valid(player_node_instance):
-			player_node_instance.rpc("show_consumption_indicator")
+			player_node_instance.rpc("show_consumption_indicator", host_pressed) # only person who did not press sees the button
 
 @rpc("any_peer", "reliable")
 func update_client_item_count(new_count: int):
