@@ -25,7 +25,7 @@ var active_minigame = null
 ]
 
 func _ready():
-    # reset game state after game over
+	# reset game state after game over
 	Globals.control_mode = Globals.ControlMode.INDIVIDUAL
 	Globals.spawn_position = Vector2(80, 70)
 
