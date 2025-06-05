@@ -1,0 +1,100 @@
+[gd_scene load_steps=8 format=3 uid="uid://cwmldrrtyg6q1"]
+
+[ext_resource type="Script" uid="uid://dw31gd24hu66b" path="res://scenes/friends/panda/panda.gd" id="1_vtbho"]
+[ext_resource type="Texture2D" uid="uid://c5emsjltj28l4" path="res://assets/img/friends/Panda_asset_character.png" id="2_8uhi1"]
+[ext_resource type="Texture2D" uid="uid://s14xp3a73gbm" path="res://assets/img/friends/speechbubble.png" id="3_a3y8v"]
+[ext_resource type="FontFile" uid="uid://bimvk8e8xkbqr" path="res://fonts/This Notes Personal Use.ttf" id="4_q6tui"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fpxsw"]
+radius = 15.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8q0l5"]
+radius = 44.0
+height = 88.0
+
+[sub_resource type="Theme" id="Theme_880wm"]
+default_font = ExtResource("4_q6tui")
+default_font_size = 20
+
+[node name="Panda" type="StaticBody2D"]
+input_pickable = true
+script = ExtResource("1_vtbho")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+y_sort_enabled = true
+position = Vector2(2, -15)
+texture = ExtResource("2_8uhi1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -15)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_fpxsw")
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(1, 5)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-1, -12)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_8q0l5")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="SpeechbubbleDark" type="Sprite2D" parent="CanvasLayer"]
+visible = false
+z_index = 1
+position = Vector2(395, 430)
+scale = Vector2(1.12807, 1.09328)
+texture = ExtResource("3_a3y8v")
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/SpeechbubbleDark"]
+y_sort_enabled = true
+position = Vector2(-295.193, 0)
+rotation = 3.14159
+scale = Vector2(-2.556, -2.759)
+texture = ExtResource("2_8uhi1")
+
+[node name="Text" type="RichTextLabel" parent="CanvasLayer/SpeechbubbleDark"]
+texture_filter = 2
+offset_left = -222.86
+offset_top = -24.696
+offset_right = 220.29
+offset_bottom = 22.269
+size_flags_stretch_ratio = 0.0
+theme = SubResource("Theme_880wm")
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+text = "Geh bloß weg von mir du Monster, ich kann Kung Fu!!!"
+tab_size = 24
+metadata/_edit_use_anchors_ = true
+
+[node name="SpeechbubbleLight" type="Sprite2D" parent="CanvasLayer"]
+visible = false
+z_index = 1
+position = Vector2(395, 430)
+scale = Vector2(1.12807, 1.09328)
+texture = ExtResource("3_a3y8v")
+
+[node name="Sprite2D2" type="Sprite2D" parent="CanvasLayer/SpeechbubbleLight"]
+y_sort_enabled = true
+position = Vector2(-295.193, 0)
+scale = Vector2(2.556, 2.759)
+texture = ExtResource("2_8uhi1")
+
+[node name="Text" type="RichTextLabel" parent="CanvasLayer/SpeechbubbleLight"]
+texture_filter = 2
+offset_left = -222.86
+offset_top = -24.696
+offset_right = 220.29
+offset_bottom = 22.269
+size_flags_stretch_ratio = 0.0
+theme = SubResource("Theme_880wm")
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+text = "Oh, ich habe hier niemanden erwartet. Sieh dir nur das Chaos an! Wie sollen wir je wieder hier heraus kommen?"
+tab_size = 24
+metadata/_edit_use_anchors_ = true
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="mouse_shape_entered" from="." to="." method="_on_mouse_shape_entered"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

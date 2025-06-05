@@ -1,27 +1,26 @@
-[gd_scene load_steps=5 format=3 uid="uid://jynqgtiojqyc"]
+[gd_scene load_steps=5 format=3 uid="uid://7gd8413m14og"]
 
-[ext_resource type="Script" uid="uid://ny7fmrv17nc2" path="res://scenes/static_barriers/tree_barrier.gd" id="1_ewys5"]
-[ext_resource type="Texture2D" uid="uid://djs6o6k12a0fh" path="res://assets/light_assets/Blockade_Baumstamm_beschädigt_ohne-Äste.png" id="2_ewys5"]
+[ext_resource type="Script" uid="uid://ny7fmrv17nc2" path="res://scenes/static_barriers/tree_barrier.gd" id="1_jqyqy"]
+[ext_resource type="Texture2D" uid="uid://ma80f0j1wupe" path="res://assets/light_assets/Vase_rot_kaputt.png" id="2_jqyqy"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ewys5"]
-radius = 2.83214
-height = 62.0
+radius = 4.61786
+height = 22.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bpg3t"]
 radius = 26.0
 height = 94.0
 
-[node name="TreeBarrier" type="StaticBody2D"]
+[node name="PotBarrier" type="StaticBody2D"]
 y_sort_enabled = true
 input_pickable = true
-script = ExtResource("1_ewys5")
+script = ExtResource("1_jqyqy")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-rotation = 1.5708
-texture = ExtResource("2_ewys5")
+texture = ExtResource("2_jqyqy")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 0.07)
+position = Vector2(0, 0.37)
 rotation = 1.5708
 scale = Vector2(2.8, 1)
 shape = SubResource("CapsuleShape2D_ewys5")

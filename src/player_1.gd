@@ -1,18 +1,13 @@
-# Player.gd
-
 extends CharacterBody2D
 class_name Player
 
 var controller: Node
 @export var speed: int = 100
 @onready var animatedSprite2D = $AnimatedSprite2D
-@export var player_1_frames: SpriteFrames
-@export var player_2_frames: SpriteFrames
 @onready var direction_pointer_arrow: Node2D = get_node_or_null("Arrow")
 
 var _health: int = 100
 
-# signal crystal_directions_item_consumed(player_id) # This signal is not used for network
 
 # Get a reference to your main game scene's root node.
 # IMPORTANT: Replace "Game" with the actual name of your main game scene's root node
@@ -66,10 +61,8 @@ func _ready():
 		$Camera2D.make_current()
 
 	var mp := get_tree().get_multiplayer()
-	if mp.is_server():
-		animatedSprite2D.sprite_frames = player_1_frames
-	else:
-		animatedSprite2D.sprite_frames = player_2_frames
+	if not mp.is_server():
+		animatedSprite2D.sprite_frames = load("res://scenes/player/light.tres")
 
 	update_visibility()
 
@@ -96,7 +89,7 @@ func _physics_process(_delta):
 				velocity = controller.get_combined_input() * speed
 
 		check_hitbox()
-	
+
 	move_and_slide()
 	updateAnimation()
 
@@ -176,63 +169,63 @@ func on_player_dead():
 	Globals.playerAlive = false
 	multiplayer.multiplayer_peer = null # todo check if working
 	SceneManager.goto_scene("res://scenes/ui/GameOverMenu.tscn")
-	
+
 @rpc("any_peer", "reliable")
 func set_arrow_visibility(isVisible, radius):
 	direction_pointer_arrow.rotation = radius
 	direction_pointer_arrow.visible = isVisible
 
-@rpc("reliable") 
+@rpc("reliable")
 func show_consumption_indicator(host_pressed):
-	
+
 	if not is_instance_valid(direction_pointer_arrow):
 		return
-	
+
 	var crystal_nodes = get_tree().get_nodes_in_group("crystals")
-	
+
 	if crystal_nodes.is_empty():
-		direction_pointer_arrow.visible = false 
+		direction_pointer_arrow.visible = false
 		return
 
 	var nearest_crystal_node = null
 	var min_distance_squared_to_player = INF
-	
-	var player_global_position = self.global_position 
+
+	var player_global_position = self.global_position
 
 	for crystal in crystal_nodes:
 		if not is_instance_valid(crystal):
 			continue
 		var distance_sq = player_global_position.distance_squared_to(crystal.global_position)
-		
+
 		if distance_sq < min_distance_squared_to_player:
 			min_distance_squared_to_player = distance_sq
 			nearest_crystal_node = crystal
 
 	if is_instance_valid(nearest_crystal_node):
 		var arrow_current_global_position = direction_pointer_arrow.global_position
-		var crystal_pos = nearest_crystal_node.global_position 
-		
+		var crystal_pos = nearest_crystal_node.global_position
+
 		var direction_vector_from_arrow = crystal_pos - arrow_current_global_position
-		
+
 		var target_angle_rad = direction_vector_from_arrow.angle()
 
 		if not host_pressed: # only person who did not press the button sees the arrow
 			rpc("set_arrow_visibility", true, target_angle_rad) # for host
-		else: 
+		else:
 			direction_pointer_arrow.rotation = target_angle_rad  # for client
 			direction_pointer_arrow.visible = true
 
 		var timer = get_tree().create_timer(3.0)
 		await timer.timeout
-		
+
 		if is_instance_valid(direction_pointer_arrow):
 			if not host_pressed: # only person who did not press the button sees the arrow
 				rpc("set_arrow_visibility", false, 0) # for host
-			else: 
+			else:
 				direction_pointer_arrow.visible = false # for client
 
 	else:
 		if not host_pressed: # only person who did not press the button sees the arrow
 			rpc("set_arrow_visibility", false, 0) # for host
-		else: 
+		else:
 			direction_pointer_arrow.visible = false # for client
