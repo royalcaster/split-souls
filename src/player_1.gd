@@ -85,17 +85,15 @@ func update_visibility():
 
 func _physics_process(_delta):
 	if not dead:
+		listen_for_crystal_direction_consume()
 		if Globals.control_mode == Globals.ControlMode.INDIVIDUAL:
 			if is_multiplayer_authority():
 				velocity = Input.get_vector("move_left", "move_right", "move_up", "move_down") * speed
-				listen_for_crystal_direction_consume()
 		else:
 			if not is_multiplayer_authority():
 				return
 			if controller:
 				velocity = controller.get_combined_input() * speed
-			if get_tree().get_multiplayer().get_unique_id() != 0:
-				listen_for_crystal_direction_consume()
 
 		check_hitbox()
 	
