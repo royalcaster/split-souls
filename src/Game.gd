@@ -5,7 +5,7 @@ extends Node2D
 @export var bug_scene: PackedScene
 @export var map_size: Vector2 = Vector2(1024, 768)
 @export var bug_count: int = 35
-@onready var tilemap = $TileMap # todo remove
+@onready var tilemap = $TileMap
 @onready var hud = $HUD
 
 const CRYSTAL = preload("res://scenes/items/crystal.tscn")
@@ -283,35 +283,17 @@ func make_enemies_and_barriers_visible_for_5s():
 
 @rpc("any_peer") # todo check if necessary
 func on_crystal_direction_item_collected():
-	# This function is called when an item is collected.
-	# The server should be the authority for changing the count.
-	if multiplayer.is_server():
-		current_crystal_direction_items += 1
-		print("Game.gd (Server): Crystal direction item collected. New total: %d" % current_crystal_direction_items)
-		# Notify all clients of the new count
-		rpc("update_client_item_count", current_crystal_direction_items)
-	# else: Client does not modify the count directly. It will receive an update.
+	current_crystal_direction_items += 1
+	# Notify all clients of the new count
+	rpc("update_client_item_count", current_crystal_direction_items)
 
 @rpc("any_peer", "call_local")
 func request_consume_crystal_item(p_player_id: int):
-	print("Game.gd: Received request_consume_crystal_item for player_id: %s" % p_player_id)
-
-	if not multiplayer.is_server():
-		print("Game.gd: Not the server. Ignoring consume request.")
-		return
-
-	var actual_sender_peer_id = multiplayer.get_remote_sender_id()
-	print("Game.gd (Server): Processing consume request from actual sending peer %s for player %s" % [actual_sender_peer_id, p_player_id])
 
 	if current_crystal_direction_items <= 0:
-		print("Game.gd (Server): Validation FAILED for player %s. No items. Global: %d" % [p_player_id, current_crystal_direction_items])
 		return
 
 	current_crystal_direction_items -= 1
-	print("Game.gd (Server): Item consumed for player %s. Global items remaining: %d" % [p_player_id, current_crystal_direction_items])
-
-	rpc("client_consume_item_visuals", p_player_id)
-
 	rpc("update_client_item_count", current_crystal_direction_items)
 
 	var target_player_nodes_for_indicator = []
@@ -324,7 +306,6 @@ func request_consume_crystal_item(p_player_id: int):
 	for player_node_instance in target_player_nodes_for_indicator:
 		if is_instance_valid(player_node_instance):
 			player_node_instance.rpc("show_consumption_indicator")
-			print("Game.gd (Server): Requested show_consumption_indicator for player character: %s" % player_node_instance.name)
 
 @rpc("any_peer", "reliable")
 func update_client_item_count(new_count: int):

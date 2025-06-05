@@ -77,12 +77,6 @@ func _ready():
 	can_take_damage = true
 	Globals.playerAlive = true
 
-	if not game_node_ref:
-		var main_scene_root_name = get_tree().get_current_scene().name
-		game_node_ref = get_tree().get_root().get_node_or_null(main_scene_root_name)
-		if not game_node_ref:
-			printerr("Player.gd: Could not find the main game node. RPCs to Game.gd might fail.")
-
 func update_visibility():
 	if Globals.control_mode == Globals.ControlMode.INDIVIDUAL:
 		self.visible = is_multiplayer_authority()
@@ -114,20 +108,6 @@ func listen_for_crystal_direction_consume():
 			# Call the RPC on the specific Game.gd node instance.
 			# The RPC will be sent to the authority of game_node_ref (which is the server).
 			game_node_ref.rpc("request_consume_crystal_item", multiplayer.get_unique_id())
-			print("Player %s: Requested crystal_directions_item consume via Game.gd" % multiplayer.get_unique_id())
-		else:
-			printerr("Player %s: Cannot request consume, game_node_ref is null." % multiplayer.get_unique_id())
-	
-@rpc("reliable")
-func client_consume_item_visuals(p_player_id_who_consumed: int):
-	print("Client %s: Received visual update for player %s consuming an item." % [multiplayer.get_unique_id(), p_player_id_who_consumed])
-	
-	if multiplayer.get_unique_id() == p_player_id_who_consumed:
-		print("My item was consumed!")
-		# Add actual visual/audio feedback here for this client
-	else:
-		print("Another player's (%s) item was consumed!" % p_player_id_who_consumed)
-		# Add visual/audio feedback for another player consuming, if needed
 
 func is_player():
 	return true
@@ -198,33 +178,22 @@ func on_player_dead():
 	Globals.playerAlive = false
 	multiplayer.multiplayer_peer = null # todo check if working
 	SceneManager.goto_scene("res://scenes/ui/GameOverMenu.tscn")
-
-@rpc("reliable")
-func show_consumption_indicator():
-	var current_peer_id = -1
-	if multiplayer.has_multiplayer_peer():
-		current_peer_id = multiplayer.get_unique_id()
-
-	var is_host = (current_peer_id == 1)
-	var context_string = "Host" if is_host else "Client"
-
-	print("Player '%s' (%s - Peer %s): show_consumption_indicator CALLED. Arrow node valid: %s" % [name, context_string, current_peer_id, is_instance_valid(direction_pointer_arrow)])
-
-	if not is_instance_valid(direction_pointer_arrow):
-		printerr("Player '%s' (%s - Peer %s): DirectionPointerArrow node is NOT VALID. Cannot proceed." % [name, context_string, current_peer_id])
-		return
 	
-	if is_host: 
-		direction_pointer_arrow.visible = false
-		print("Player '%s' (Host - Peer %s): Hiding arrow as per host-specific rule." % [name, current_peer_id])
+@rpc("any_peer", "reliable")
+func set_arrow_visibility(isVisible, radius):
+	print("set arrow visibility ", multiplayer.is_server())
+	direction_pointer_arrow.rotation = radius
+	direction_pointer_arrow.visible = isVisible
+
+@rpc("reliable") 
+func show_consumption_indicator():
+	if not is_instance_valid(direction_pointer_arrow):
 		return
 	
 	var crystal_nodes = get_tree().get_nodes_in_group("crystals")
-	print("Player '%s' (Client - Peer %s): Found %s crystal(s) in group 'crystals'." % [name, current_peer_id, crystal_nodes.size()])
 	
 	if crystal_nodes.is_empty():
 		direction_pointer_arrow.visible = false 
-		print("Player '%s' (Client - Peer %s): No crystals found, hiding arrow." % [name, current_peer_id])
 		return
 
 	var nearest_crystal_node = null
@@ -248,15 +217,18 @@ func show_consumption_indicator():
 		var direction_vector_from_arrow = crystal_pos - arrow_current_global_position
 		
 		var target_angle_rad = direction_vector_from_arrow.angle()
-		direction_pointer_arrow.rotation = target_angle_rad
 
+		rpc("set_arrow_visibility", true, target_angle_rad) # for host
+		direction_pointer_arrow.rotation = target_angle_rad  # for client
 		direction_pointer_arrow.visible = true
 
 		var timer = get_tree().create_timer(3.0)
 		await timer.timeout
 		
 		if is_instance_valid(direction_pointer_arrow):
-			direction_pointer_arrow.visible = false
+			rpc("set_arrow_visibility", false, 0) # for host
+			direction_pointer_arrow.visible = false # for client
+
 	else:
-		direction_pointer_arrow.visible = false
-		print("Player '%s' (Client - Peer %s): No valid nearest crystal (to player) found after search, hiding arrow." % [name, current_peer_id])
+		rpc("set_arrow_visibility", false, 0) # for host
+		direction_pointer_arrow.visible = false  # for client
