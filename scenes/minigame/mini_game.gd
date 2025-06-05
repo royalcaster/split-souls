@@ -3,6 +3,8 @@ extends Window
 @onready var player = $Map/Player
 @onready var start_pos = $Map/StartPosition
 @onready var end_zone = $Map/EndZone
+@onready var animatedSprite2D = player.get_node("AnimatedSprite2D")
+var can_respawn = true
 
 var player_inputs = {} # Dictionary of {peer_id: input_vector}
 var move_speed = 100.0
@@ -12,12 +14,21 @@ signal minigame_completed
 signal minigame_failed
 #
 func _ready():
+	var maps = [$Version1, $Version2, $Version3]
+	
 	# initialize player_inputs for all peers
 	if multiplayer.has_multiplayer_peer():
 		for peer_id in multiplayer.get_peers():
 			player_inputs[peer_id] = Vector2.ZERO
 		player_inputs[multiplayer.get_unique_id()] = Vector2.ZERO
-	
+		
+	if not multiplayer.is_server():
+		animatedSprite2D.sprite_frames = load("res://scenes/player/light.tres")
+		
+	# decide which map 
+	randomize()
+	var active_map = maps[randi_range(0, maps.size() - 1)]
+	active_map.enabled = true
 	
 func _process(delta):
 	# collect local inputs
@@ -62,9 +73,39 @@ func move_player(delta):
 	var input_vector = get_combined_minigame_input()
 	player.velocity = input_vector.normalized() * move_speed
 	
+	updateAnimation()
+
 	var has_collision = player.move_and_slide()
-	if has_collision: # reset character back to starting position if he touched a wall 
+	if has_collision and can_respawn: # reset character back to starting position if he touched a wall 
 		reset_game()
+		respawn_cooldown(0.5)
+		
+func updateAnimation():
+	if player.velocity.length() == 0:
+		animatedSprite2D.stop()
+	else:
+		var direction = "_down"
+		if player.velocity.y > 0 and player.velocity.x < 0:
+			direction = "_hdown"
+			animatedSprite2D.flip_h = false
+		elif player.velocity.y > 0 and player.velocity.x > 0:
+			direction = "_hdown"
+			animatedSprite2D.flip_h = true
+		elif player.velocity.y < 0 and player.velocity.x < 0:
+			direction = "_hup"
+			animatedSprite2D.flip_h = false
+		elif player.velocity.y < 0 and player.velocity.x > 0:
+			direction = "_hup"
+			animatedSprite2D.flip_h = true
+		elif player.velocity.x < 0:
+			direction = "_horizontal"
+			animatedSprite2D.flip_h = false
+		elif player.velocity.x > 0:
+			direction = "_horizontal"
+			animatedSprite2D.flip_h = true
+		elif player.velocity.y < 0:
+			direction = "_up"
+		animatedSprite2D.play("move" + direction)
 
 @rpc("authority", "call_local", "reliable")
 func reset_game():
@@ -86,3 +127,8 @@ func _on_end_zone_body_entered(body):
 		$Map.visible = false
 		$Label.visible = true
 		won_game = true
+		
+func respawn_cooldown(wait_time):
+	can_respawn = false
+	await get_tree().create_timer(wait_time).timeout
+	can_respawn = true

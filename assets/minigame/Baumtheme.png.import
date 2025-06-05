@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://deyp2t3vnjnnb"
-path="res://.godot/imported/test.png-020fe2ec99b293ba3c6c5ffe6bf1ae51.ctex"
+uid="uid://fdjwcrtn4363"
+path="res://.godot/imported/Baumtheme.png-ea08e5a1f4c466732b094e4bf443b4ad.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/img/test.png"
-dest_files=["res://.godot/imported/test.png-020fe2ec99b293ba3c6c5ffe6bf1ae51.ctex"]
+source_file="res://assets/minigame/Baumtheme.png"
+dest_files=["res://.godot/imported/Baumtheme.png-ea08e5a1f4c466732b094e4bf443b4ad.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dee6b6nskkyel"
-path="res://.godot/imported/tree_placeholder-removebg-preview.png-1f655b7d61db8e5eab03ba917ea6650c.ctex"
+uid="uid://c5emsjltj28l4"
+path="res://.godot/imported/Panda_asset_character.png-da50ee987291314161cb09e8fdf917c1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/img/tree_placeholder-removebg-preview.png"
-dest_files=["res://.godot/imported/tree_placeholder-removebg-preview.png-1f655b7d61db8e5eab03ba917ea6650c.ctex"]
+source_file="res://assets/img/friends/Panda_asset_character.png"
+dest_files=["res://.godot/imported/Panda_asset_character.png-da50ee987291314161cb09e8fdf917c1.ctex"]
 
 [params]
 
