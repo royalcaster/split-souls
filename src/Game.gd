@@ -311,3 +311,14 @@ func request_consume_crystal_item(host_pressed: bool):
 func update_client_item_count(new_count: int):
 	if not multiplayer.is_server():
 		self.current_crystal_direction_items = new_count
+
+func _on_texture_rect_gui_input(event): # crytal item can also be used by clicking on it 
+	if event is InputEventMouseMotion:
+		$HUD/TextureRect.mouse_default_cursor_shape = Input.CURSOR_POINTING_HAND
+		
+	if event is InputEventMouseButton and event.pressed:
+		rpc("request_consume_crystal_item", multiplayer.is_server())
+
+
+func _on_texture_rect_mouse_exited():
+	$HUD/TextureRect.mouse_default_cursor_shape = Input.CURSOR_ARROW
