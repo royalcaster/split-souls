@@ -28,18 +28,18 @@ func _ready():
 	if $AnimatedSprite2D.sprite_frames.has_animation("bat_movement"):
 		$AnimatedSprite2D.play("bat_movement")
 
-func _process(delta):
+func _process(_delta):
 	Globals.batDamageAmount = damage_to_deal
 	Globals.batDamageZone = $BatDealDamageArea
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if player == null or not is_instance_valid(player):
 		player = get_tree().get_first_node_in_group("players")
 		if player != null:
 			print("✅ Spieler gefunden: ", player.name)
 
 	if player == null:
-		move_sinusoidal(delta)
+		move_sinusoidal(_delta)
 		return
 
 	var distance = global_position.distance_to(player.global_position)
@@ -48,7 +48,7 @@ func _physics_process(delta):
 		var direction = (player.global_position - global_position).normalized()
 		velocity = direction * speed
 	else:
-		move_sinusoidal(delta)
+		move_sinusoidal(_delta)
 
 	move_and_slide()
 

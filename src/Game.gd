@@ -2,7 +2,10 @@ extends Node2D
 
 @export var player_scene: PackedScene
 @export var mini_game: PackedScene
-@onready var tilemap = $TileMap
+@export var bug_scene: PackedScene
+@export var map_size: Vector2 = Vector2(1024, 768)
+@export var bug_count: int = 35
+@onready var tilemap = $TileMap # todo remove
 @onready var hud = $HUD
 
 const CRYSTAL = preload("res://scenes/items/crystal.tscn")
@@ -24,6 +27,10 @@ var active_minigame = null
 ]
 
 func _ready():
+    # reset game state after game over
+	Globals.control_mode = Globals.ControlMode.INDIVIDUAL
+	Globals.spawn_position = Vector2(80, 70)
+
 	spawn_crystals()
 	
 	### ✅ Gegner-Authority zuweisen, wenn Server
@@ -34,11 +41,14 @@ func _ready():
 		multiplayer.peer_connected.connect(_on_peer_connected)
 		multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 
+
 func _on_host_pressed():
 	peer.create_server(4455)
 	multiplayer.multiplayer_peer = peer
 	start_game()
+
 	hide_barriers_for_darkplayer()
+	spawn_bugs()
 
 # connect either one player instance per player (individual steering) or one player instance for both (shared)
 	if Globals.control_mode == Globals.ControlMode.INDIVIDUAL:
@@ -101,15 +111,16 @@ func measure_input(delta):
 # call_remote makes ONLY other player receive packages and updates their arrows opacity
 @rpc("any_peer", "call_remote", "reliable")
 func update_arrows(input: Array):
-	$HUD/ArrowLeft.self_modulate.a  = 1.0 if input[0] else 0.5
-	$HUD/ArrowUp.self_modulate.a    = 1.0 if input[1] else 0.5
-	$HUD/ArrowDown.self_modulate.a  = 1.0 if input[2] else 0.5
-	$HUD/ArrowRight.self_modulate.a = 1.0 if input[3] else 0.5
+	$HUD/ArrowLeft.self_modulate.a  = 1.0 if input[0] else 0.1
+	$HUD/ArrowUp.self_modulate.a    = 1.0 if input[1] else 0.1
+	$HUD/ArrowDown.self_modulate.a  = 1.0 if input[2] else 0.1
+	$HUD/ArrowRight.self_modulate.a = 1.0 if input[3] else 0.1
 
 func _on_join_pressed():
 	peer.create_client( "127.0.0.1",4455)
 	multiplayer.multiplayer_peer = peer
 	start_game()
+	spawn_bugs()
 	hide_enemies_for_lightplayer()
 
 # used to update shared input 
@@ -170,20 +181,20 @@ func start_game():
 		node.visible = true
 		
 	$Multiplayer.visible= false # hide host/join buttons
-	 
+	$Gate.visible = true
 	# replace tileset for host
 	if multiplayer.is_server():
-		var ground_tileset = preload("res://src/dark_tileset_ground.tres")
+		var ground_tileset = preload("res://assets/tiles/dark_set.tres")
 		$ground.tile_set = ground_tileset
 #
-		var trees_tileset = preload("res://src/dark_tileset_trees.tres")
-		$trees.tile_set = trees_tileset
-#
-		var objects_tileset = preload("res://src/dark_tileset_objects.tres")
+		var objects_tileset = preload("res://assets/tiles/dark_set.tres")
 		$objects.tile_set = objects_tileset
-	
-	find_and_connect_event_triggers()
 
+		var trees_tileset = preload("res://assets/tiles/dark_set_border_trees.tres")
+		$border_trees.tile_set = trees_tileset
+
+	hide_enemies_for_lightplayer()
+	find_and_connect_event_triggers()
 
 func spawn_crystals():
 	for pos in crystal_positions:
@@ -193,13 +204,22 @@ func spawn_crystals():
 		crystal_instance.start_position = tile_to_world_position(pos)
 		crystal_instance.add_to_group("map_content")
 		print("Spawned crystal at tile ", tile_to_world_position(pos))
-	
+
+func spawn_bugs():
+	for i in bug_count:
+		var bug = bug_scene.instantiate()
+		bug.position = Vector2(
+			randf_range(0, map_size.x),
+			randf_range(0, map_size.y)
+		)
+		add_child(bug)
+
+
 func on_crystal_collected(value):
 	current_crystal_score += 1
 	
 func tile_to_world_position(input_pos: Vector2):
 	return Vector2((input_pos.x * 32) + 16, (input_pos.y * 32) + 16)
-
 
 func assign_enemy_authority():
 	for enemy in get_tree().get_nodes_in_group("enemies"):
@@ -256,7 +276,7 @@ func make_enemies_and_barriers_visible_for_5s():
 	await get_tree().create_timer(5.0).timeout
 	hide_enemies_for_lightplayer()
 	hide_barriers_for_darkplayer()
-	
+
 func find_and_connect_event_triggers():
 	var crystal_direction_items_nodes = get_tree().get_nodes_in_group("crystal_direction_items") # Renamed variable to avoid conflict
 	print("finding triggers")
@@ -275,32 +295,32 @@ func on_crystal_direction_item_collected():
 		# Notify all clients of the new count
 		rpc("update_client_item_count", current_crystal_direction_items)
 	# else: Client does not modify the count directly. It will receive an update.
-	
+
 @rpc("any_peer", "call_local")
 func request_consume_crystal_item(p_player_id: int):
 	print("Game.gd: Received request_consume_crystal_item for player_id: %s" % p_player_id)
-	
+
 	if not multiplayer.is_server():
 		print("Game.gd: Not the server. Ignoring consume request.")
 		return
-		
+
 	var actual_sender_peer_id = multiplayer.get_remote_sender_id()
 	print("Game.gd (Server): Processing consume request from actual sending peer %s for player %s" % [actual_sender_peer_id, p_player_id])
 
 	if current_crystal_direction_items <= 0:
 		print("Game.gd (Server): Validation FAILED for player %s. No items. Global: %d" % [p_player_id, current_crystal_direction_items])
 		return
-	
-	current_crystal_direction_items -= 1 
+
+	current_crystal_direction_items -= 1
 	print("Game.gd (Server): Item consumed for player %s. Global items remaining: %d" % [p_player_id, current_crystal_direction_items])
-	
+
 	rpc("client_consume_item_visuals", p_player_id)
-	
+
 	rpc("update_client_item_count", current_crystal_direction_items)
 
 	var target_player_nodes_for_indicator = []
 	if Globals.control_mode == Globals.ControlMode.INDIVIDUAL:
-		target_player_nodes_for_indicator = players 
+		target_player_nodes_for_indicator = players
 	elif Globals.control_mode == Globals.ControlMode.SHARED:
 		if is_instance_valid(shared_player):
 			target_player_nodes_for_indicator.append(shared_player)
