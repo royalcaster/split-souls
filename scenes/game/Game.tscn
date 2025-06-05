@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=4 uid="uid://dur7c4brk3lfn"]
+[gd_scene load_steps=22 format=4 uid="uid://dur7c4brk3lfn"]
 
 [ext_resource type="Script" uid="uid://dcgeiwsr6pwq6" path="res://src/Game.gd" id="1_lyhax"]
 [ext_resource type="PackedScene" uid="uid://b184syehau03x" path="res://scenes/player/player_1.tscn" id="2_7qcb4"]
@@ -17,9 +17,9 @@
 [ext_resource type="Texture2D" uid="uid://bwvv5p5m7pg0i" path="res://assets/img/direcitons.png" id="14_vj8ay"]
 [ext_resource type="PackedScene" uid="uid://blcf0l1sqw4iq" path="res://scenes/friends/witch/Witch.tscn" id="15_2iokk"]
 [ext_resource type="PackedScene" uid="uid://cbvvfl7uj2qvg" path="res://scenes/friends/scarecrow/Scarecrow.tscn" id="15_vg8p7"]
-[ext_resource type="PackedScene" uid="uid://dyr5yjgkdrgid" path="res://scenes/items/ItemDark.tscn" id="17_2kuj7"]
-[ext_resource type="PackedScene" uid="uid://dtkw7xx0skjp" path="res://scenes/items/ItemLight.tscn" id="18_vj8ay"]
 [ext_resource type="PackedScene" uid="uid://cwmldrrtyg6q1" path="res://scenes/friends/panda/Panda.tscn" id="17_2kuj7"]
+[ext_resource type="PackedScene" uid="uid://dtkw7xx0skjp" path="res://scenes/items/ItemLight.tscn" id="18_vj8ay"]
+[ext_resource type="PackedScene" uid="uid://dyr5yjgkdrgid" path="res://scenes/items/ItemDark.tscn" id="20_pbrru"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_wnrko"]
 
@@ -229,10 +229,34 @@ visible = false
 position = Vector2(298, 217)
 
 [node name="ItemLight2" parent="ItemsLight" groups=["item", "map_content"] instance=ExtResource("18_vj8ay")]
-position = Vector2(1234, 245)
+position = Vector2(1159, 899)
 
 [node name="ItemLight3" parent="ItemsLight" groups=["item", "map_content"] instance=ExtResource("18_vj8ay")]
 position = Vector2(531, 1017)
+
+[node name="ItemLight4" parent="ItemsLight" groups=["item", "map_content"] instance=ExtResource("18_vj8ay")]
+position = Vector2(1115, 85)
+
+[node name="ItemLight5" parent="ItemsLight" groups=["item", "map_content"] instance=ExtResource("18_vj8ay")]
+position = Vector2(96, 697)
+
+[node name="ItemsDark" type="Node2D" parent="." groups=["map_content"]]
+visible = false
+
+[node name="ItemDark" parent="ItemsDark" instance=ExtResource("20_pbrru")]
+position = Vector2(1312, 610)
+
+[node name="ItemDark2" parent="ItemsDark" instance=ExtResource("20_pbrru")]
+position = Vector2(744, 988)
+
+[node name="ItemDark3" parent="ItemsDark" instance=ExtResource("20_pbrru")]
+position = Vector2(843, 265)
+
+[node name="ItemDark4" parent="ItemsDark" instance=ExtResource("20_pbrru")]
+position = Vector2(106, 350)
+
+[node name="ItemDark5" parent="ItemsDark" instance=ExtResource("20_pbrru")]
+position = Vector2(648, 127)
 
 [connection signal="pressed" from="Multiplayer/VBoxContainer/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="Multiplayer/VBoxContainer/Join" to="." method="_on_join_pressed"]
