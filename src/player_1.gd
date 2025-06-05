@@ -4,8 +4,6 @@ class_name Player
 var controller: Node
 @export var speed: int = 100
 @onready var animatedSprite2D = $AnimatedSprite2D
-@export var player_1_frames: SpriteFrames
-@export var player_2_frames: SpriteFrames
 
 var _health: int = 100
 
@@ -56,10 +54,8 @@ func _ready():
 		$Camera2D.make_current()
 
 	var mp := get_tree().get_multiplayer()
-	if mp.is_server():
-		animatedSprite2D.sprite_frames = player_1_frames
-	else:
-		animatedSprite2D.sprite_frames = player_2_frames
+	if not mp.is_server():
+		animatedSprite2D.sprite_frames = load("res://scenes/player/light.tres")
 
 	update_visibility()
 
