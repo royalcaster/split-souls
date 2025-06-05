@@ -192,9 +192,13 @@ func start_game():
 
 		var trees_tileset = preload("res://assets/tiles/dark_set_border_trees.tres")
 		$border_trees.tile_set = trees_tileset
+		
+		$ItemsLight.visible = false
+	else: 
+		$ItemsDark.visible = false
 
 	hide_enemies_for_lightplayer()
-	find_and_connect_event_triggers()
+	
 
 func spawn_crystals():
 	for pos in crystal_positions:
@@ -277,15 +281,7 @@ func make_enemies_and_barriers_visible_for_5s():
 	hide_enemies_for_lightplayer()
 	hide_barriers_for_darkplayer()
 
-func find_and_connect_event_triggers():
-	var crystal_direction_items_nodes = get_tree().get_nodes_in_group("crystal_direction_items") # Renamed variable to avoid conflict
-	print("finding triggers")
-	for item_node in crystal_direction_items_nodes: # Renamed loop variable
-		print("trigger found")
-		# Ensure not to connect multiple times if this function is called again
-		if not item_node.collected.is_connected(on_crystal_direction_item_collected):
-			item_node.collected.connect(on_crystal_direction_item_collected)
-
+@rpc("any_peer") # todo check if necessary
 func on_crystal_direction_item_collected():
 	# This function is called when an item is collected.
 	# The server should be the authority for changing the count.
