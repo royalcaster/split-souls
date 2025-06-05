@@ -14,6 +14,8 @@ signal minigame_completed
 signal minigame_failed
 #
 func _ready():
+	var maps = [$Version1, $Version2, $Version3]
+	
 	# initialize player_inputs for all peers
 	if multiplayer.has_multiplayer_peer():
 		for peer_id in multiplayer.get_peers():
@@ -21,7 +23,12 @@ func _ready():
 		player_inputs[multiplayer.get_unique_id()] = Vector2.ZERO
 		
 	if not multiplayer.is_server():
-		animatedSprite2D.sprite_frames = load("res://scenes/player/light.tres");	
+		animatedSprite2D.sprite_frames = load("res://scenes/player/light.tres")
+		
+	# decide which map 
+	randomize()
+	var active_map = maps[randi_range(0, maps.size() - 1)]
+	active_map.enabled = true
 	
 func _process(delta):
 	# collect local inputs
