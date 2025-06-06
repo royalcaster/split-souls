@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://ds0pgagbgkhf0"]
+
+[ext_resource type="Script" uid="uid://bwqwhadycntpi" path="res://src/CrystalDirectionsItem.gd" id="1_lnaur"]
+[ext_resource type="Texture2D" uid="uid://bwvv5p5m7pg0i" path="res://assets/img/direcitons.png" id="1_urjj3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lnaur"]
+size = Vector2(30, 30)
+
+[node name="CrystalDirection" type="Area2D"]
+scale = Vector2(0.46, 0.46)
+script = ExtResource("1_lnaur")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("1_urjj3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_lnaur")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

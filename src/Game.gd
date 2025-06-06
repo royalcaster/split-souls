@@ -5,6 +5,7 @@ extends Node2D
 @export var bug_scene: PackedScene
 @export var map_size: Vector2 = Vector2(1024, 768)
 @export var bug_count: int = 35
+@onready var tilemap = $TileMap
 @onready var hud = $HUD
 
 const CRYSTAL = preload("res://scenes/items/crystal.tscn")
@@ -12,6 +13,7 @@ const CRYSTAL = preload("res://scenes/items/crystal.tscn")
 var peer = ENetMultiplayerPeer.new()
 var players = []
 var current_crystal_score = 0
+var current_crystal_direction_items = 0
 
 var player_inputs = {} # Dictionary of {peer_id: input_vector}
 var shared_player: CharacterBody2D
@@ -38,7 +40,7 @@ func _ready():
 	if Globals.control_mode == Globals.ControlMode.SHARED:
 		multiplayer.peer_connected.connect(_on_peer_connected)
 		multiplayer.peer_disconnected.connect(_on_peer_disconnected)
-	
+
 
 func _on_host_pressed():
 	peer.create_server(4455)
@@ -47,7 +49,7 @@ func _on_host_pressed():
 
 	hide_barriers_for_darkplayer()
 	spawn_bugs()
-	
+
 # connect either one player instance per player (individual steering) or one player instance for both (shared)
 	if Globals.control_mode == Globals.ControlMode.INDIVIDUAL:
 		multiplayer.peer_connected.connect(_add_player)
@@ -90,10 +92,11 @@ func _process(_delta):
 			
 	# Update HUD
 	hud.update_crystal_score(current_crystal_score)
+	hud.update_crystal_direction_items(current_crystal_direction_items)
 
 var last_input = [false, false, false, false]  # necessary because otherwise if e.g. player1 does not press any key, player2 will see player1's last input permanently
 # methods watches the inputs and sends them via rpc
-func measure_input(_delta):
+func measure_input(delta):
 	var input = [
 		Input.is_action_pressed("move_left"),
 		Input.is_action_pressed("move_up"),
@@ -118,7 +121,7 @@ func _on_join_pressed():
 	multiplayer.multiplayer_peer = peer
 	start_game()
 	spawn_bugs()
-
+	hide_enemies_for_lightplayer()
 
 # used to update shared input 
 @rpc("any_peer", "call_local", "reliable")
@@ -136,7 +139,7 @@ func get_combined_input() -> Vector2:
 
 # called when both players walk in the gate to switch the control mode
 @rpc("authority", "call_local", "reliable")
-func switch_control_mode(_mode):
+func switch_control_mode(mode):
 	# open gate & spawn players behind it 
 	$Gate/CollisionShape2D.set_deferred("disabled", true) # deactivate gate after walking through
 	$Gate/Wall/Door.set_deferred("disabled", true) # deactivate wall in gate, so that players can walk out
@@ -186,11 +189,16 @@ func start_game():
 #
 		var objects_tileset = preload("res://assets/tiles/dark_set.tres")
 		$objects.tile_set = objects_tileset
-		
+
 		var trees_tileset = preload("res://assets/tiles/dark_set_border_trees.tres")
 		$border_trees.tile_set = trees_tileset
+		
+		$ItemsLight.visible = false
+	else: 
+		$ItemsDark.visible = false
 
 	hide_enemies_for_lightplayer()
+	
 
 func spawn_crystals():
 	for pos in crystal_positions:
@@ -200,7 +208,7 @@ func spawn_crystals():
 		crystal_instance.start_position = tile_to_world_position(pos)
 		crystal_instance.add_to_group("map_content")
 		print("Spawned crystal at tile ", tile_to_world_position(pos))
-	
+
 func spawn_bugs():
 	for i in bug_count:
 		var bug = bug_scene.instantiate()
@@ -209,8 +217,9 @@ func spawn_bugs():
 			randf_range(0, map_size.y)
 		)
 		add_child(bug)
-	
-func on_crystal_collected(_value):
+
+
+func on_crystal_collected(value):
 	current_crystal_score += 1
 	
 func tile_to_world_position(input_pos: Vector2):
@@ -254,7 +263,6 @@ func hide_barriers_for_darkplayer():
 	if multiplayer.is_server():
 		for barrier in $Barriers.get_children():
 			barrier.visible = false
-
 			
 # hide enemies for light player (client)
 func hide_enemies_for_lightplayer():
@@ -272,3 +280,45 @@ func make_enemies_and_barriers_visible_for_5s():
 	await get_tree().create_timer(5.0).timeout
 	hide_enemies_for_lightplayer()
 	hide_barriers_for_darkplayer()
+
+@rpc("any_peer") # todo check if necessary
+func on_crystal_direction_item_collected():
+	current_crystal_direction_items += 1
+	# Notify all clients of the new count
+	rpc("update_client_item_count", current_crystal_direction_items)
+
+@rpc("any_peer", "call_local")
+func request_consume_crystal_item(host_pressed: bool):
+
+	if current_crystal_direction_items <= 0:
+		return
+
+	current_crystal_direction_items -= 1
+	rpc("update_client_item_count", current_crystal_direction_items)
+
+	var target_player_nodes_for_indicator = []
+	if Globals.control_mode == Globals.ControlMode.INDIVIDUAL:
+		target_player_nodes_for_indicator = players
+	elif Globals.control_mode == Globals.ControlMode.SHARED:
+		if is_instance_valid(shared_player):
+			target_player_nodes_for_indicator.append(shared_player)
+
+	for player_node_instance in target_player_nodes_for_indicator:
+		if is_instance_valid(player_node_instance):
+			player_node_instance.rpc("show_consumption_indicator", host_pressed) # only person who did not press sees the button
+
+@rpc("any_peer", "reliable")
+func update_client_item_count(new_count: int):
+	if not multiplayer.is_server():
+		self.current_crystal_direction_items = new_count
+
+func _on_texture_rect_gui_input(event): # crytal item can also be used by clicking on it 
+	if event is InputEventMouseMotion:
+		$HUD/TextureRect.mouse_default_cursor_shape = Input.CURSOR_POINTING_HAND
+		
+	if event is InputEventMouseButton and event.pressed:
+		rpc("request_consume_crystal_item", multiplayer.is_server())
+
+
+func _on_texture_rect_mouse_exited():
+	$HUD/TextureRect.mouse_default_cursor_shape = Input.CURSOR_ARROW

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://j7foj5856ges"
-path="res://.godot/imported/bat_spritesheet.png-58e9f77c416f34ce1fa8e1d4b16dc5b4.ctex"
+uid="uid://bwvv5p5m7pg0i"
+path="res://.godot/imported/direcitons.png-b6511d1081363a5ad1fb8c01d6db0228.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/bat_spritesheet.png"
-dest_files=["res://.godot/imported/bat_spritesheet.png-58e9f77c416f34ce1fa8e1d4b16dc5b4.ctex"]
+source_file="res://assets/img/direcitons.png"
+dest_files=["res://.godot/imported/direcitons.png-b6511d1081363a5ad1fb8c01d6db0228.ctex"]
 
 [params]
 

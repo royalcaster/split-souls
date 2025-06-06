@@ -1,0 +1,14 @@
+extends StaticBody2D
+
+func _ready():
+	if not multiplayer.is_server():
+		self.visible = false
+
+func _on_area_2d_body_entered(body):
+	if not (body is Player):
+		return
+		
+	var game = get_parent().get_parent()
+	if game.has_method("on_crystal_direction_item_collected"):
+		game.on_crystal_direction_item_collected.rpc()
+	queue_free()
