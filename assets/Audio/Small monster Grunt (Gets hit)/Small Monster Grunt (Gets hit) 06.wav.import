@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bjyghga5sxs4b"
+path="res://.godot/imported/Small Monster Grunt (Gets hit) 06.wav-13c5b693941fcb72d093e2c88bbc4114.sample"
+
+[deps]
+
+source_file="res://assets/Audio/Small monster Grunt (Gets hit)/Small Monster Grunt (Gets hit) 06.wav"
+dest_files=["res://.godot/imported/Small Monster Grunt (Gets hit) 06.wav-13c5b693941fcb72d093e2c88bbc4114.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2
