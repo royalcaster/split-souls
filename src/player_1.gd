@@ -176,56 +176,57 @@ func set_arrow_visibility(isVisible, radius):
 	direction_pointer_arrow.visible = isVisible
 
 @rpc("reliable")
-func show_consumption_indicator(host_pressed):
+func show_consumption_indicator(host_pressed, item_type):
+	if item_type == Globals.ItemType.DIRECTION:
 
-	if not is_instance_valid(direction_pointer_arrow):
-		return
+		if not is_instance_valid(direction_pointer_arrow):
+			return
 
-	var crystal_nodes = get_tree().get_nodes_in_group("crystals")
+		var crystal_nodes = get_tree().get_nodes_in_group("crystals")
 
-	if crystal_nodes.is_empty():
-		direction_pointer_arrow.visible = false
-		return
+		if crystal_nodes.is_empty():
+			direction_pointer_arrow.visible = false
+			return
 
-	var nearest_crystal_node = null
-	var min_distance_squared_to_player = INF
+		var nearest_crystal_node = null
+		var min_distance_squared_to_player = INF
 
-	var player_global_position = self.global_position
+		var player_global_position = self.global_position
 
-	for crystal in crystal_nodes:
-		if not is_instance_valid(crystal):
-			continue
-		var distance_sq = player_global_position.distance_squared_to(crystal.global_position)
+		for crystal in crystal_nodes:
+			if not is_instance_valid(crystal):
+				continue
+			var distance_sq = player_global_position.distance_squared_to(crystal.global_position)
 
-		if distance_sq < min_distance_squared_to_player:
-			min_distance_squared_to_player = distance_sq
-			nearest_crystal_node = crystal
+			if distance_sq < min_distance_squared_to_player:
+				min_distance_squared_to_player = distance_sq
+				nearest_crystal_node = crystal
 
-	if is_instance_valid(nearest_crystal_node):
-		var arrow_current_global_position = direction_pointer_arrow.global_position
-		var crystal_pos = nearest_crystal_node.global_position
+		if is_instance_valid(nearest_crystal_node):
+			var arrow_current_global_position = direction_pointer_arrow.global_position
+			var crystal_pos = nearest_crystal_node.global_position
 
-		var direction_vector_from_arrow = crystal_pos - arrow_current_global_position
+			var direction_vector_from_arrow = crystal_pos - arrow_current_global_position
 
-		var target_angle_rad = direction_vector_from_arrow.angle()
+			var target_angle_rad = direction_vector_from_arrow.angle()
 
-		if not host_pressed: # only person who did not press the button sees the arrow
-			rpc("set_arrow_visibility", true, target_angle_rad) # for host
+			if not host_pressed: # only person who did not press the button sees the arrow
+				rpc("set_arrow_visibility", true, target_angle_rad) # for host
+			else:
+				direction_pointer_arrow.rotation = target_angle_rad  # for client
+				direction_pointer_arrow.visible = true
+
+			var timer = get_tree().create_timer(3.0)
+			await timer.timeout
+
+			if is_instance_valid(direction_pointer_arrow):
+				if not host_pressed: # only person who did not press the button sees the arrow
+					rpc("set_arrow_visibility", false, 0) # for host
+				else:
+					direction_pointer_arrow.visible = false # for client
+
 		else:
-			direction_pointer_arrow.rotation = target_angle_rad  # for client
-			direction_pointer_arrow.visible = true
-
-		var timer = get_tree().create_timer(3.0)
-		await timer.timeout
-
-		if is_instance_valid(direction_pointer_arrow):
 			if not host_pressed: # only person who did not press the button sees the arrow
 				rpc("set_arrow_visibility", false, 0) # for host
 			else:
 				direction_pointer_arrow.visible = false # for client
-
-	else:
-		if not host_pressed: # only person who did not press the button sees the arrow
-			rpc("set_arrow_visibility", false, 0) # for host
-		else:
-			direction_pointer_arrow.visible = false # for client

@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=4 uid="uid://dur7c4brk3lfn"]
+[gd_scene load_steps=23 format=4 uid="uid://dur7c4brk3lfn"]
 
 [ext_resource type="Script" uid="uid://dcgeiwsr6pwq6" path="res://src/Game.gd" id="1_lyhax"]
 [ext_resource type="PackedScene" uid="uid://b184syehau03x" path="res://scenes/player/player_1.tscn" id="2_7qcb4"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://jynqgtiojqyc" path="res://scenes/static_barriers/TreeBarrier.tscn" id="11_aptqa"]
 [ext_resource type="PackedScene" uid="uid://c02kcbepe14nj" path="res://scenes/minigame/MiniGame.tscn" id="12_gynul"]
 [ext_resource type="PackedScene" uid="uid://7gd8413m14og" path="res://scenes/static_barriers/PotBarrier.tscn" id="13_vg8p7"]
+[ext_resource type="Texture2D" uid="uid://725ouraflwgj" path="res://assets/img/items/special_power.png" id="13_ysuoy"]
 [ext_resource type="PackedScene" uid="uid://bjo82svgfw2px" path="res://scenes/friends/dog/Dog.tscn" id="14_5xhyk"]
 [ext_resource type="Texture2D" uid="uid://bwvv5p5m7pg0i" path="res://assets/img/direcitons.png" id="14_vj8ay"]
 [ext_resource type="PackedScene" uid="uid://blcf0l1sqw4iq" path="res://scenes/friends/witch/Witch.tscn" id="15_2iokk"]
@@ -84,8 +85,10 @@ text = "Spiel bereitstellen"
 layout_mode = 2
 text = "Spiel beitreten"
 
-[node name="EnemieBat" parent="." groups=["map_content"] instance=ExtResource("3_vrspl")]
+[node name="Enemies" type="Node2D" parent="." groups=["map_content"]]
 visible = false
+
+[node name="EnemieBat" parent="Enemies" instance=ExtResource("3_vrspl")]
 position = Vector2(309, 383)
 scale = Vector2(0.9, 0.9)
 
@@ -155,7 +158,7 @@ hframes = 2
 vframes = 2
 frame = 3
 
-[node name="TextureRect" type="TextureRect" parent="HUD"]
+[node name="DirectionsClickable" type="TextureRect" parent="HUD"]
 offset_left = 84.0
 offset_top = 11.0
 offset_right = 109.0
@@ -165,6 +168,25 @@ offset_bottom = 35.0
 position = Vector2(96.35, 22.87)
 scale = Vector2(0.04, 0.04)
 texture = ExtResource("14_vj8ay")
+
+[node name="SpecialPower" type="Sprite2D" parent="HUD"]
+position = Vector2(159.83, 22.96)
+scale = Vector2(0.444959, 0.430097)
+texture = ExtResource("13_ysuoy")
+
+[node name="SpecialPowerClickable" type="TextureRect" parent="HUD"]
+offset_left = 148.0
+offset_top = 10.0
+offset_right = 172.0
+offset_bottom = 36.0
+
+[node name="SpecialPowerScore" type="Label" parent="HUD"]
+offset_left = 178.83
+offset_top = -0.04
+offset_right = 218.83
+offset_bottom = 41.96
+theme_override_font_sizes/font_size = 30
+text = "0"
 
 [node name="Barriers" type="Node2D" parent="." groups=["map_content"]]
 visible = false
@@ -240,6 +262,15 @@ position = Vector2(1115, 85)
 [node name="ItemLight5" parent="ItemsLight" groups=["item", "map_content"] instance=ExtResource("18_vj8ay")]
 position = Vector2(96, 697)
 
+[node name="ItemLight6" parent="ItemsLight" groups=["item", "map_content"] instance=ExtResource("18_vj8ay")]
+position = Vector2(386, 283)
+
+[node name="ItemLight7" parent="ItemsLight" groups=["item", "map_content"] instance=ExtResource("18_vj8ay")]
+position = Vector2(90, 228)
+
+[node name="ItemLight8" parent="ItemsLight" groups=["item", "map_content"] instance=ExtResource("18_vj8ay")]
+position = Vector2(148, 266)
+
 [node name="ItemsDark" type="Node2D" parent="." groups=["map_content"]]
 visible = false
 
@@ -258,7 +289,18 @@ position = Vector2(106, 350)
 [node name="ItemDark5" parent="ItemsDark" instance=ExtResource("20_pbrru")]
 position = Vector2(648, 127)
 
+[node name="ItemDark6" parent="ItemsDark" instance=ExtResource("20_pbrru")]
+position = Vector2(377, 205)
+
+[node name="ItemDark7" parent="ItemsDark" instance=ExtResource("20_pbrru")]
+position = Vector2(169, 308)
+
+[node name="ItemDark8" parent="ItemsDark" instance=ExtResource("20_pbrru")]
+position = Vector2(251, 186)
+
 [connection signal="pressed" from="Multiplayer/VBoxContainer/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="Multiplayer/VBoxContainer/Join" to="." method="_on_join_pressed"]
-[connection signal="gui_input" from="HUD/TextureRect" to="." method="_on_texture_rect_gui_input"]
-[connection signal="mouse_exited" from="HUD/TextureRect" to="." method="_on_texture_rect_mouse_exited"]
+[connection signal="gui_input" from="HUD/DirectionsClickable" to="." method="_on_texture_rect_gui_input"]
+[connection signal="mouse_exited" from="HUD/DirectionsClickable" to="." method="_on_texture_rect_mouse_exited"]
+[connection signal="gui_input" from="HUD/SpecialPowerClickable" to="." method="_on_special_power_clickable_gui_input"]
+[connection signal="mouse_exited" from="HUD/SpecialPowerClickable" to="." method="_on_special_power_clickable_mouse_exited"]

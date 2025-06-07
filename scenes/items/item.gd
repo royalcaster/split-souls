@@ -7,8 +7,8 @@ func _ready():
 func _on_area_2d_body_entered(body):
 	if not (body is Player):
 		return
-		
+
 	var game = get_parent().get_parent()
-	if game.has_method("on_crystal_direction_item_collected"):
-		game.on_crystal_direction_item_collected.rpc()
+	if game.has_method("on_item_collected"):
+		game.on_item_collected.rpc(Globals.generate_synced_random_item_type())
 	queue_free()
