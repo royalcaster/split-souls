@@ -7,6 +7,7 @@ var controller: Node
 @onready var direction_pointer_arrow: Node2D = get_node_or_null("Arrow")
 
 var _health: int = 100
+var _isplayingSound = false
 
 
 # Get a reference to your main game scene's root node.
@@ -106,6 +107,9 @@ func is_player():
 func updateAnimation():
 	if velocity.length() == 0:
 		animatedSprite2D.stop()
+		if _isplayingSound:
+			$AudioManager.stop_audio_2d("footstep01")
+			_isplayingSound = false
 	else:
 		var direction = "_down"
 		if velocity.y > 0 and velocity.x < 0:
@@ -129,6 +133,9 @@ func updateAnimation():
 		elif velocity.y < 0:
 			direction = "_up"
 		animatedSprite2D.play("move" + direction)
+	if !_isplayingSound:
+		$AudioManager.play_audio_2d("footstep01")
+		_isplayingSound = true
 
 func check_hitbox():
 	var hitbox_areas = $PlayerHitbox.get_overlapping_areas()
@@ -146,6 +153,7 @@ func check_hitbox():
 @rpc("authority", "reliable")
 func take_damage(damage: int):
 	if damage == 0 or dead:
+		
 		return
 
 	health -= damage  # Automatisch über Setter synchronisiert
@@ -166,6 +174,8 @@ func update_healthbar_clients(_current: int, _max: int):
 
 @rpc("any_peer", "reliable")
 func on_player_dead():
+	$AudioManager.play_audio_2d("death")
+	await get_tree().create_timer(2.0).timeout
 	Globals.playerAlive = false
 	multiplayer.multiplayer_peer = null # todo check if working
 	SceneManager.goto_scene("res://scenes/ui/GameOverMenu.tscn")

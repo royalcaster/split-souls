@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://if70pa1k7rkj"]
+[gd_scene load_steps=4 format=3 uid="uid://if70pa1k7rkj"]
 
 [ext_resource type="Texture2D" uid="uid://b06qxd36nxmvl" path="res://assets/img/crystals_spritesheet.png" id="1_bmej7"]
 [ext_resource type="Script" uid="uid://witst2viy32w" path="res://src/crystal.gd" id="1_goros"]
+[ext_resource type="AudioStream" uid="uid://d045qay7w64x6" path="res://assets/Audio/Buff_Power Up 44.wav" id="3_ur2oi"]
 
 [node name="Crystal" type="Area2D"]
 script = ExtResource("1_goros")
@@ -10,3 +11,7 @@ script = ExtResource("1_goros")
 texture = ExtResource("1_bmej7")
 hframes = 2
 vframes = 2
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_ur2oi")
+volume_db = -14.603

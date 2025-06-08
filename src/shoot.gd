@@ -65,6 +65,13 @@ func _shoot():
 	# Debug-Ausgaben zur Position
 	print("ShootPos global:", ShootPos.global_position)
 	print("Wand global:", global_position)
-
+	play_random_sound()
+	
+func play_random_sound():
+	var rand = randi() % 2
+	if rand == 0:
+		$"../AudioManager".play_audio_2d("shot1")
+	else:
+		$"../AudioManager".play_audio_2d("shot2")
 func _on_shoot_timer_timeout() -> void:
 	can_shoot = true

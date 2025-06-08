@@ -12,3 +12,4 @@ func _on_area_2d_body_entered(body):
 	if game.has_method("on_crystal_direction_item_collected"):
 		game.on_crystal_direction_item_collected.rpc()
 	queue_free()
+	$"../../AudioManager".play_audio_2d("item01")

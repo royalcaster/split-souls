@@ -18,7 +18,7 @@ func _on_input_event(_viewport, event, _shape_idx):
 func _on_area_2d_body_entered(body):
 	if not (body is Player):
 		return
-		
+	$"../../AudioManager".play_audio_2d("barrier")
 	interactable = true
 
 func _on_area_2d_body_exited(_body):

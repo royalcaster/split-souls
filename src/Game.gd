@@ -5,14 +5,15 @@ extends Node2D
 @export var bug_scene: PackedScene
 @export var map_size: Vector2 = Vector2(1024, 768)
 @export var bug_count: int = 35
-@onready var tilemap = $TileMap
+#@onready var tilemap = $TileMap
 @onready var hud = $HUD
+@onready var scoreText = $HUD/CrystalScore 
 
 const CRYSTAL = preload("res://scenes/items/crystal.tscn")
 
 var peer = ENetMultiplayerPeer.new()
 var players = []
-var current_crystal_score = 0
+#var current_crystal_score = 0
 var current_crystal_direction_items = 0
 
 var player_inputs = {} # Dictionary of {peer_id: input_vector}
@@ -31,7 +32,7 @@ func _ready():
 	Globals.control_mode = Globals.ControlMode.INDIVIDUAL
 	Globals.spawn_position = Vector2(80, 70)
 
-	spawn_crystals()
+	#spawn_crystals()
 	
 	### ✅ Gegner-Authority zuweisen, wenn Server
 	if multiplayer.is_server():
@@ -49,6 +50,7 @@ func _on_host_pressed():
 
 	hide_barriers_for_darkplayer()
 	spawn_bugs()
+	$AudioManager.play_audio_omni("darkmusic")
 
 # connect either one player instance per player (individual steering) or one player instance for both (shared)
 	if Globals.control_mode == Globals.ControlMode.INDIVIDUAL:
@@ -91,7 +93,7 @@ func _process(_delta):
 			update_input.rpc(local_input)
 			
 	# Update HUD
-	hud.update_crystal_score(current_crystal_score)
+	scoreText.text = str(Globals.current_crystal_score)
 	hud.update_crystal_direction_items(current_crystal_direction_items)
 
 var last_input = [false, false, false, false]  # necessary because otherwise if e.g. player1 does not press any key, player2 will see player1's last input permanently
@@ -117,11 +119,12 @@ func update_arrows(input: Array):
 	$HUD/ArrowRight.self_modulate.a = 1.0 if input[3] else 0.1
 
 func _on_join_pressed():
-	peer.create_client( "127.0.0.1",4455)
+	peer.create_client( "192.168.2.103",4455)
 	multiplayer.multiplayer_peer = peer
 	start_game()
 	spawn_bugs()
 	hide_enemies_for_lightplayer()
+	$AudioManager.play_audio_omni("lightmusicd")
 
 # used to update shared input 
 @rpc("any_peer", "call_local", "reliable")
@@ -200,14 +203,14 @@ func start_game():
 	hide_enemies_for_lightplayer()
 	
 
-func spawn_crystals():
-	for pos in crystal_positions:
-		var crystal_instance = CRYSTAL.instantiate()
-		add_child(crystal_instance)
-		crystal_instance.collected.connect(on_crystal_collected)
-		crystal_instance.start_position = tile_to_world_position(pos)
-		crystal_instance.add_to_group("map_content")
-		print("Spawned crystal at tile ", tile_to_world_position(pos))
+#func spawn_crystals():
+	#for pos in crystal_positions:
+		#var crystal_instance = CRYSTAL.instantiate()
+		#add_child(crystal_instance)
+		#crystal_instance.collected.connect(on_crystal_collected)
+		#crystal_instance.start_position = tile_to_world_position(pos)
+		#crystal_instance.add_to_group("map_content")
+		#print("Spawned crystal at tile ", tile_to_world_position(pos))
 
 func spawn_bugs():
 	for i in bug_count:
@@ -219,8 +222,8 @@ func spawn_bugs():
 		add_child(bug)
 
 
-func on_crystal_collected(value):
-	current_crystal_score += 1
+#func on_crystal_collected(value):
+	#current_crystal_score += 1
 	
 func tile_to_world_position(input_pos: Vector2):
 	return Vector2((input_pos.x * 32) + 16, (input_pos.y * 32) + 16)
