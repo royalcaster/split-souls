@@ -75,7 +75,7 @@ func _on_peer_connected(peer_id: int):
 			shared_player = player_scene.instantiate()
 			shared_player.position = Globals.spawn_position # set spawn position
 			shared_player.name = "SharedPlayer"
-			add_child(shared_player)
+			call_deferred("add_child", shared_player)
 			shared_player.controller = self
 			shared_player.set_multiplayer_authority(1) # Host is the authority
 
@@ -88,9 +88,10 @@ func _process(_delta):
 
 	# calculates shared input
 	if Globals.control_mode == Globals.ControlMode.SHARED:
-		if multiplayer.has_multiplayer_peer():
+		if multiplayer.has_multiplayer_peer() and multiplayer.get_multiplayer_peer().get_connection_status() == MultiplayerPeer.CONNECTION_CONNECTED:
 			var local_input = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 			update_input.rpc(local_input)
+
 			
 	# Update HUD
 	scoreText.text = str(Globals.current_crystal_score)
@@ -98,7 +99,7 @@ func _process(_delta):
 
 var last_input = [false, false, false, false]  # necessary because otherwise if e.g. player1 does not press any key, player2 will see player1's last input permanently
 # methods watches the inputs and sends them via rpc
-func measure_input(delta):
+func measure_input(_delta):
 	var input = [
 		Input.is_action_pressed("move_left"),
 		Input.is_action_pressed("move_up"),
@@ -142,7 +143,7 @@ func get_combined_input() -> Vector2:
 
 # called when both players walk in the gate to switch the control mode
 @rpc("authority", "call_local", "reliable")
-func switch_control_mode(mode):
+func switch_control_mode(_mode):
 	# open gate & spawn players behind it 
 	$Gate/CollisionShape2D.set_deferred("disabled", true) # deactivate gate after walking through
 	$Gate/Wall/Door.set_deferred("disabled", true) # deactivate wall in gate, so that players can walk out
@@ -238,7 +239,7 @@ func open_minigame(barrier_path):
 	add_child(active_minigame)
 	
 	# add barrier to group (this group keeps track of which barrier was clicked)
-	var barrier = get_node(barrier_path)
+	var barrier = get_node_or_null(barrier_path)
 	if not barrier.is_in_group("activeTree"):
 		barrier.add_to_group("activeTree")
 

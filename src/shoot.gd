@@ -20,7 +20,7 @@ func _ready() -> void:
 
 	# Timer zur Schussverzögerung initialisieren
 	ShootTimer.wait_time = time_between_shot
-	ShootTimer.connect("timeout", Callable(self, "_on_shoot_timer_timeout"))
+	#ShootTimer.connect("timeout", Callable(self, "_on_shoot_timer_timeout"))
 	
 	# Positionierungswarnung (einmalig prüfen beim Start)
 	if abs(ShootPos.position.angle()) > 0.1:
