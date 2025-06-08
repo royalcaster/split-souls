@@ -8,6 +8,7 @@ var controller: Node
 
 var _health: int = 100
 var _isplayingSound = false
+var is_dead = false
 
 
 # Get a reference to your main game scene's root node.
@@ -78,6 +79,10 @@ func update_visibility():
 		self.visible = true
 
 func _physics_process(_delta):
+	if dead or is_dead:
+		return
+
+	
 	if not dead:
 		listen_for_crystal_direction_consume()
 		if Globals.control_mode == Globals.ControlMode.INDIVIDUAL:
@@ -173,12 +178,24 @@ func update_healthbar_clients(_current: int, _max: int):
 		on_player_dead()
 
 @rpc("any_peer", "reliable")
+
+
 func on_player_dead():
+	is_dead = true
+	print("playing animation")
+	$AudioManager.stop_audio_2d("footstep01")
+	$AudioManager.stop_audio_2d("footstep02")
+
+	$AnimatedSprite2D.visible = true
+	$AnimatedSprite2D.play("death")
+	await get_tree().process_frame
 	$AudioManager.play_audio_2d("death")
-	await get_tree().create_timer(2.0).timeout
+	await get_tree().create_timer(4.5).timeout
 	Globals.playerAlive = false
-	multiplayer.multiplayer_peer = null # todo check if working
+	multiplayer.multiplayer_peer = null
 	SceneManager.goto_scene("res://scenes/ui/GameOverMenu.tscn")
+
+
 
 @rpc("any_peer", "reliable")
 func set_arrow_visibility(isVisible, radius):

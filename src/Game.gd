@@ -119,12 +119,12 @@ func update_arrows(input: Array):
 	$HUD/ArrowRight.self_modulate.a = 1.0 if input[3] else 0.1
 
 func _on_join_pressed():
-	peer.create_client( "192.168.2.103",4455)
+	peer.create_client("127.0.0.1", 4455)
 	multiplayer.multiplayer_peer = peer
 	start_game()
 	spawn_bugs()
 	hide_enemies_for_lightplayer()
-	$AudioManager.play_audio_omni("lightmusicd")
+	$AudioManager.play_audio_omni("lightmusic")
 
 # used to update shared input 
 @rpc("any_peer", "call_local", "reliable")

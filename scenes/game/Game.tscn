@@ -117,7 +117,7 @@ audio_stream = ExtResource("28_c6lwk")
 use_clipper = false
 start_time = 0.0
 end_time = 0.0
-volume_db = -5.0
+volume_db = -15.0
 pitch_scale = 1.0
 max_distance = 2000.0
 loop = false
@@ -191,6 +191,7 @@ text = "Spiel beitreten"
 
 [node name="EnemieBat" parent="." groups=["map_content"] instance=ExtResource("3_vrspl")]
 visible = false
+texture_filter = 1
 position = Vector2(309, 383)
 scale = Vector2(0.9, 0.9)
 

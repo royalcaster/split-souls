@@ -140,8 +140,9 @@ y_sort_enabled = true
 script = ExtResource("1_hvohr")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
 sprite_frames = ExtResource("2_hvohr")
-animation = &"move_hdown"
+animation = &"death"
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_hvohr")
