@@ -20,8 +20,6 @@ config/icon="res://icon.svg"
 SceneManager="*res://src/SceneManager.gd"
 Globals="*res://src/Globals.gd"
 Cursor="*res://src/cursor.gd"
-Noray="*res://addons/netfox.noray/noray.gd"
-PacketHandshake="*res://addons/netfox.noray/packet-handshake.gd"
 
 [display]
 
@@ -31,7 +29,7 @@ window/stretch/mode="viewport"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/netfox.internals/plugin.cfg", "res://addons/netfox.noray/plugin.cfg")
+enabled=PackedStringArray("res://addons/audio_manager/plugin.cfg")
 
 [input]
 

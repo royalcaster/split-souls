@@ -14,8 +14,8 @@ func _ready():
 		max_value = max_value_amount
 		min_value = min_value_amount
 		visible = false
-	else:
-		push_error("❌ Parent hat keine gültigen Health-Methoden!")
+	#else:
+	#	push_error("❌ Parent hat keine gültigen Health-Methoden!")
 
 func _process(_delta):
 	if not parent: return

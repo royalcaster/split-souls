@@ -35,4 +35,6 @@ layout_mode = 2
 text = "Back"
 script = ExtResource("1_lokjt")
 
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+
 [connection signal="pressed" from="VBoxContainer/BackButton" to="VBoxContainer/BackButton" method="_on_pressed"]

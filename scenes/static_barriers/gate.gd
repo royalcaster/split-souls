@@ -5,7 +5,7 @@ var game_node: Node
 var bodies_in_gate := []
 
 func _ready():
-	game_node = get_node(game_node_path)
+	game_node = get_node_or_null(game_node_path)
 
 func _on_body_entered(body):
 	if not (body is Player):
@@ -19,6 +19,7 @@ func _on_body_entered(body):
 	if multiplayer.is_server():
 		if (Globals.ControlMode.INDIVIDUAL and bodies_in_gate.size() >= 2) or Globals.control_mode == Globals.ControlMode.SHARED:
 			game_node.rpc("switch_control_mode", Globals.control_mode)
+
 
 func _on_body_exited(body):
 	if body in bodies_in_gate:
