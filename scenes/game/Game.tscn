@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=4 uid="uid://dur7c4brk3lfn"]
+[gd_scene load_steps=37 format=4 uid="uid://dur7c4brk3lfn"]
 
 [ext_resource type="Script" uid="uid://dcgeiwsr6pwq6" path="res://src/Game.gd" id="1_lyhax"]
 [ext_resource type="PackedScene" uid="uid://b184syehau03x" path="res://scenes/player/player_1.tscn" id="2_7qcb4"]
@@ -297,19 +297,22 @@ offset_bottom = 41.96
 theme_override_font_sizes/font_size = 30
 text = "0"
 
-[node name="Crystal" parent="." instance=ExtResource("13_o703g")]
+[node name="Crystals" type="Node2D" parent="." groups=["map_content"]]
+visible = false
+
+[node name="Crystal" parent="Crystals" instance=ExtResource("13_o703g")]
 position = Vector2(994, 240)
 
-[node name="Crystal2" parent="." instance=ExtResource("13_o703g")]
+[node name="Crystal2" parent="Crystals" instance=ExtResource("13_o703g")]
 position = Vector2(537, 1031)
 
-[node name="Crystal3" parent="." instance=ExtResource("13_o703g")]
+[node name="Crystal3" parent="Crystals" instance=ExtResource("13_o703g")]
 position = Vector2(1088, 825)
 
-[node name="Crystal4" parent="." instance=ExtResource("13_o703g")]
+[node name="Crystal4" parent="Crystals" instance=ExtResource("13_o703g")]
 position = Vector2(360, 226)
 
-[node name="Crystal5" parent="." instance=ExtResource("13_o703g")]
+[node name="Crystal5" parent="Crystals" instance=ExtResource("13_o703g")]
 position = Vector2(703, 133)
 
 [node name="Barriers" type="Node2D" parent="." groups=["map_content"]]
