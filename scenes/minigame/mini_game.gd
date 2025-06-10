@@ -1,4 +1,8 @@
 extends Window
+class_name MiniGame
+
+const my_scene: PackedScene = preload("res://scenes/minigame/MiniGame.tscn")
+
 
 @onready var player = $Map/Player
 @onready var start_pos = $Map/StartPosition
@@ -12,9 +16,11 @@ var won_game = false
 
 signal minigame_completed
 signal minigame_failed
+
+var active_map
+static var active_map_index
 #
 func _ready():
-	var maps = [$Version1, $Version2, $Version3]
 	
 	# initialize player_inputs for all peers
 	if multiplayer.has_multiplayer_peer():
@@ -25,11 +31,16 @@ func _ready():
 	if not multiplayer.is_server():
 		animatedSprite2D.sprite_frames = load("res://scenes/player/light.tres")
 		
-	# decide which map 
-	randomize()
-	var active_map = maps[randi_range(0, maps.size() - 1)]
+func _enter_tree():
+	var maps = [$Version1, $Version2, $Version3]
+	var active_map = maps[active_map_index]
 	active_map.enabled = true
 	
+static func new_minigame(version_index) -> MiniGame:
+	var new_minigame: MiniGame = my_scene.instantiate()
+	active_map_index = version_index
+	return new_minigame
+
 func _process(delta):
 	# collect local inputs
 	if multiplayer.has_multiplayer_peer():

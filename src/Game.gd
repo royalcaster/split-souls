@@ -235,8 +235,8 @@ func assign_enemy_authority():
 		enemy.set_multiplayer_authority(1)  # Server hat Authority
 
 @rpc("any_peer", "call_local", "reliable")
-func open_minigame(barrier_path):
-	active_minigame = mini_game.instantiate()
+func open_minigame(barrier_path, mini_game_version):
+	active_minigame = MiniGame.new_minigame(mini_game_version)
 	add_child(active_minigame)
 	
 	# add barrier to group (this group keeps track of which barrier was clicked)
