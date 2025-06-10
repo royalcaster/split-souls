@@ -15,6 +15,7 @@ var peer = ENetMultiplayerPeer.new()
 var players = []
 #var current_crystal_score = 0
 var current_crystal_direction_items = 0
+var current_special_power_items = 0
 
 var player_inputs = {} # Dictionary of {peer_id: input_vector}
 var shared_player: CharacterBody2D
@@ -96,6 +97,7 @@ func _process(_delta):
 	# Update HUD
 	scoreText.text = str(Globals.current_crystal_score)
 	hud.update_crystal_direction_items(current_crystal_direction_items)
+	hud.update_special_power_score(current_special_power_items)
 
 var last_input = [false, false, false, false]  # necessary because otherwise if e.g. player1 does not press any key, player2 will see player1's last input permanently
 # methods watches the inputs and sends them via rpc
@@ -156,7 +158,6 @@ func switch_control_mode(_mode):
 	else:
 		Globals.control_mode = Globals.ControlMode.SHARED
 
-	print("--- Switched mode to: ", Globals.control_mode)
 
 	# Cleanup old player instances
 	for p in players:
@@ -264,21 +265,22 @@ func close_minigame(won_game):
 			
 # only light player should be able to see barriers 
 func hide_barriers_for_darkplayer():
-	if multiplayer.is_server():
-		for barrier in $Barriers.get_children():
-			barrier.visible = false
+	for barrier in $Barriers.get_children():
+		barrier.visible = not multiplayer.is_server()
 			
 # hide enemies for light player (client)
 func hide_enemies_for_lightplayer():
-	if not multiplayer.is_server():
-		$EnemieBat.visible = false
+	for enemy in $Enemies.get_children():
+		enemy.visible = multiplayer.is_server()
 		
-# special power TODO: use
+# special power
+@rpc("any_peer", "reliable")
 func make_enemies_and_barriers_visible_for_5s():
 	for barrier in $Barriers.get_children():
 		barrier.visible = true
-		
-	$EnemieBat.visible = true 
+
+	for enemy in $Enemies.get_children():
+		enemy.visible = true
 
 	# wait 5 seconds and hide them again 
 	await get_tree().create_timer(5.0).timeout
@@ -286,43 +288,72 @@ func make_enemies_and_barriers_visible_for_5s():
 	hide_barriers_for_darkplayer()
 
 @rpc("any_peer") # todo check if necessary
-func on_crystal_direction_item_collected():
-	current_crystal_direction_items += 1
-	# Notify all clients of the new count
-	rpc("update_client_item_count", current_crystal_direction_items)
+func on_item_collected(item_type: Globals.ItemType):
+
+	if item_type == Globals.ItemType.DIRECTION:
+		current_crystal_direction_items += 1
+		# Notify all clients of the new count
+		rpc("update_client_item_count", current_crystal_direction_items, item_type)
+	elif item_type == Globals.ItemType.SPECIALPOWER:
+		current_special_power_items += 1
+		# Notify all clients of the new count
+		rpc("update_client_item_count", current_special_power_items, item_type)
 
 @rpc("any_peer", "call_local")
-func request_consume_crystal_item(host_pressed: bool):
+func request_consume_item(host_pressed: bool, item_type: Globals.ItemType):
+	if item_type == Globals.ItemType.DIRECTION:
+		if current_crystal_direction_items <= 0:
+			return
 
-	if current_crystal_direction_items <= 0:
-		return
+		current_crystal_direction_items -= 1
+		rpc("update_client_item_count", current_crystal_direction_items, item_type)
+	
+		var target_player_nodes_for_indicator = []
+		if Globals.control_mode == Globals.ControlMode.INDIVIDUAL:
+			target_player_nodes_for_indicator = players
+		elif Globals.control_mode == Globals.ControlMode.SHARED:
+			if is_instance_valid(shared_player):
+				target_player_nodes_for_indicator.append(shared_player)
 
-	current_crystal_direction_items -= 1
-	rpc("update_client_item_count", current_crystal_direction_items)
+		for player_node_instance in target_player_nodes_for_indicator:
+			if is_instance_valid(player_node_instance):
+				player_node_instance.rpc("show_consumption_indicator", host_pressed, item_type) # only person who did not press sees the button
 
-	var target_player_nodes_for_indicator = []
-	if Globals.control_mode == Globals.ControlMode.INDIVIDUAL:
-		target_player_nodes_for_indicator = players
-	elif Globals.control_mode == Globals.ControlMode.SHARED:
-		if is_instance_valid(shared_player):
-			target_player_nodes_for_indicator.append(shared_player)
+	elif item_type == Globals.ItemType.SPECIALPOWER:
+		if current_special_power_items <= 0:
+			return
 
-	for player_node_instance in target_player_nodes_for_indicator:
-		if is_instance_valid(player_node_instance):
-			player_node_instance.rpc("show_consumption_indicator", host_pressed) # only person who did not press sees the button
+		current_special_power_items -= 1
+
+		rpc("update_client_item_count", current_special_power_items, item_type)
+		rpc("make_enemies_and_barriers_visible_for_5s")
 
 @rpc("any_peer", "reliable")
-func update_client_item_count(new_count: int):
+func update_client_item_count(new_count: int, item_type: Globals.ItemType):
+
 	if not multiplayer.is_server():
-		self.current_crystal_direction_items = new_count
+		if item_type == Globals.ItemType.DIRECTION:
+			self.current_crystal_direction_items = new_count
+		elif item_type == Globals.ItemType.SPECIALPOWER:
+			self.current_special_power_items = new_count
 
 func _on_texture_rect_gui_input(event): # crytal item can also be used by clicking on it 
-	if event is InputEventMouseMotion:
-		$HUD/TextureRect.mouse_default_cursor_shape = Input.CURSOR_POINTING_HAND
+	if event is InputEventMouseMotion and current_crystal_direction_items > 0:
+		$HUD/DirectionsClickable.mouse_default_cursor_shape = Input.CURSOR_POINTING_HAND
 		
 	if event is InputEventMouseButton and event.pressed:
-		rpc("request_consume_crystal_item", multiplayer.is_server())
-
+		rpc("request_consume_item", multiplayer.is_server(), Globals.ItemType.DIRECTION)
 
 func _on_texture_rect_mouse_exited():
-	$HUD/TextureRect.mouse_default_cursor_shape = Input.CURSOR_ARROW
+	$HUD/DirectionsClickable.mouse_default_cursor_shape = Input.CURSOR_ARROW
+
+func _on_special_power_clickable_gui_input(event):
+	if current_special_power_items > 0:
+		if event is InputEventMouseMotion:
+			$HUD/SpecialPowerClickable.mouse_default_cursor_shape = Input.CURSOR_POINTING_HAND
+			
+		if event is InputEventMouseButton and event.pressed:
+			rpc("request_consume_item", multiplayer.is_server(), Globals.ItemType.SPECIALPOWER)
+
+func _on_special_power_clickable_mouse_exited():
+	$HUD/SpecialPowerClickable.mouse_default_cursor_shape = Input.CURSOR_ARROW
