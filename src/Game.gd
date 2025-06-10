@@ -124,6 +124,8 @@ func update_arrows(input: Array):
 	$HUD/ArrowRight.self_modulate.a = 1.0 if input[3] else 0.1
 
 func _on_join_pressed():
+	if ipaddress == null:
+		ipaddress = "127.0.0.1"
 	peer.create_client(ipaddress, 4455)
 	multiplayer.multiplayer_peer = peer
 	start_game()
@@ -362,4 +364,5 @@ func _on_special_power_clickable_mouse_exited():
 
 
 func _on_line_edit_text_changed(new_text):
-	ipaddress = $Multiplayer/VBoxContainer/LineEdit.text
+	print("_on_line_edit_text_changed", new_text)
+	ipaddress = new_text

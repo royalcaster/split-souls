@@ -234,6 +234,33 @@ texture_filter = 1
 position = Vector2(309, 383)
 scale = Vector2(0.9, 0.9)
 
+[node name="EnemieBat2" parent="Enemies" instance=ExtResource("3_vrspl")]
+position = Vector2(1203, 747)
+
+[node name="EnemieBat3" parent="Enemies" instance=ExtResource("3_vrspl")]
+position = Vector2(110, 927)
+
+[node name="EnemieBat4" parent="Enemies" instance=ExtResource("3_vrspl")]
+position = Vector2(1003, 596)
+
+[node name="EnemieBat5" parent="Enemies" instance=ExtResource("3_vrspl")]
+position = Vector2(909, 291)
+
+[node name="EnemieBat6" parent="Enemies" instance=ExtResource("3_vrspl")]
+position = Vector2(573, 715)
+
+[node name="EnemieBat7" parent="Enemies" instance=ExtResource("3_vrspl")]
+position = Vector2(236, 578)
+
+[node name="EnemieBat8" parent="Enemies" instance=ExtResource("3_vrspl")]
+position = Vector2(866, 102)
+
+[node name="EnemieBat9" parent="Enemies" instance=ExtResource("3_vrspl")]
+position = Vector2(1211, 207)
+
+[node name="EnemieBat10" parent="Enemies" instance=ExtResource("3_vrspl")]
+position = Vector2(637, 427)
+
 [node name="HUD" type="CanvasLayer" parent="." groups=["map_content"]]
 unique_name_in_owner = true
 visible = false
