@@ -140,7 +140,6 @@ mini_game = ExtResource("12_gynul")
 bug_scene = ExtResource("4_2kuj7")
 map_size = Vector2(1400, 1071)
 bug_count = 250
-crystal_positions = null
 
 [node name="ground" type="TileMapLayer" parent="." groups=["map_content"]]
 visible = false
@@ -317,6 +316,7 @@ position = Vector2(360, 226)
 position = Vector2(703, 133)
 
 [node name="Barriers" type="Node2D" parent="." groups=["map_content"]]
+visible = false
 
 [node name="TreeBarrier10" parent="Barriers" instance=ExtResource("11_aptqa")]
 position = Vector2(1232, 881)
