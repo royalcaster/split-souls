@@ -318,39 +318,46 @@ position = Vector2(703, 133)
 [node name="Barriers" type="Node2D" parent="." groups=["map_content"]]
 visible = false
 
-[node name="TreeBarrier1" parent="Barriers" instance=ExtResource("11_aptqa")]
+[node name="TreeBarrier10" parent="Barriers" instance=ExtResource("11_aptqa")]
 position = Vector2(1232, 881)
+mini_game_version = 2
 
-[node name="TreeBarrier2" parent="Barriers" instance=ExtResource("11_aptqa")]
+[node name="TreeBarrier21" parent="Barriers" instance=ExtResource("11_aptqa")]
 position = Vector2(814.835, 336.475)
 rotation = 0.888373
+mini_game_version = 1
 
-[node name="TreeBarrier3" parent="Barriers" instance=ExtResource("11_aptqa")]
+[node name="TreeBarrier30" parent="Barriers" instance=ExtResource("11_aptqa")]
 position = Vector2(362, 1007)
 rotation = 0.410152
 
-[node name="TreeBarrier4" parent="Barriers" instance=ExtResource("11_aptqa")]
+[node name="TreeBarrier40" parent="Barriers" instance=ExtResource("11_aptqa")]
 position = Vector2(106, 376)
 
-[node name="TreeBarrier5" parent="Barriers" instance=ExtResource("11_aptqa")]
+[node name="TreeBarrier51" parent="Barriers" instance=ExtResource("11_aptqa")]
 position = Vector2(133, 343)
 rotation = 0.888373
+mini_game_version = 2
 
-[node name="TreeBarrier6" parent="Barriers" instance=ExtResource("11_aptqa")]
+[node name="TreeBarrier62" parent="Barriers" instance=ExtResource("11_aptqa")]
 position = Vector2(91, 976)
 rotation = 0.410152
+mini_game_version = 1
 
-[node name="PotBarrier" parent="Barriers" instance=ExtResource("13_vg8p7")]
+[node name="PotBarrier5" parent="Barriers" instance=ExtResource("13_vg8p7")]
 position = Vector2(208, 207)
+mini_game_version = 1
 
-[node name="PotBarrier2" parent="Barriers" instance=ExtResource("13_vg8p7")]
+[node name="PotBarrier21" parent="Barriers" instance=ExtResource("13_vg8p7")]
 position = Vector2(445, 876)
+mini_game_version = 1
 
-[node name="PotBarrier3" parent="Barriers" instance=ExtResource("13_vg8p7")]
+[node name="PotBarrier30" parent="Barriers" instance=ExtResource("13_vg8p7")]
 position = Vector2(547, 958)
 
-[node name="PotBarrier4" parent="Barriers" instance=ExtResource("13_vg8p7")]
+[node name="PotBarrier42" parent="Barriers" instance=ExtResource("13_vg8p7")]
 position = Vector2(389, 877)
+mini_game_version = 1
 
 [node name="Friends" type="Node2D" parent="." groups=["map_content"]]
 visible = false
