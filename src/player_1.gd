@@ -5,6 +5,12 @@ var controller: Node
 @export var speed: int = 100
 @onready var animatedSprite2D = $AnimatedSprite2D
 @onready var direction_pointer_arrow: Node2D = get_node_or_null("Arrow")
+@onready var sfx_walk = $sfx_walk
+@onready var sfx_crystal = $sfx_crystal
+@onready var sfx_dmg = $sfx_dmg
+
+
+
 
 var _health: int = 100
 
@@ -79,19 +85,33 @@ func update_visibility():
 func _physics_process(_delta):
 	if not dead:
 		listen_for_crystal_direction_consume()
+		
+		var input_vector := Vector2.ZERO
+
 		if Globals.control_mode == Globals.ControlMode.INDIVIDUAL:
 			if is_multiplayer_authority():
-				velocity = Input.get_vector("move_left", "move_right", "move_up", "move_down") * speed
+				input_vector = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 		else:
 			if not is_multiplayer_authority():
 				return
 			if controller:
-				velocity = controller.get_combined_input() * speed
+				input_vector = controller.get_combined_input()
+
+		velocity = input_vector * speed
+
+		# 👟 Schritt-Sound abspielen
+		if input_vector != Vector2.ZERO:
+			if not sfx_walk.playing:
+				sfx_walk.play()
+		else:
+			if sfx_walk.playing:
+				sfx_walk.stop()
 
 		check_hitbox()
 
 	move_and_slide()
 	updateAnimation()
+
 
 func listen_for_crystal_direction_consume():
 	if Input.is_action_just_pressed("consume_crystal_direction_item"):
@@ -148,8 +168,12 @@ func take_damage(damage: int):
 	if damage == 0 or dead:
 		return
 
-	health -= damage  # Automatisch über Setter synchronisiert
+	if sfx_dmg:
+		sfx_dmg.play()
+
+	health -= damage
 	take_damage_cooldown(1.0)
+
 
 func take_damage_cooldown(wait_time):
 	can_take_damage = false

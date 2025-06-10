@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://pxmyspn67e7b"]
+[gd_scene load_steps=7 format=3 uid="uid://pxmyspn67e7b"]
 
 [ext_resource type="Script" uid="uid://witst2viy32w" path="res://src/crystal.gd" id="1_55jno"]
 [ext_resource type="Texture2D" uid="uid://b06qxd36nxmvl" path="res://assets/img/crystals_spritesheet.png" id="1_kemuw"]
+[ext_resource type="AudioStream" uid="uid://bt453n4c1adtp" path="res://sounds/kristall.mp3" id="3_7bw2m"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_55jno"]
 radius = 5.0
@@ -34,5 +35,9 @@ scale = Vector2(0.15, 0.15)
 sprite_frames = SubResource("SpriteFrames_6octq")
 animation = &"crystal_still"
 frame_progress = 0.580531
+
+[node name="sfx_collect" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_7bw2m")
+volume_db = 12.649
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

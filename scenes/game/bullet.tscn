@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://btpvmbwyiag3a"]
+[gd_scene load_steps=8 format=3 uid="uid://btpvmbwyiag3a"]
 
 [ext_resource type="Texture2D" uid="uid://cbuntic6w2iak" path="res://assets/Sprite-shoot.png" id="1_xhiv3"]
 [ext_resource type="Script" uid="uid://23el2vjgi2iw" path="res://src/bullet.gd" id="2_1bog7"]
+[ext_resource type="AudioStream" uid="uid://ccjmlruahqjce" path="res://sounds/shot.mp3" id="3_cn7gg"]
 
 [sub_resource type="Animation" id="Animation_cn7gg"]
 length = 0.001
@@ -117,6 +118,10 @@ hit_from_inside = true
 [node name="DistanceTimeout" type="Timer" parent="."]
 one_shot = true
 autostart = true
+
+[node name="sfx_shot" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_cn7gg")
+autoplay = true
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="timeout" from="DistanceTimeout" to="." method="_on_distance_timeout_timeout"]

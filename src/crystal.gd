@@ -6,6 +6,8 @@ signal collected
 @export var y_jump_height: float = -5.0 # Wie hoch gesprungen wird
 @export var y_cycle_time: float = 0.3 # Dauer eines Sprungs (hoch und runter)
 @export var y_pause_time: float = 1 # Wie lange unten pausiert wird
+@onready var sfx_collect = $sfx_collect
+
 
 var start_position: Vector2
 var time_passed: float = 0.0
@@ -35,4 +37,12 @@ func _process(delta):
 func _on_body_entered(body: Node2D):
 	if body.has_method("is_player"):
 		collected.emit(value)
+
+		# sofort deaktivieren:
+		$CollisionShape2D.disabled = true
+		set_deferred("monitoring", false)  # Sicherheitsmaßnahme bei Area2D
+
+		sfx_collect.play()
+		hide()
+		await sfx_collect.finished
 		queue_free()

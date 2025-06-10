@@ -9,6 +9,12 @@ class_name BatEnemy
 @export var aggro_distance: float = 150.0
 @export var speed: float = 75.0
 
+# Sound 
+@onready var sfx_bat = $sfx_bat
+@onready var sfx_batdmg = $sfx_batdmg
+@onready var sfx_batdeath = $sfx_batdeath
+
+
 var health = 50
 var health_max = 50
 var health_min = 0
@@ -20,6 +26,7 @@ var points_for_kill = 100
 var player: Node2D = null
 var start_position: Vector2
 var time_passed: float = 0.0
+
 
 func _ready():
 	start_position = global_position
@@ -52,6 +59,15 @@ func _physics_process(_delta):
 
 	move_and_slide()
 
+	# Flug-Sound nur wenn Bewegung vorhanden
+	if velocity.length() > 1.0:
+		if not sfx_bat.playing:
+			sfx_bat.play()
+	else:
+		if sfx_bat.playing:
+			sfx_bat.stop()
+
+
 func move_sinusoidal(delta):
 	time_passed += delta
 	var offset_x = sin(time_passed * frequency * TAU) * amplitude
@@ -63,26 +79,29 @@ func move_sinusoidal(delta):
 @rpc("any_peer", "call_remote", "reliable")
 func take_damage(damage: int) -> void:
 	if not is_multiplayer_authority():
-		return  # Nur Server darf verarbeiten
+		return
 		
 	var sender_id = multiplayer.get_remote_sender_id()
 	if sender_id == -1:
-		return # invalid sender
-
+		return
 
 	if not can_take_damage or dead:
 		return
 
+	if sfx_batdmg:
+		sfx_batdmg.play()
+
 	health = clamp(health - damage, health_min, health_max)
 	print("🟥 [SERVER] Gegner-Health reduziert auf: ", health)
 
-	sync_health.rpc(health)  # an alle Clients schicken
+	sync_health.rpc(health)
 
 	if health <= health_min:
-		rpc_die.rpc()  # Enemy bei Client löschen
-		rpc_die()        # Enemy bei Host (lokal)
+		rpc_die.rpc()
+		rpc_die()
 	else:
 		take_damage_cooldown(0.2)
+
 
 # Health auf allen Clients synchronisieren
 @rpc("any_peer", "call_remote", "reliable")
@@ -97,7 +116,30 @@ func rpc_die():
 	if dead:
 		return
 	dead = true
+
+	# 🛑 Bewegung, Sichtbarkeit, Schaden sofort deaktivieren
+	velocity = Vector2.ZERO
+	visible = false
+	set_process(false)
+	set_physics_process(false)
+
+	if $CollisionShape2D:
+		$CollisionShape2D.disabled = true
+
+	if $BatDealDamageArea:
+		$BatDealDamageArea.set_deferred("monitoring", false)
+		$BatDealDamageArea.set_deferred("monitorable", false)
+
+	if sfx_batdeath:
+		sfx_batdeath.play()
+		await sfx_batdeath.finished
+	else:
+		await get_tree().create_timer(0.5).timeout
+
 	queue_free()
+
+
+
 
 func take_damage_cooldown(wait_time: float) -> void:
 	can_take_damage = false

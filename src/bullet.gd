@@ -2,6 +2,7 @@ extends Sprite2D
 
 @onready var AnimPlayer: AnimationPlayer = $AnimationPlayer
 @onready var RayCast: RayCast2D = $RayCast2D
+@onready var sfx_shot = $sfx_shot
 
 var speed: float = 1000.0
 @export var damage: int = 20
