@@ -42,7 +42,7 @@ offset_left = 106.0
 offset_top = 134.0
 offset_right = 397.0
 offset_bottom = 157.0
-text = "You successfully removed the barrier!"
+text = "Ihr habt die Blockade erfolgreich zerstört!"
 
 [node name="Map" type="Node2D" parent="."]
 

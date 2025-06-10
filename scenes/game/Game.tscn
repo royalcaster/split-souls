@@ -194,7 +194,7 @@ text = "Multiplayer"
 layout_mode = 2
 theme_override_font_sizes/font_size = 10
 text = "Anleitung: 
-Spieler:in 1 öffnet auf seinem/ihrem PC die Kommandozeile, indem er/sie z.b. in die Windows Suchleiste \"cmd\" eingibt."
+Der/Die Schattenspieler:in öffnet auf seinem/ihrem PC die Kommandozeile, indem er/sie z.b. in die Windows Suchleiste \"cmd\" eingibt."
 
 [node name="TextureRect" type="TextureRect" parent="Multiplayer/VBoxContainer"]
 custom_minimum_size = Vector2(46.07, 82.07)
@@ -210,9 +210,9 @@ text = "Anleitung:
 Dort gibt er/sie \"ipconfig\" ein und drückt Enter. 
 Dort scrollt er/sie nun nach unten, bis er/sie \"Drahtlos-LAN-Adapter WLAN\" findet und kopiert die Adresse, die hinter \"IPv4-Adresse\" 
 Adresse angegeben ist.
-Er/Sie gibt sie in das unten liegende Testfeld ein und leitet sie außerdem weiter an den/die andere Spieler:in. Dieser/Diese fügt sie ebenfalls 
+Er/Sie gibt sie in das unten liegende Textfeld ein und leitet sie außerdem weiter an den/die andere Spieler:in. Dieser/Diese fügt sie ebenfalls 
 in ein Textfeld ein. 
-Der/Die Schattenspieler:in klickt nun \"Spiel bereitstellen\" und DANCAH klickt der/die Lichtspieler:in \"Spiel beitreten\""
+Der/Die Schattenspieler:in klickt nun \"Spiel bereitstellen\" und DANACH klickt der/die Lichtspieler:in \"Spiel beitreten\""
 
 [node name="LineEdit" type="LineEdit" parent="Multiplayer/VBoxContainer"]
 layout_mode = 2
