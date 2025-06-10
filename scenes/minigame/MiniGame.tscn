@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=4 uid="uid://c02kcbepe14nj"]
+[gd_scene load_steps=9 format=4 uid="uid://c02kcbepe14nj"]
 
 [ext_resource type="Script" uid="uid://l6nmsax7u8h3" path="res://scenes/minigame/mini_game.gd" id="1_pb5i6"]
 [ext_resource type="TileSet" uid="uid://biiegck24um4j" path="res://assets/tiles/minigame.tres" id="2_diy0u"]
 [ext_resource type="Texture2D" uid="uid://boa5kbfty7nu8" path="res://assets/light_assets/Rechteck.png" id="3_diy0u"]
 [ext_resource type="SpriteFrames" uid="uid://jrfq8bcwahhu" path="res://scenes/player/dark.tres" id="4_diy0u"]
+[ext_resource type="AudioStream" uid="uid://dwds4g2ky5j3h" path="res://assets/Audio/win Sound/Win sound 19.wav" id="5_kxtkx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_diy0u"]
 size = Vector2(45, 63)
@@ -80,6 +81,9 @@ position = Vector2(0, 51)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Map/StaticBody2D"]
 position = Vector2(49.5, 365)
 shape = SubResource("RectangleShape2D_n4xfe")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_kxtkx")
 
 [connection signal="close_requested" from="." to="." method="_on_close_requested"]
 [connection signal="body_entered" from="Map/EndZone" to="." method="_on_end_zone_body_entered"]

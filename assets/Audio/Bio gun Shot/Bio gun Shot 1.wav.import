@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://ykib4yjf2xqk"
+path="res://.godot/imported/Bio gun Shot 1.wav-91b2a2039b2d1ccd98fa774e03a3a3bc.sample"
+
+[deps]
+
+source_file="res://assets/Audio/Bio gun Shot/Bio gun Shot 1.wav"
+dest_files=["res://.godot/imported/Bio gun Shot 1.wav-91b2a2039b2d1ccd98fa774e03a3a3bc.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

@@ -5,14 +5,15 @@ extends Node2D
 @export var bug_scene: PackedScene
 @export var map_size: Vector2 = Vector2(1024, 768)
 @export var bug_count: int = 35
-@onready var tilemap = $TileMap
+#@onready var tilemap = $TileMap
 @onready var hud = $HUD
+@onready var scoreText = $HUD/CrystalScore 
 
 const CRYSTAL = preload("res://scenes/items/crystal.tscn")
 
 var peer = ENetMultiplayerPeer.new()
 var players = []
-var current_crystal_score = 0
+#var current_crystal_score = 0
 var current_crystal_direction_items = 0
 var current_special_power_items = 0
 
@@ -32,7 +33,7 @@ func _ready():
 	Globals.control_mode = Globals.ControlMode.INDIVIDUAL
 	Globals.spawn_position = Vector2(80, 70)
 
-	spawn_crystals()
+	#spawn_crystals()
 	
 	### ✅ Gegner-Authority zuweisen, wenn Server
 	if multiplayer.is_server():
@@ -50,6 +51,7 @@ func _on_host_pressed():
 
 	hide_barriers_for_darkplayer()
 	spawn_bugs()
+	$AudioManager.play_audio_omni("darkmusic")
 
 # connect either one player instance per player (individual steering) or one player instance for both (shared)
 	if Globals.control_mode == Globals.ControlMode.INDIVIDUAL:
@@ -74,7 +76,7 @@ func _on_peer_connected(peer_id: int):
 			shared_player = player_scene.instantiate()
 			shared_player.position = Globals.spawn_position # set spawn position
 			shared_player.name = "SharedPlayer"
-			add_child(shared_player)
+			call_deferred("add_child", shared_player)
 			shared_player.controller = self
 			shared_player.set_multiplayer_authority(1) # Host is the authority
 
@@ -87,18 +89,19 @@ func _process(_delta):
 
 	# calculates shared input
 	if Globals.control_mode == Globals.ControlMode.SHARED:
-		if multiplayer.has_multiplayer_peer():
+		if multiplayer.has_multiplayer_peer() and multiplayer.get_multiplayer_peer().get_connection_status() == MultiplayerPeer.CONNECTION_CONNECTED:
 			var local_input = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 			update_input.rpc(local_input)
+
 			
 	# Update HUD
-	hud.update_crystal_score(current_crystal_score)
+	scoreText.text = str(Globals.current_crystal_score)
 	hud.update_crystal_direction_items(current_crystal_direction_items)
 	hud.update_special_power_score(current_special_power_items)
 
 var last_input = [false, false, false, false]  # necessary because otherwise if e.g. player1 does not press any key, player2 will see player1's last input permanently
 # methods watches the inputs and sends them via rpc
-func measure_input(delta):
+func measure_input(_delta):
 	var input = [
 		Input.is_action_pressed("move_left"),
 		Input.is_action_pressed("move_up"),
@@ -119,11 +122,12 @@ func update_arrows(input: Array):
 	$HUD/ArrowRight.self_modulate.a = 1.0 if input[3] else 0.1
 
 func _on_join_pressed():
-	peer.create_client( "127.0.0.1",4455)
+	peer.create_client("127.0.0.1", 4455)
 	multiplayer.multiplayer_peer = peer
 	start_game()
 	spawn_bugs()
 	hide_enemies_for_lightplayer()
+	$AudioManager.play_audio_omni("lightmusic")
 
 # used to update shared input 
 @rpc("any_peer", "call_local", "reliable")
@@ -141,7 +145,7 @@ func get_combined_input() -> Vector2:
 
 # called when both players walk in the gate to switch the control mode
 @rpc("authority", "call_local", "reliable")
-func switch_control_mode(mode):
+func switch_control_mode(_mode):
 	# open gate & spawn players behind it 
 	$Gate/CollisionShape2D.set_deferred("disabled", true) # deactivate gate after walking through
 	$Gate/Wall/Door.set_deferred("disabled", true) # deactivate wall in gate, so that players can walk out
@@ -201,14 +205,14 @@ func start_game():
 	hide_enemies_for_lightplayer()
 	
 
-func spawn_crystals():
-	for pos in crystal_positions:
-		var crystal_instance = CRYSTAL.instantiate()
-		add_child(crystal_instance)
-		crystal_instance.collected.connect(on_crystal_collected)
-		crystal_instance.start_position = tile_to_world_position(pos)
-		crystal_instance.add_to_group("map_content")
-		print("Spawned crystal at tile ", tile_to_world_position(pos))
+#func spawn_crystals():
+	#for pos in crystal_positions:
+		#var crystal_instance = CRYSTAL.instantiate()
+		#add_child(crystal_instance)
+		#crystal_instance.collected.connect(on_crystal_collected)
+		#crystal_instance.start_position = tile_to_world_position(pos)
+		#crystal_instance.add_to_group("map_content")
+		#print("Spawned crystal at tile ", tile_to_world_position(pos))
 
 func spawn_bugs():
 	for i in bug_count:
@@ -220,8 +224,8 @@ func spawn_bugs():
 		add_child(bug)
 
 
-func on_crystal_collected(value):
-	current_crystal_score += 1
+#func on_crystal_collected(value):
+	#current_crystal_score += 1
 	
 func tile_to_world_position(input_pos: Vector2):
 	return Vector2((input_pos.x * 32) + 16, (input_pos.y * 32) + 16)
@@ -236,7 +240,7 @@ func open_minigame(barrier_path):
 	add_child(active_minigame)
 	
 	# add barrier to group (this group keeps track of which barrier was clicked)
-	var barrier = get_node(barrier_path)
+	var barrier = get_node_or_null(barrier_path)
 	if not barrier.is_in_group("activeTree"):
 		barrier.add_to_group("activeTree")
 

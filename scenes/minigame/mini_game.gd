@@ -3,7 +3,7 @@ extends Window
 @onready var player = $Map/Player
 @onready var start_pos = $Map/StartPosition
 @onready var end_zone = $Map/EndZone
-@onready var animatedSprite2D = player.get_node("AnimatedSprite2D")
+@onready var animatedSprite2D = player.get_node_or_null("AnimatedSprite2D")
 var can_respawn = true
 
 var player_inputs = {} # Dictionary of {peer_id: input_vector}
@@ -127,7 +127,7 @@ func _on_end_zone_body_entered(body):
 		$Map.visible = false
 		$Label.visible = true
 		won_game = true
-		
+		$AudioStreamPlayer.play()
 func respawn_cooldown(wait_time):
 	can_respawn = false
 	await get_tree().create_timer(wait_time).timeout

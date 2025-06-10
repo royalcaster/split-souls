@@ -37,3 +37,9 @@ func generate_synced_random_item_type():
 @rpc("call_remote")
 func sync_random_item_type(random_type : int):
 	synced_random_type = random_type
+
+var current_crystal_score = 0
+func update_crystal_score():
+	current_crystal_score+=1
+	#print(current_crystal_score)
+	#$HUD/CrystalScore.text = str(current_crystal_score)
