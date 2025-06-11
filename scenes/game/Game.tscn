@@ -468,28 +468,28 @@ position = Vector2(148, 266)
 [node name="ItemsDark" type="Node2D" parent="." groups=["map_content"]]
 visible = false
 
-[node name="ItemDark" parent="ItemsDark" instance=ExtResource("20_pbrru")]
+[node name="ItemDark" parent="ItemsDark" groups=["map_content"] instance=ExtResource("20_pbrru")]
 position = Vector2(1312, 610)
 
-[node name="ItemDark2" parent="ItemsDark" instance=ExtResource("20_pbrru")]
+[node name="ItemDark2" parent="ItemsDark" groups=["map_content"] instance=ExtResource("20_pbrru")]
 position = Vector2(744, 988)
 
-[node name="ItemDark3" parent="ItemsDark" instance=ExtResource("20_pbrru")]
+[node name="ItemDark3" parent="ItemsDark" groups=["map_content"] instance=ExtResource("20_pbrru")]
 position = Vector2(843, 265)
 
-[node name="ItemDark4" parent="ItemsDark" instance=ExtResource("20_pbrru")]
+[node name="ItemDark4" parent="ItemsDark" groups=["map_content"] instance=ExtResource("20_pbrru")]
 position = Vector2(106, 350)
 
-[node name="ItemDark5" parent="ItemsDark" instance=ExtResource("20_pbrru")]
+[node name="ItemDark5" parent="ItemsDark" groups=["map_content"] instance=ExtResource("20_pbrru")]
 position = Vector2(648, 127)
 
-[node name="ItemDark6" parent="ItemsDark" instance=ExtResource("20_pbrru")]
+[node name="ItemDark6" parent="ItemsDark" groups=["map_content"] instance=ExtResource("20_pbrru")]
 position = Vector2(377, 205)
 
-[node name="ItemDark7" parent="ItemsDark" instance=ExtResource("20_pbrru")]
+[node name="ItemDark7" parent="ItemsDark" groups=["map_content"] instance=ExtResource("20_pbrru")]
 position = Vector2(169, 308)
 
-[node name="ItemDark8" parent="ItemsDark" instance=ExtResource("20_pbrru")]
+[node name="ItemDark8" parent="ItemsDark" groups=["map_content"] instance=ExtResource("20_pbrru")]
 position = Vector2(251, 186)
 
 [node name="AudioManager" type="Node" parent="."]
