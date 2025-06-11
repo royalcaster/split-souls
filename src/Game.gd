@@ -9,6 +9,8 @@ extends Node2D
 @onready var hud = $HUD
 @onready var scoreText = $HUD/CrystalScore 
 
+var ipaddress
+
 const CRYSTAL = preload("res://scenes/items/crystal.tscn")
 
 var peer = ENetMultiplayerPeer.new()
@@ -122,7 +124,9 @@ func update_arrows(input: Array):
 	$HUD/ArrowRight.self_modulate.a = 1.0 if input[3] else 0.1
 
 func _on_join_pressed():
-	peer.create_client("127.0.0.1", 4455)
+	if ipaddress == null:
+		ipaddress = "127.0.0.1"
+	peer.create_client(ipaddress, 4455)
 	multiplayer.multiplayer_peer = peer
 	start_game()
 	spawn_bugs()
@@ -357,3 +361,8 @@ func _on_special_power_clickable_gui_input(event):
 
 func _on_special_power_clickable_mouse_exited():
 	$HUD/SpecialPowerClickable.mouse_default_cursor_shape = Input.CURSOR_ARROW
+
+
+func _on_line_edit_text_changed(new_text):
+	print("_on_line_edit_text_changed", new_text)
+	ipaddress = new_text

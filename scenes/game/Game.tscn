@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=4 uid="uid://dur7c4brk3lfn"]
+[gd_scene load_steps=38 format=4 uid="uid://dur7c4brk3lfn"]
 
 [ext_resource type="Script" uid="uid://dcgeiwsr6pwq6" path="res://src/Game.gd" id="1_lyhax"]
 [ext_resource type="PackedScene" uid="uid://b184syehau03x" path="res://scenes/player/player_1.tscn" id="2_7qcb4"]
@@ -8,15 +8,16 @@
 [ext_resource type="PackedScene" uid="uid://c0dwtyimchwxc" path="res://scenes/static_barriers/gate.tscn" id="6_5xhyk"]
 [ext_resource type="TileSet" uid="uid://cp33vcjdt12tm" path="res://assets/tiles/light_set_border_trees.tres" id="6_vg8p7"]
 [ext_resource type="Script" uid="uid://cm0mfxlop7ysq" path="res://src/hud.gd" id="6_wnrko"]
+[ext_resource type="Texture2D" uid="uid://d1hq7que7g05s" path="res://assets/img/ui_instructions/Screenshot 2025-06-10 194317.png" id="8_2hln5"]
 [ext_resource type="Texture2D" uid="uid://b06qxd36nxmvl" path="res://assets/img/crystals_spritesheet.png" id="8_qf6a8"]
-[ext_resource type="Texture2D" uid="uid://c7scnv10bvrrt" path="res://assets/img/arrow1.png" id="8_wnrko"]
 [ext_resource type="PackedScene" uid="uid://jynqgtiojqyc" path="res://scenes/static_barriers/TreeBarrier.tscn" id="11_aptqa"]
+[ext_resource type="Texture2D" uid="uid://cya7c44f02d7l" path="res://assets/img/items/direcitons.png" id="12_4leyu"]
 [ext_resource type="PackedScene" uid="uid://c02kcbepe14nj" path="res://scenes/minigame/MiniGame.tscn" id="12_gynul"]
 [ext_resource type="PackedScene" uid="uid://pxmyspn67e7b" path="res://scenes/items/crystal.tscn" id="13_o703g"]
 [ext_resource type="PackedScene" uid="uid://7gd8413m14og" path="res://scenes/static_barriers/PotBarrier.tscn" id="13_vg8p7"]
 [ext_resource type="Texture2D" uid="uid://725ouraflwgj" path="res://assets/img/items/special_power.png" id="13_ysuoy"]
 [ext_resource type="PackedScene" uid="uid://bjo82svgfw2px" path="res://scenes/friends/dog/Dog.tscn" id="14_5xhyk"]
-[ext_resource type="Texture2D" uid="uid://bwvv5p5m7pg0i" path="res://assets/img/direcitons.png" id="14_vj8ay"]
+[ext_resource type="Texture2D" uid="uid://c7scnv10bvrrt" path="res://assets/img/arrow1.png" id="14_vj8ay"]
 [ext_resource type="PackedScene" uid="uid://blcf0l1sqw4iq" path="res://scenes/friends/witch/Witch.tscn" id="15_2iokk"]
 [ext_resource type="PackedScene" uid="uid://cbvvfl7uj2qvg" path="res://scenes/friends/scarecrow/Scarecrow.tscn" id="15_vg8p7"]
 [ext_resource type="PackedScene" uid="uid://cwmldrrtyg6q1" path="res://scenes/friends/panda/Panda.tscn" id="17_2kuj7"]
@@ -134,6 +135,7 @@ metadata/_custom_type_script = "uid://c8uv3fx76qlug"
 
 [node name="Game" type="Node2D"]
 y_sort_enabled = true
+position = Vector2(7, 16)
 script = ExtResource("1_lyhax")
 player_scene = ExtResource("2_7qcb4")
 mini_game = ExtResource("12_gynul")
@@ -170,20 +172,51 @@ spawn_path = NodePath("..")
 [node name="Multiplayer" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
-offset_left = 39.0
-offset_top = 94.0
-offset_right = 79.0
-offset_bottom = 134.0
+offset_left = 14.81
+offset_top = 1.505
+offset_right = 54.81
+offset_bottom = 41.505
 metadata/_edit_use_anchors_ = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Multiplayer"]
-layout_mode = 0
-offset_right = 195.0
-offset_bottom = 171.0
+custom_minimum_size = Vector2(1.82, 1.87)
+layout_direction = 1
+layout_mode = 1
+offset_right = 674.0
+offset_bottom = 360.0
 
 [node name="Label" type="Label" parent="Multiplayer/VBoxContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 10
 text = "Multiplayer"
+
+[node name="Label2" type="Label" parent="Multiplayer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Anleitung: 
+Der/Die Schattenspieler:in öffnet auf seinem/ihrem PC die Kommandozeile, indem er/sie z.b. in die Windows Suchleiste \"cmd\" eingibt."
+
+[node name="TextureRect" type="TextureRect" parent="Multiplayer/VBoxContainer"]
+custom_minimum_size = Vector2(46.07, 82.07)
+layout_mode = 2
+texture = ExtResource("8_2hln5")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label3" type="Label" parent="Multiplayer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Anleitung: 
+Dort gibt er/sie \"ipconfig\" ein und drückt Enter. 
+Dort scrollt er/sie nun nach unten, bis er/sie \"Drahtlos-LAN-Adapter WLAN\" findet und kopiert die Adresse, die hinter \"IPv4-Adresse\" 
+Adresse angegeben ist.
+Er/Sie gibt sie in das unten liegende Textfeld ein und leitet sie außerdem weiter an den/die andere Spieler:in. Dieser/Diese fügt sie ebenfalls 
+in ein Textfeld ein. 
+Der/Die Schattenspieler:in klickt nun \"Spiel bereitstellen\" und DANACH klickt der/die Lichtspieler:in \"Spiel beitreten\""
+
+[node name="LineEdit" type="LineEdit" parent="Multiplayer/VBoxContainer"]
+layout_mode = 2
+text = "127.0.0.1"
 
 [node name="Host" type="Button" parent="Multiplayer/VBoxContainer"]
 layout_mode = 2
@@ -201,6 +234,33 @@ texture_filter = 1
 position = Vector2(309, 383)
 scale = Vector2(0.9, 0.9)
 
+[node name="EnemieBat2" parent="Enemies" instance=ExtResource("3_vrspl")]
+position = Vector2(1203, 747)
+
+[node name="EnemieBat3" parent="Enemies" instance=ExtResource("3_vrspl")]
+position = Vector2(110, 927)
+
+[node name="EnemieBat4" parent="Enemies" instance=ExtResource("3_vrspl")]
+position = Vector2(1003, 596)
+
+[node name="EnemieBat5" parent="Enemies" instance=ExtResource("3_vrspl")]
+position = Vector2(909, 291)
+
+[node name="EnemieBat6" parent="Enemies" instance=ExtResource("3_vrspl")]
+position = Vector2(573, 715)
+
+[node name="EnemieBat7" parent="Enemies" instance=ExtResource("3_vrspl")]
+position = Vector2(236, 578)
+
+[node name="EnemieBat8" parent="Enemies" instance=ExtResource("3_vrspl")]
+position = Vector2(866, 102)
+
+[node name="EnemieBat9" parent="Enemies" instance=ExtResource("3_vrspl")]
+position = Vector2(1211, 207)
+
+[node name="EnemieBat10" parent="Enemies" instance=ExtResource("3_vrspl")]
+position = Vector2(637, 427)
+
 [node name="HUD" type="CanvasLayer" parent="." groups=["map_content"]]
 unique_name_in_owner = true
 visible = false
@@ -215,7 +275,7 @@ material = SubResource("CanvasItemMaterial_wnrko")
 position = Vector2(532.58, 35.62)
 rotation = 4.71239
 scale = Vector2(0.131836, 0.112305)
-texture = ExtResource("8_wnrko")
+texture = ExtResource("14_vj8ay")
 
 [node name="ArrowDown" type="Sprite2D" parent="HUD"]
 modulate = Color(0.866667, 0.556863, 0.231373, 1)
@@ -224,7 +284,7 @@ material = SubResource("CanvasItemMaterial_wnrko")
 position = Vector2(532.58, 90.62)
 rotation = 1.5708
 scale = Vector2(0.131836, 0.112305)
-texture = ExtResource("8_wnrko")
+texture = ExtResource("14_vj8ay")
 
 [node name="ArrowLeft" type="Sprite2D" parent="HUD"]
 modulate = Color(0.866667, 0.556863, 0.231373, 1)
@@ -233,7 +293,7 @@ material = SubResource("CanvasItemMaterial_wnrko")
 position = Vector2(493.58, 63.62)
 rotation = 3.14159
 scale = Vector2(0.131836, 0.112305)
-texture = ExtResource("8_wnrko")
+texture = ExtResource("14_vj8ay")
 
 [node name="ArrowRight" type="Sprite2D" parent="HUD"]
 modulate = Color(0.866667, 0.556863, 0.231373, 1)
@@ -241,7 +301,7 @@ self_modulate = Color(1, 1, 1, 0.0980392)
 material = SubResource("CanvasItemMaterial_wnrko")
 position = Vector2(567.58, 63.62)
 scale = Vector2(0.131836, 0.112305)
-texture = ExtResource("8_wnrko")
+texture = ExtResource("14_vj8ay")
 
 [node name="CrystalDirectionItems" type="Label" parent="HUD"]
 offset_left = 114.35
@@ -276,7 +336,7 @@ offset_bottom = 35.0
 [node name="Direcitons" type="Sprite2D" parent="HUD"]
 position = Vector2(96.35, 22.87)
 scale = Vector2(0.04, 0.04)
-texture = ExtResource("14_vj8ay")
+texture = ExtResource("12_4leyu")
 
 [node name="SpecialPower" type="Sprite2D" parent="HUD"]
 position = Vector2(159.83, 22.96)
@@ -438,6 +498,7 @@ audios_omni = Array[ExtResource("22_olhyc")]([SubResource("Resource_y8ug0"), Sub
 audios_2d = Array[ExtResource("25_bqmam")]([SubResource("Resource_bqmam"), SubResource("Resource_c6lwk"), SubResource("Resource_o703g")])
 metadata/_custom_type_script = "uid://bquto5v3dni4v"
 
+[connection signal="text_changed" from="Multiplayer/VBoxContainer/LineEdit" to="." method="_on_line_edit_text_changed"]
 [connection signal="pressed" from="Multiplayer/VBoxContainer/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="Multiplayer/VBoxContainer/Join" to="." method="_on_join_pressed"]
 [connection signal="gui_input" from="HUD/DirectionsClickable" to="." method="_on_texture_rect_gui_input"]
