@@ -160,6 +160,10 @@ func take_damage(damage: int):
 	if damage == 0 or dead:
 		
 		return
+		
+	# Nur der Server darf Health verändern und synchronisieren!
+	if not multiplayer.is_server():
+		return
 
 	health -= damage  # Automatisch über Setter synchronisiert
 	take_damage_cooldown(1.0)
