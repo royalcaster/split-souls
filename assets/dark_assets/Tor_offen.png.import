@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://davy20fjfflnv"
-path="res://.godot/imported/2. Hand Pointer.png-37b30766c33ca58ab58c65815edafb90.ctex"
+uid="uid://ggy8bi70ecg2"
+path="res://.godot/imported/Tor_offen.png-3af68fab9a4622270de83c2d5b5e5433.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/img/cursor/2. Hand Pointer.png"
-dest_files=["res://.godot/imported/2. Hand Pointer.png-37b30766c33ca58ab58c65815edafb90.ctex"]
+source_file="res://assets/dark_assets/Tor_offen.png"
+dest_files=["res://.godot/imported/Tor_offen.png-3af68fab9a4622270de83c2d5b5e5433.ctex"]
 
 [params]
 

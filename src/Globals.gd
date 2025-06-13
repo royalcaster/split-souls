@@ -14,6 +14,13 @@ var control_mode := ControlMode.INDIVIDUAL
 
 var spawn_position = Vector2(80, 70)
 
+var current_crystal_score = 0
+var crystals_collected_handled := false
+
+var player: Node2D = null
+var camera: Camera2D = null
+var small_gates: Array = []
+
 #Variablen für Battle
 var playerAlive : bool
 var batDamageZone : Area2D
@@ -38,8 +45,32 @@ func generate_synced_random_item_type():
 func sync_random_item_type(random_type : int):
 	synced_random_type = random_type
 
-var current_crystal_score = 0
 func update_crystal_score():
 	current_crystal_score+=1
-	#print(current_crystal_score)
-	#$HUD/CrystalScore.text = str(current_crystal_score)
+	if crystals_collected_handled:
+		return
+	if current_crystal_score == 5:
+		crystals_collected_handled = true
+		all_crystals_collected()
+	
+func all_crystals_collected(): 
+	var gates = get_tree().get_nodes_in_group("small_gates")
+
+	# go with camera to gate to show its open
+	player = get_tree().get_current_scene().find_child("SharedPlayer", true, false)
+	camera = player.find_child("Camera2D", true, false)
+
+	for gate in gates:
+		await fly_camera_to_position(gate.global_position)
+		gate.open_gate()
+		await get_tree().create_timer(0.4).timeout 
+
+	await fly_camera_to_position(player.global_position)
+
+func fly_camera_to_position(target_global_position: Vector2, duration: float = 1.5):
+	var target_local_position = player.to_local(target_global_position)
+	var tween = get_tree().create_tween()
+	tween.tween_property(camera, "position", target_local_position, duration)\
+		.set_trans(Tween.TRANS_SINE)\
+		.set_ease(Tween.EASE_IN_OUT)
+	return tween.finished

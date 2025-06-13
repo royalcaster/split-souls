@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://davy20fjfflnv"
-path="res://.godot/imported/2. Hand Pointer.png-37b30766c33ca58ab58c65815edafb90.ctex"
+uid="uid://drr408occd6ks"
+path="res://.godot/imported/Mauer2.png-2c7437cfd822bd984018854ab6260e56.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/img/cursor/2. Hand Pointer.png"
-dest_files=["res://.godot/imported/2. Hand Pointer.png-37b30766c33ca58ab58c65815edafb90.ctex"]
+source_file="res://assets/light_assets/Mauer2.png"
+dest_files=["res://.godot/imported/Mauer2.png-2c7437cfd822bd984018854ab6260e56.ctex"]
 
 [params]
 
