@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://cgx4s28rosjof"]
+
+[ext_resource type="Script" uid="uid://d0arcndi4ttq3" path="res://scenes/deko/kaefer.gd" id="1_coij5"]
+[ext_resource type="Texture2D" uid="uid://bv7q5b45ilb6f" path="res://scenes/deko/kaefer_bild-removebg-preview.png" id="2_sy0mv"]
+
+[node name="Kaefer" type="CharacterBody2D"]
+script = ExtResource("1_coij5")
+map_bounds = Rect2(0, 0, 720, 480)
+movement_distance = 1.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 1.5708
+scale = Vector2(0.0422833, 0.0422833)
+texture = ExtResource("2_sy0mv")

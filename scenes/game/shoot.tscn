@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://b30cfuekuc7m4" path="res://src/shoot.gd" id="1_erwv1"]
 
 [node name="Shoot" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("1_erwv1")
 
 [node name="RotationOffSet" type="Node2D" parent="."]

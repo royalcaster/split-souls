@@ -1,11 +1,11 @@
 [gd_scene load_steps=5 format=3 uid="uid://jynqgtiojqyc"]
 
 [ext_resource type="Script" uid="uid://ny7fmrv17nc2" path="res://scenes/static_barriers/tree_barrier.gd" id="1_ewys5"]
-[ext_resource type="Texture2D" uid="uid://dpxciqdvaq62t" path="res://assets/img/tree_placeholder.png" id="1_y22u3"]
+[ext_resource type="Texture2D" uid="uid://djs6o6k12a0fh" path="res://assets/light_assets/Blockade_Baumstamm_beschädigt_ohne-Äste.png" id="2_ewys5"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ewys5"]
-radius = 9.0
-height = 52.0
+radius = 2.83214
+height = 62.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bpg3t"]
 radius = 26.0
@@ -17,12 +17,13 @@ input_pickable = true
 script = ExtResource("1_ewys5")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("1_y22u3")
+rotation = 1.5708
+texture = ExtResource("2_ewys5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 5)
+position = Vector2(0, 0.07)
 rotation = 1.5708
+scale = Vector2(2.8, 1)
 shape = SubResource("CapsuleShape2D_ewys5")
 
 [node name="Area2D" type="Area2D" parent="."]

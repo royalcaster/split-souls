@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bq28k5gyi4gug"
+path="res://.godot/imported/Casual - Level 2 (Loop_01).wav-fd78ec7e9afe0deb49cd452bde8da59e.sample"
+
+[deps]
+
+source_file="res://assets/Audio/Casual - Level 2 (Loop_01).wav"
+dest_files=["res://.godot/imported/Casual - Level 2 (Loop_01).wav-fd78ec7e9afe0deb49cd452bde8da59e.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2
