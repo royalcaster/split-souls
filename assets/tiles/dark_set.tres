@@ -1,11 +1,12 @@
-[gd_resource type="TileSet" load_steps=6 format=3 uid="uid://bxlx5qx4q3fnf"]
+[gd_resource type="TileSet" load_steps=7 format=3 uid="uid://bxlx5qx4q3fnf"]
 
 [ext_resource type="Texture2D" uid="uid://djvt3l74uvkk4" path="res://assets/dark_assets/tilemap_dark_new.png" id="1_gfgoh"]
+[ext_resource type="Texture2D" uid="uid://bmkh135a5esgm" path="res://assets/dark_assets/tilemap_dark.png" id="1_w6c06"]
 [ext_resource type="Texture2D" uid="uid://ibvu6fexxyyy" path="res://assets/UI/wooden fence_small.png" id="2_e1qbj"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8teko"]
 resource_name = "Objects without big trees"
-texture = ExtResource("1_gfgoh")
+texture = ExtResource("1_w6c06")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-2.23041, 10.8334, 5.09809, 11.1521, 7.00988, 16, -3.50494, 16)
@@ -69,6 +70,8 @@ texture_region_size = Vector2i(32, 32)
 6:2/0 = 0
 6:5/0 = 0
 6:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 4.46083, -16, -16, -3.18631)
+1:4/0 = 0
+2:4/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yspyj"]
 resource_name = "Big Trees"

@@ -13,12 +13,12 @@ func _on_input_event(_viewport, event, _shape_idx):
 			if multiplayer.is_server():
 				$CanvasLayer/SpeechbubbleDark.visible = true
 				# speech bubble disappears after 10 seconds
-				await get_tree().create_timer(5.0).timeout
+				await get_tree().create_timer(10.0).timeout
 				$CanvasLayer/SpeechbubbleDark.visible = false
 			else: 
 				$CanvasLayer/SpeechbubbleLight.visible = true
 				# speech bubble disappears after 10 seconds
-				await get_tree().create_timer(5.0).timeout
+				await get_tree().create_timer(10.0).timeout
 				$CanvasLayer/SpeechbubbleLight.visible = false
 			
 
