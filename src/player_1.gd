@@ -5,6 +5,7 @@ var controller: Node
 @export var speed: int = 100
 @onready var animatedSprite2D = $AnimatedSprite2D
 @onready var direction_pointer_arrow: Node2D = get_node_or_null("Arrow")
+@onready var minigame_node = get_tree().get_root().get_node_or_null("res://scenes/minigame/MiniGame.tscn")
 
 var _health: int = 100
 var _isplayingSound = false
@@ -116,6 +117,39 @@ func updateAnimation():
 			$AudioManager.stop_audio_2d("footstep01")
 			_isplayingSound = false
 	else:
+		# Wenn Minigame offen, keine Fußschritte abspielen
+		if is_minigame_open():
+			if _isplayingSound:
+				$AudioManager.stop_audio_2d("footstep01")
+				_isplayingSound = false
+
+			# Animation weiterhin abspielen, nur kein Sound
+			var direction = "_down"
+			if velocity.y > 0 and velocity.x < 0:
+				direction = "_hdown"
+				animatedSprite2D.flip_h = false
+			elif velocity.y > 0 and velocity.x > 0:
+				direction = "_hdown"
+				animatedSprite2D.flip_h = true
+			elif velocity.y < 0 and velocity.x < 0:
+				direction = "_hup"
+				animatedSprite2D.flip_h = false
+			elif velocity.y < 0 and velocity.x > 0:
+				direction = "_hup"
+				animatedSprite2D.flip_h = true
+			elif velocity.x < 0:
+				direction = "_horizontal"
+				animatedSprite2D.flip_h = false
+			elif velocity.x > 0:
+				direction = "_horizontal"
+				animatedSprite2D.flip_h = true
+			elif velocity.y < 0:
+				direction = "_up"
+			animatedSprite2D.play("move" + direction)
+
+			return # fertig, kein Sound spielen
+
+		# Normaler Footstep-Sound wenn Minigame nicht offen
 		var direction = "_down"
 		if velocity.y > 0 and velocity.x < 0:
 			direction = "_hdown"
@@ -138,9 +172,10 @@ func updateAnimation():
 		elif velocity.y < 0:
 			direction = "_up"
 		animatedSprite2D.play("move" + direction)
-	if !_isplayingSound:
-		$AudioManager.play_audio_2d("footstep01")
-		_isplayingSound = true
+		if !_isplayingSound:
+			$AudioManager.play_audio_2d("footstep01")
+			_isplayingSound = true
+
 
 func check_hitbox():
 	var hitbox_areas = $PlayerHitbox.get_overlapping_areas()
@@ -261,3 +296,8 @@ func show_consumption_indicator(host_pressed, item_type):
 				rpc("set_arrow_visibility", false, 0) # for host
 			else:
 				direction_pointer_arrow.visible = false # for client
+
+func is_minigame_open() -> bool:
+	if minigame_node and minigame_node.is_open:
+		return true
+	return false
