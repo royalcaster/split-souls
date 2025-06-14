@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://dtkw7xx0skjp"]
 
 [ext_resource type="Script" uid="uid://dld1h6nu5byuu" path="res://scenes/items/item.gd" id="1_fekou"]
-[ext_resource type="Texture2D" uid="uid://cya7c44f02d7l" path="res://assets/img/items/direcitons.png" id="2_nnivn"]
+[ext_resource type="Texture2D" uid="uid://cg7btflcnkru1" path="res://assets/light_assets/Truhe.png" id="2_nlejh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iw0db"]
 size = Vector2(24.75, 5)
@@ -15,9 +15,9 @@ script = ExtResource("1_fekou")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 y_sort_enabled = true
-position = Vector2(6.62961, -12.4219)
-scale = Vector2(0.0404587, 0.0409045)
-texture = ExtResource("2_nnivn")
+position = Vector2(6, -10)
+scale = Vector2(0.895, 0.917)
+texture = ExtResource("2_nlejh")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(6.625, -2)

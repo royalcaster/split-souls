@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dirhkx1yywnb1" path="res://scenes/friends/dog/dog.gd" id="1_qg7an"]
 [ext_resource type="Texture2D" uid="uid://dbhqvsg0ubo5m" path="res://assets/img/friends/dog.png" id="2_kkf83"]
-[ext_resource type="Texture2D" uid="uid://s14xp3a73gbm" path="res://assets/img/friends/speechbubble.png" id="3_xkxj3"]
+[ext_resource type="Texture2D" uid="uid://biaty1lqi72k4" path="res://assets/light_assets/Inventar_Sprechblasen.png" id="3_kkf83"]
 [ext_resource type="FontFile" uid="uid://bimvk8e8xkbqr" path="res://fonts/This Notes Personal Use.ttf" id="4_kkf83"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fpxsw"]
@@ -40,57 +40,67 @@ shape = SubResource("CapsuleShape2D_8q0l5")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="SpeechbubbleDark" type="Sprite2D" parent="CanvasLayer"]
+[node name="SpeechbubbleDark" type="Node2D" parent="CanvasLayer"]
 visible = false
-z_index = 1
-position = Vector2(395, 430)
-scale = Vector2(1.12807, 1.09328)
-texture = ExtResource("3_xkxj3")
+
+[node name="Speechbubble" type="Sprite2D" parent="CanvasLayer/SpeechbubbleDark"]
+position = Vector2(995.777, 953.5)
+scale = Vector2(2.70833, 2.93939)
+texture = ExtResource("3_kkf83")
+region_enabled = true
+region_rect = Rect2(0, 111.989, 192.103, 33.0365)
 
 [node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/SpeechbubbleDark"]
 y_sort_enabled = true
-position = Vector2(-295.193, 0)
+position = Vector2(678.777, 956)
 rotation = 3.14159
 scale = Vector2(2.67358, -2.75868)
 texture = ExtResource("2_kkf83")
 
 [node name="Text" type="RichTextLabel" parent="CanvasLayer/SpeechbubbleDark"]
 texture_filter = 2
-offset_left = -222.86
-offset_top = -24.696
-offset_right = 220.29
-offset_bottom = 22.269
+offset_left = 755.777
+offset_top = 913.0
+offset_right = 1198.93
+offset_bottom = 991.0
 size_flags_stretch_ratio = 0.0
 theme = SubResource("Theme_880wm")
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 text = "Halte dich bloß fern du grausames Monster!! ... Oh du bist ja gar kein Monster, was für ein Glück! Die haben meinen schönen Teich besetzt, kannst du dir das vorstellen?"
+fit_content = true
+scroll_active = false
 tab_size = 24
 metadata/_edit_use_anchors_ = true
 
-[node name="SpeechbubbleLight" type="Sprite2D" parent="CanvasLayer"]
+[node name="SpeechbubbleLight" type="Node2D" parent="CanvasLayer"]
 visible = false
-z_index = 1
-position = Vector2(395, 430)
-scale = Vector2(1.12807, 1.09328)
-texture = ExtResource("3_xkxj3")
+
+[node name="Speechbubble" type="Sprite2D" parent="CanvasLayer/SpeechbubbleLight"]
+position = Vector2(995.777, 953.5)
+scale = Vector2(2.70833, 2.93939)
+texture = ExtResource("3_kkf83")
+region_enabled = true
+region_rect = Rect2(0, 111.989, 192.103, 33.0365)
 
 [node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/SpeechbubbleLight"]
 y_sort_enabled = true
-position = Vector2(-295.193, 0)
+position = Vector2(678.777, 956)
 rotation = 3.14159
 scale = Vector2(2.67358, -2.75868)
 texture = ExtResource("2_kkf83")
 
 [node name="Text" type="RichTextLabel" parent="CanvasLayer/SpeechbubbleLight"]
 texture_filter = 2
-offset_left = -222.86
-offset_top = -24.696
-offset_right = 220.29
-offset_bottom = 22.269
+offset_left = 755.777
+offset_top = 913.0
+offset_right = 1198.93
+offset_bottom = 991.0
 size_flags_stretch_ratio = 0.0
 theme = SubResource("Theme_880wm")
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 text = "Sieh dir das nur an.. der Teich war einst so schön und nun ist er so einsam und verwachsen.. Hier zu leben ist mittlerweile fast eine Strafe.. "
+fit_content = true
+scroll_active = false
 tab_size = 24
 metadata/_edit_use_anchors_ = true
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://davy20fjfflnv"
-path="res://.godot/imported/2. Hand Pointer.png-37b30766c33ca58ab58c65815edafb90.ctex"
+uid="uid://f0i4ifxre0rj"
+path="res://.godot/imported/Schilf gross.png-deb6144fd9d1c4bbc84f8d99159d5d0a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/img/cursor/2. Hand Pointer.png"
-dest_files=["res://.godot/imported/2. Hand Pointer.png-37b30766c33ca58ab58c65815edafb90.ctex"]
+source_file="res://assets/light_assets/Schilf gross.png"
+dest_files=["res://.godot/imported/Schilf gross.png-deb6144fd9d1c4bbc84f8d99159d5d0a.ctex"]
 
 [params]
 

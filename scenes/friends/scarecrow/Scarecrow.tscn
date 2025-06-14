@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cni6u41bfw2ci" path="res://scenes/friends/scarecrow/scarecrow.gd" id="1_8mpuc"]
 [ext_resource type="Texture2D" uid="uid://dj4tryxayowr3" path="res://assets/img/friends/scarecrow.png" id="1_8q0l5"]
-[ext_resource type="Texture2D" uid="uid://s14xp3a73gbm" path="res://assets/img/friends/speechbubble.png" id="3_4te0q"]
+[ext_resource type="Texture2D" uid="uid://biaty1lqi72k4" path="res://assets/light_assets/Inventar_Sprechblasen.png" id="3_h46sd"]
 [ext_resource type="FontFile" uid="uid://bimvk8e8xkbqr" path="res://fonts/This Notes Personal Use.ttf" id="4_h46sd"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fpxsw"]
@@ -40,26 +40,29 @@ shape = SubResource("CapsuleShape2D_8q0l5")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="SpeechbubbleDark" type="Sprite2D" parent="CanvasLayer"]
+[node name="SpeechbubbleDark" type="Node2D" parent="CanvasLayer"]
 visible = false
-z_index = 1
-position = Vector2(395, 430)
-scale = Vector2(1.12807, 1.09328)
-texture = ExtResource("3_4te0q")
+
+[node name="Speechbubble" type="Sprite2D" parent="CanvasLayer/SpeechbubbleDark"]
+position = Vector2(997.005, 947.665)
+scale = Vector2(2.70833, 2.93939)
+texture = ExtResource("3_h46sd")
+region_enabled = true
+region_rect = Rect2(0, 111.989, 192.103, 33.0365)
 
 [node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/SpeechbubbleDark"]
 y_sort_enabled = true
-position = Vector2(-295.193, 0)
+position = Vector2(676.256, 947.256)
 rotation = 3.14159
-scale = Vector2(2.67358, -2.75868)
+scale = Vector2(3.01599, -3.01601)
 texture = ExtResource("1_8q0l5")
 
 [node name="Text" type="RichTextLabel" parent="CanvasLayer/SpeechbubbleDark"]
 texture_filter = 2
-offset_left = -222.86
-offset_top = -24.696
-offset_right = 220.29
-offset_bottom = 22.269
+offset_left = 757.853
+offset_top = 920.257
+offset_right = 1201.0
+offset_bottom = 967.222
 size_flags_stretch_ratio = 0.0
 theme = SubResource("Theme_qrfk6")
 theme_override_colors/default_color = Color(0, 0, 0, 1)
@@ -67,30 +70,35 @@ text = "HALT!!! Bist du auch eins dieser Monster?! Verschwinde sofort von meinem
 tab_size = 24
 metadata/_edit_use_anchors_ = true
 
-[node name="SpeechbubbleLight" type="Sprite2D" parent="CanvasLayer"]
+[node name="SpeechbubbleLight" type="Node2D" parent="CanvasLayer"]
 visible = false
-z_index = 1
-position = Vector2(395, 430)
-scale = Vector2(1.12807, 1.09328)
-texture = ExtResource("3_4te0q")
+
+[node name="Speechbubble" type="Sprite2D" parent="CanvasLayer/SpeechbubbleLight"]
+position = Vector2(997.005, 947.665)
+scale = Vector2(2.70833, 2.93939)
+texture = ExtResource("3_h46sd")
+region_enabled = true
+region_rect = Rect2(0, 111.989, 192.103, 33.0365)
 
 [node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/SpeechbubbleLight"]
 y_sort_enabled = true
-position = Vector2(-295.193, 0)
+position = Vector2(676.256, 947.256)
 rotation = 3.14159
-scale = Vector2(2.67358, -2.75868)
+scale = Vector2(3.01599, -3.01601)
 texture = ExtResource("1_8q0l5")
 
 [node name="Text" type="RichTextLabel" parent="CanvasLayer/SpeechbubbleLight"]
 texture_filter = 2
-offset_left = -222.86
-offset_top = -24.696
-offset_right = 220.29
-offset_bottom = 22.269
+offset_left = 757.853
+offset_top = 920.257
+offset_right = 1201.0
+offset_bottom = 970.257
 size_flags_stretch_ratio = 0.0
 theme = SubResource("Theme_qrfk6")
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 text = "Oh wie schön, dass endlich jemand diesen Friedhof besucht. Es war schon seit Jahren niemand mehr hier, ich bin so einsam. "
+fit_content = true
+scroll_active = false
 tab_size = 24
 metadata/_edit_use_anchors_ = true
 
