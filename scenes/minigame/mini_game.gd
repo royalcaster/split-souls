@@ -86,10 +86,13 @@ func move_player(delta):
 	
 	updateAnimation()
 
-	var has_collision = player.move_and_slide()
-	if has_collision and can_respawn: # reset character back to starting position if he touched a wall 
-		reset_game()
-		respawn_cooldown(0.5)
+	if multiplayer.is_server():
+		var has_collision = player.move_and_slide()
+		if has_collision and can_respawn: # reset character back to starting position if he touched a wall 
+			reset_game.rpc()
+			respawn_cooldown.rpc(0.5)
+	else: 
+		player.move_and_slide() # for clients local display
 		
 func updateAnimation():
 	if player.velocity.length() == 0:
@@ -139,6 +142,8 @@ func _on_end_zone_body_entered(body):
 		$Label.visible = true
 		won_game = true
 		$AudioStreamPlayer.play()
+		
+@rpc("authority", "call_local", "reliable")
 func respawn_cooldown(wait_time):
 	can_respawn = false
 	await get_tree().create_timer(wait_time).timeout

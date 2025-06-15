@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://davy20fjfflnv"
-path="res://.godot/imported/2. Hand Pointer.png-37b30766c33ca58ab58c65815edafb90.ctex"
+uid="uid://80170nxnlshj"
+path="res://.godot/imported/Cursor_hover.png-56cc49d47b0e78447f9f3095684a0d68.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/img/cursor/2. Hand Pointer.png"
-dest_files=["res://.godot/imported/2. Hand Pointer.png-37b30766c33ca58ab58c65815edafb90.ctex"]
+source_file="res://assets/dark_assets/Cursor_hover.png"
+dest_files=["res://.godot/imported/Cursor_hover.png-56cc49d47b0e78447f9f3095684a0d68.ctex"]
 
 [params]
 

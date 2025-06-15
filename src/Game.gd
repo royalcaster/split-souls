@@ -151,10 +151,10 @@ func get_combined_input() -> Vector2:
 @rpc("authority", "call_local", "reliable")
 func switch_control_mode(_mode):
 	# open gate & spawn players behind it 
-	$Gate/CollisionShape2D.set_deferred("disabled", true) # deactivate gate after walking through
-	$Gate/Wall/Door.set_deferred("disabled", true) # deactivate wall in gate, so that players can walk out
-	$Gate/Sprite2D.texture = load('res://assets/img/gate_opened.png') # open gate
-	Globals.spawn_position = $Gate.global_position # set new spawn point behind gate
+	$Gates/Gate/CollisionShape2D.set_deferred("disabled", true) # deactivate gate after walking through
+	$Gates/Gate/Wall/Door.set_deferred("disabled", true) # deactivate wall in gate, so that players can walk out
+	$Gates/Gate/Sprite2D.texture = load('res://assets/img/gate_opened.png') # open gate
+	Globals.spawn_position = $Gates/Gate.global_position # set new spawn point behind gate
 
 	# switch control mode 
 	if Globals.control_mode == Globals.ControlMode.SHARED:
@@ -190,7 +190,7 @@ func start_game():
 		node.visible = true
 		
 	$Multiplayer.visible= false # hide host/join buttons
-	$Gate.visible = true
+	$Gates/Gate.visible = true
 	# replace tileset for host
 	if multiplayer.is_server():
 		var ground_tileset = preload("res://assets/tiles/dark_set.tres")
@@ -203,6 +203,10 @@ func start_game():
 		$border_trees.tile_set = trees_tileset
 		
 		$ItemsLight.visible = false
+		
+		var small_gates = get_tree().get_nodes_in_group("small_gates")
+		for node in small_gates:
+			node.get_node("Sprite2D").texture = preload("res://assets/dark_assets/Tor.png")
 	else: 
 		$ItemsDark.visible = false
 

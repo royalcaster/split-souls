@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=3 uid="uid://lbheyvn4qgeu"]
+
+[ext_resource type="Script" uid="uid://lliwrxmp28oh" path="res://scenes/static_barriers/small_gate.gd" id="1_n06w0"]
+[ext_resource type="Texture2D" uid="uid://5n5ttjjncv6y" path="res://assets/light_assets/Tor.png" id="2_n06w0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ndpk8"]
+size = Vector2(24, 1.75)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rys84"]
+size = Vector2(27.25, 5)
+
+[node name="SmallGate" type="StaticBody2D"]
+y_sort_enabled = true
+script = ExtResource("1_n06w0")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(1, -9)
+scale = Vector2(1.23, 1)
+texture = ExtResource("2_n06w0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, 0)
+shape = SubResource("RectangleShape2D_ndpk8")
+
+[node name="Wall" type="StaticBody2D" parent="."]
+position = Vector2(0, 7)
+
+[node name="WallLeft" type="CollisionShape2D" parent="Wall"]
+position = Vector2(-25, -9)
+shape = SubResource("RectangleShape2D_rys84")
+
+[node name="WallRight" type="CollisionShape2D" parent="Wall"]
+position = Vector2(27, -9)
+shape = SubResource("RectangleShape2D_rys84")
