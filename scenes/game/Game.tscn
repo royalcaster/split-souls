@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=4 uid="uid://dur7c4brk3lfn"]
+[gd_scene load_steps=43 format=4 uid="uid://dur7c4brk3lfn"]
 
 [ext_resource type="Script" uid="uid://dcgeiwsr6pwq6" path="res://src/Game.gd" id="1_lyhax"]
 [ext_resource type="PackedScene" uid="uid://b184syehau03x" path="res://scenes/player/player_1.tscn" id="2_7qcb4"]
@@ -11,12 +11,17 @@
 [ext_resource type="Texture2D" uid="uid://d1hq7que7g05s" path="res://assets/img/ui_instructions/Screenshot 2025-06-10 194317.png" id="8_2hln5"]
 [ext_resource type="PackedScene" uid="uid://lbheyvn4qgeu" path="res://scenes/static_barriers/SmallGate.tscn" id="8_das01"]
 [ext_resource type="Texture2D" uid="uid://b06qxd36nxmvl" path="res://assets/img/crystals_spritesheet.png" id="8_qf6a8"]
+[ext_resource type="Texture2D" uid="uid://d4jxtmlc172oq" path="res://assets/UI/Start.png" id="9_das01"]
+[ext_resource type="Texture2D" uid="uid://ifaqpv56ecb8" path="res://assets/UI/start_buttonBereitstellen.png" id="11_2oj27"]
 [ext_resource type="PackedScene" uid="uid://jynqgtiojqyc" path="res://scenes/static_barriers/TreeBarrier.tscn" id="11_aptqa"]
+[ext_resource type="Texture2D" uid="uid://bdg8ysybihuy5" path="res://assets/UI/start_buttonBereitstellen_HOVER.png" id="12_1upe7"]
 [ext_resource type="Texture2D" uid="uid://biaty1lqi72k4" path="res://assets/light_assets/Inventar_Sprechblasen.png" id="12_2hln5"]
 [ext_resource type="PackedScene" uid="uid://c02kcbepe14nj" path="res://scenes/minigame/MiniGame.tscn" id="12_gynul"]
 [ext_resource type="PackedScene" uid="uid://pxmyspn67e7b" path="res://scenes/items/crystal.tscn" id="13_o703g"]
+[ext_resource type="Texture2D" uid="uid://cgam2f8wq7mfn" path="res://assets/UI/start_ButtonBeitreten.png" id="13_sfnhr"]
 [ext_resource type="PackedScene" uid="uid://7gd8413m14og" path="res://scenes/static_barriers/PotBarrier.tscn" id="13_vg8p7"]
 [ext_resource type="PackedScene" uid="uid://bjo82svgfw2px" path="res://scenes/friends/dog/Dog.tscn" id="14_5xhyk"]
+[ext_resource type="Texture2D" uid="uid://pa6cvcrr1iff" path="res://assets/UI/start_ButtonBeitreten_HOVER.png" id="14_p7jdg"]
 [ext_resource type="Texture2D" uid="uid://c7scnv10bvrrt" path="res://assets/img/arrow1.png" id="14_vj8ay"]
 [ext_resource type="PackedScene" uid="uid://blcf0l1sqw4iq" path="res://scenes/friends/witch/Witch.tscn" id="15_2iokk"]
 [ext_resource type="PackedScene" uid="uid://cbvvfl7uj2qvg" path="res://scenes/friends/scarecrow/Scarecrow.tscn" id="15_vg8p7"]
@@ -198,12 +203,28 @@ offset_right = 54.81
 offset_bottom = 41.505
 metadata/_edit_use_anchors_ = true
 
+[node name="start_bg" type="TextureRect" parent="Multiplayer"]
+layout_mode = 2
+offset_left = -19.81
+offset_top = -15.505
+offset_right = 1900.19
+offset_bottom = 1064.49
+texture = ExtResource("9_das01")
+
 [node name="VBoxContainer" type="VBoxContainer" parent="Multiplayer"]
 custom_minimum_size = Vector2(1.82, 1.87)
 layout_direction = 1
 layout_mode = 1
-offset_right = 674.0
-offset_bottom = 360.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 787.19
+offset_top = 245.495
+offset_right = 1422.19
+offset_bottom = 805.495
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
 
 [node name="Label" type="Label" parent="Multiplayer/VBoxContainer"]
 layout_mode = 2
@@ -236,15 +257,18 @@ Der/Die Schattenspieler:in klickt nun \"Spiel bereitstellen\" und DANACH klickt 
 
 [node name="LineEdit" type="LineEdit" parent="Multiplayer/VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 0
 text = "127.0.0.1"
 
-[node name="Host" type="Button" parent="Multiplayer/VBoxContainer"]
+[node name="Host" type="TextureButton" parent="Multiplayer/VBoxContainer"]
 layout_mode = 2
-text = "Spiel bereitstellen"
+texture_normal = ExtResource("11_2oj27")
+texture_hover = ExtResource("12_1upe7")
 
-[node name="Join" type="Button" parent="Multiplayer/VBoxContainer"]
+[node name="Join" type="TextureButton" parent="Multiplayer/VBoxContainer"]
 layout_mode = 2
-text = "Spiel beitreten"
+texture_normal = ExtResource("13_sfnhr")
+texture_hover = ExtResource("14_p7jdg")
 
 [node name="Enemies" type="Node2D" parent="." groups=["map_content"]]
 visible = false
