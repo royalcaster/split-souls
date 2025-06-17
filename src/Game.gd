@@ -88,6 +88,12 @@ func _on_peer_disconnected(peer_id: int):
 
 func _process(_delta):
 	measure_input(_delta) # used for visual steering cues (arrows)
+	
+	if Input.is_action_just_pressed("ui_save"):  # z.B. F5
+		save_game()
+
+	if Input.is_action_just_pressed("ui_load"):  # z.B. F9
+		load_game()
 
 	# calculates shared input
 	if Globals.control_mode == Globals.ControlMode.SHARED:
@@ -370,3 +376,36 @@ func _on_special_power_clickable_mouse_exited():
 func _on_line_edit_text_changed(new_text):
 	print("_on_line_edit_text_changed", new_text)
 	ipaddress = new_text
+
+
+func save_game():
+	if players.size() > 0:
+		var player = players[0]
+		var save_data = SaveData.new()
+		var player_save_data = player.get_save_data()
+
+		save_data.player_position = player_save_data["position"]
+		save_data.player_health = player_save_data["health"]
+		save_data.world_state = {"dead": player_save_data["dead"]}
+
+		$SaveGameManager.save_game(save_data)
+		print("✅ Spiel gespeichert.")
+	else:
+		print("⚠ Keine Spielerinstanz gefunden.")
+
+func load_game():
+	if players.size() > 0:
+		var player = players[0]
+		var loaded_data = $SaveGameManager.load_game()
+		if loaded_data:
+			var player_save_data = {
+				"position": loaded_data.player_position,
+				"health": loaded_data.player_health,
+				"dead": loaded_data.world_state.get("dead", false)
+			}
+			player.apply_save_data(player_save_data)
+			print("✅ Spiel geladen.")
+		else:
+			print("⚠ Kein Speicherstand vorhanden.")
+	else:
+		print("⚠ Keine Spielerinstanz gefunden.")

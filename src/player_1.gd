@@ -301,3 +301,24 @@ func is_minigame_open() -> bool:
 	if minigame_node and minigame_node.is_open:
 		return true
 	return false
+	
+	# Gibt die aktuellen Daten zurück, die gespeichert werden sollen
+func get_save_data() -> Dictionary:
+	return {
+		"position": global_position,
+		"health": health,
+		"dead": dead
+	}
+
+# Wendet die geladenen Daten an
+func apply_save_data(data: Dictionary):
+	global_position = data.get("position", Vector2.ZERO)
+	health = data.get("health", 100)
+	dead = data.get("dead", false)
+	
+	# Sichtbarkeit aktualisieren
+	update_visibility()
+	
+	# HealthBar auch gleich aktualisieren
+	if $HealthBar:
+		$HealthBar.update_health(health, health_max)
