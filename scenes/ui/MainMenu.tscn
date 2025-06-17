@@ -1,6 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://b2nnxfn585o0o"]
+[gd_scene load_steps=9 format=3 uid="uid://b2nnxfn585o0o"]
 
 [ext_resource type="Script" uid="uid://b74c48ihbw7r6" path="res://src/MainMenu.gd" id="1_vjtqc"]
+[ext_resource type="Texture2D" uid="uid://d0yinn5cau6xa" path="res://assets/UI/MainMenu.png" id="2_7mi0g"]
+[ext_resource type="Texture2D" uid="uid://c3b45sg4smln" path="res://assets/UI/MainMenu_buttonPlay.png" id="3_nqjyj"]
+[ext_resource type="Texture2D" uid="uid://c2btx77hj80i0" path="res://assets/UI/MainMenu_buttonPlay_HOVER.png" id="4_7vr37"]
+[ext_resource type="Texture2D" uid="uid://cuke1bcwx6pje" path="res://assets/UI/MainMenu_buttonSettings.png" id="5_kncl5"]
+[ext_resource type="Texture2D" uid="uid://d33qef5ulvvyi" path="res://assets/UI/MainMenu_buttonSettings_HOVER.png" id="6_clp4r"]
+[ext_resource type="Texture2D" uid="uid://5tmxo513ngqu" path="res://assets/UI/MainMenu_buttonExit.png" id="7_ee60a"]
+[ext_resource type="Texture2D" uid="uid://bppnboxsy6nc" path="res://assets/UI/MainMenu_buttonExit_HOVER.png" id="8_qjd48"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -13,6 +20,14 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_vjtqc")
 
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = -956.0
+offset_top = -539.0
+offset_right = 964.0
+offset_bottom = 541.0
+texture = ExtResource("2_7mi0g")
+
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 8
@@ -20,28 +35,27 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -82.0
-offset_top = -64.0
-offset_right = 82.0
-offset_bottom = 64.0
+offset_left = -288.0
+offset_top = -266.0
+offset_right = 289.0
+offset_bottom = 13.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="VBoxContainer"]
+[node name="PlayButton" type="TextureButton" parent="VBoxContainer"]
 layout_mode = 2
-text = "Split Souls - Main Menu"
+texture_normal = ExtResource("3_nqjyj")
+texture_hover = ExtResource("4_7vr37")
 
-[node name="PlayButton" type="Button" parent="VBoxContainer"]
+[node name="SettingsButton" type="TextureButton" parent="VBoxContainer"]
 layout_mode = 2
-text = "Play"
+texture_normal = ExtResource("5_kncl5")
+texture_hover = ExtResource("6_clp4r")
 
-[node name="SettingsButton" type="Button" parent="VBoxContainer"]
+[node name="ExitButton" type="TextureButton" parent="VBoxContainer"]
 layout_mode = 2
-text = "Settings"
-
-[node name="ExitButton" type="Button" parent="VBoxContainer"]
-layout_mode = 2
-text = "Exit"
+texture_normal = ExtResource("7_ee60a")
+texture_hover = ExtResource("8_qjd48")
 
 [connection signal="pressed" from="VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
