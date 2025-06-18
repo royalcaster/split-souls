@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=4 uid="uid://dur7c4brk3lfn"]
+[gd_scene load_steps=54 format=4 uid="uid://dur7c4brk3lfn"]
 
 [ext_resource type="Script" uid="uid://dcgeiwsr6pwq6" path="res://src/Game.gd" id="1_lyhax"]
 [ext_resource type="PackedScene" uid="uid://b184syehau03x" path="res://scenes/player/player_1.tscn" id="2_7qcb4"]
@@ -30,7 +30,9 @@
 [ext_resource type="Texture2D" uid="uid://ck56pmp5r2wui" path="res://assets/UI/start_ButtonSteuerung.png" id="16_1jm4j"]
 [ext_resource type="PackedScene" uid="uid://cwmldrrtyg6q1" path="res://scenes/friends/panda/Panda.tscn" id="17_2kuj7"]
 [ext_resource type="Texture2D" uid="uid://bwha31ldtt2y0" path="res://assets/UI/start_ButtonSteuerung_HOVER.png" id="17_qkqr0"]
+[ext_resource type="Texture2D" uid="uid://cftqrohf71cpv" path="res://assets/UI/button_SpielBeenden_HOVER.png" id="18_1jm4j"]
 [ext_resource type="PackedScene" uid="uid://dtkw7xx0skjp" path="res://scenes/items/ItemLight.tscn" id="18_vj8ay"]
+[ext_resource type="Texture2D" uid="uid://df8jqjlw820yx" path="res://assets/UI/button_SpielBeenden.png" id="19_qkqr0"]
 [ext_resource type="PackedScene" uid="uid://dyr5yjgkdrgid" path="res://scenes/items/ItemDark.tscn" id="20_pbrru"]
 [ext_resource type="Script" uid="uid://bquto5v3dni4v" path="res://addons/audio_manager/audio_manager.gd" id="21_7st5e"]
 [ext_resource type="Script" uid="uid://c5h4n583hran5" path="res://addons/audio_manager/audio_manager_omni.gd" id="22_olhyc"]
@@ -259,9 +261,9 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 133.0
-offset_top = 271.0
-offset_right = 669.0
-offset_bottom = 821.0
+offset_top = 227.0
+offset_right = 670.0
+offset_bottom = 864.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.5, 0.5)
@@ -284,15 +286,20 @@ layout_mode = 2
 texture_normal = ExtResource("13_sfnhr")
 texture_hover = ExtResource("14_p7jdg")
 
-[node name="Button" type="TextureButton" parent="Multiplayer/VBoxContainer"]
+[node name="Anleitung" type="TextureButton" parent="Multiplayer/VBoxContainer"]
 layout_mode = 2
 texture_normal = ExtResource("14_r24yq")
 texture_hover = ExtResource("15_lvp6d")
 
-[node name="TextureButton" type="TextureButton" parent="Multiplayer/VBoxContainer"]
+[node name="Steuerung" type="TextureButton" parent="Multiplayer/VBoxContainer"]
 layout_mode = 2
 texture_normal = ExtResource("16_1jm4j")
 texture_hover = ExtResource("17_qkqr0")
+
+[node name="Beenden" type="TextureButton" parent="Multiplayer/VBoxContainer"]
+layout_mode = 2
+texture_normal = ExtResource("18_1jm4j")
+texture_hover = ExtResource("19_qkqr0")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Multiplayer"]
 position = Vector2(1591.19, 368.495)
@@ -587,6 +594,8 @@ metadata/_custom_type_script = "uid://bquto5v3dni4v"
 [connection signal="text_changed" from="Multiplayer/VBoxContainer/LineEdit" to="." method="_on_line_edit_text_changed"]
 [connection signal="pressed" from="Multiplayer/VBoxContainer/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="Multiplayer/VBoxContainer/Join" to="." method="_on_join_pressed"]
+[connection signal="pressed" from="Multiplayer/VBoxContainer/Anleitung" to="." method="_on_anleitung_pressed"]
+[connection signal="pressed" from="Multiplayer/VBoxContainer/Steuerung" to="." method="_on_steuerung_pressed"]
 [connection signal="gui_input" from="HUD/DirectionsClickable" to="." method="_on_texture_rect_gui_input"]
 [connection signal="mouse_exited" from="HUD/DirectionsClickable" to="." method="_on_texture_rect_mouse_exited"]
 [connection signal="gui_input" from="HUD/SpecialPowerClickable" to="." method="_on_special_power_clickable_gui_input"]

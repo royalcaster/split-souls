@@ -57,6 +57,7 @@ Dieser/Diese fügt sie ebenfalls in ein Textfeld ein.
 Der/Die Schattenspieler:in klickt nun \"Spiel bereitstellen\" und DANACH klickt der/die Lichtspieler:in \"Spiel beitreten\""
 
 [node name="BackButton2" type="TextureButton" parent="."]
+layout_mode = 0
 offset_left = 718.0
 offset_top = 853.0
 offset_right = 1295.0

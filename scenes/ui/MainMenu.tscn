@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://b2nnxfn585o0o"]
+[gd_scene load_steps=11 format=3 uid="uid://b2nnxfn585o0o"]
 
 [ext_resource type="Script" uid="uid://b74c48ihbw7r6" path="res://src/MainMenu.gd" id="1_vjtqc"]
 [ext_resource type="Texture2D" uid="uid://d0yinn5cau6xa" path="res://assets/UI/MainMenu.png" id="2_7mi0g"]
@@ -8,6 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://d33qef5ulvvyi" path="res://assets/UI/MainMenu_buttonSettings_HOVER.png" id="6_clp4r"]
 [ext_resource type="Texture2D" uid="uid://5tmxo513ngqu" path="res://assets/UI/MainMenu_buttonExit.png" id="7_ee60a"]
 [ext_resource type="Texture2D" uid="uid://bppnboxsy6nc" path="res://assets/UI/MainMenu_buttonExit_HOVER.png" id="8_qjd48"]
+[ext_resource type="Texture2D" uid="uid://cftqrohf71cpv" path="res://assets/UI/button_SpielBeenden_HOVER.png" id="9_7vr37"]
+[ext_resource type="Texture2D" uid="uid://df8jqjlw820yx" path="res://assets/UI/button_SpielBeenden.png" id="10_kncl5"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -56,6 +58,11 @@ texture_hover = ExtResource("6_clp4r")
 layout_mode = 2
 texture_normal = ExtResource("7_ee60a")
 texture_hover = ExtResource("8_qjd48")
+
+[node name="TextureButton" type="TextureButton" parent="VBoxContainer"]
+layout_mode = 2
+texture_normal = ExtResource("9_7vr37")
+texture_hover = ExtResource("10_kncl5")
 
 [connection signal="pressed" from="VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
