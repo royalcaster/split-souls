@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://tdcqiqmhgk3r"
-path="res://.godot/imported/4. Hand Grab.png-20c8ce4c6d36fe72efb15a5b669248d0.ctex"
+uid="uid://bpg16jo75xjbv"
+path="res://.godot/imported/wooden_fence_small_bw.png-e2eebfe61521de84ca6aa6f32bb2e1ca.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/img/cursor/4. Hand Grab.png"
-dest_files=["res://.godot/imported/4. Hand Grab.png-20c8ce4c6d36fe72efb15a5b669248d0.ctex"]
+source_file="res://assets/dark_assets/wooden_fence_small_bw.png"
+dest_files=["res://.godot/imported/wooden_fence_small_bw.png-e2eebfe61521de84ca6aa6f32bb2e1ca.ctex"]
 
 [params]
 

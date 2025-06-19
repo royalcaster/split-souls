@@ -153,7 +153,13 @@ func switch_control_mode(_mode):
 	# open gate & spawn players behind it 
 	$Gates/Gate/CollisionShape2D.set_deferred("disabled", true) # deactivate gate after walking through
 	$Gates/Gate/Wall/Door.set_deferred("disabled", true) # deactivate wall in gate, so that players can walk out
-	$Gates/Gate/Sprite2D.texture = load('res://assets/img/gate_opened.png') # open gate
+	
+	# open gate
+	if multiplayer.is_server():
+		$Gates/Gate/Sprite2D.texture = load('res://assets/dark_assets/gate_opened.png')
+	else:
+		$Gates/Gate/Sprite2D.texture = load('res://assets/light_assets/gate_opened.png') 
+		
 	Globals.spawn_position = $Gates/Gate.global_position # set new spawn point behind gate
 
 	# switch control mode 
@@ -201,6 +207,8 @@ func start_game():
 
 		var trees_tileset = preload("res://assets/tiles/dark_set_border_trees.tres")
 		$border_trees.tile_set = trees_tileset
+		
+		$Gates/Gate/Sprite2D.texture = preload("res://assets/dark_assets/gate_closed_dark.png")
 		
 		$ItemsLight.visible = false
 		

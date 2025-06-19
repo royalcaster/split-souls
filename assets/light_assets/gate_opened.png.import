@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b68puwd0jmjyu"
-path="res://.godot/imported/9. Wifi Fair.png-324d2858f03860ed03b40de910ab842e.ctex"
+uid="uid://d21eew4l28d8w"
+path="res://.godot/imported/gate_opened.png-a264caa03c60dd183b09b4063f42277f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/img/cursor/9. Wifi Fair.png"
-dest_files=["res://.godot/imported/9. Wifi Fair.png-324d2858f03860ed03b40de910ab842e.ctex"]
+source_file="res://assets/light_assets/gate_opened.png"
+dest_files=["res://.godot/imported/gate_opened.png-a264caa03c60dd183b09b4063f42277f.ctex"]
 
 [params]
 
