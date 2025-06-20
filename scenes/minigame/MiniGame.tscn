@@ -91,10 +91,11 @@ stream = ExtResource("5_kxtkx")
 [node name="Steuerhinweis" type="CanvasLayer" parent="."]
 
 [node name="Steuerpfeil" type="TextureRect" parent="Steuerhinweis"]
-offset_left = 1.0
+offset_left = 66.0
 offset_top = 1.0
-offset_right = 65.0
+offset_right = 130.0
 offset_bottom = 65.0
+rotation = 1.5708
 texture = ExtResource("6_7flxm")
 stretch_mode = 5
 
