@@ -142,7 +142,7 @@ func _on_end_zone_body_entered(body):
 		$Label.visible = true
 		won_game = true
 		$AudioStreamPlayer.play()
-		
+
 @rpc("authority", "call_local", "reliable")
 func respawn_cooldown(wait_time):
 	can_respawn = false
