@@ -6,7 +6,7 @@
 [ext_resource type="SpriteFrames" uid="uid://jrfq8bcwahhu" path="res://scenes/player/dark.tres" id="4_diy0u"]
 [ext_resource type="AudioStream" uid="uid://dwds4g2ky5j3h" path="res://assets/Audio/win Sound/Win sound 19.wav" id="5_kxtkx"]
 [ext_resource type="Texture2D" uid="uid://hxvjfufh48q" path="res://assets/minigame/Steuerpfeile.png" id="6_7flxm"]
-[ext_resource type="Texture2D" uid="uid://rb8gcxcoj57t" path="res://assets/minigame/you-won-banner-larger.png" id="7_4n8eg"]
+[ext_resource type="Texture2D" uid="uid://cxfibrxgq2nqj" path="res://assets/minigame/Gewonnen.png" id="7_4n8eg"]
 [ext_resource type="Texture2D" uid="uid://c5wmocuafjqmq" path="res://assets/minigame/baumstumpf_row.png" id="8_4n8eg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_diy0u"]
@@ -100,7 +100,6 @@ texture = ExtResource("6_7flxm")
 stretch_mode = 5
 
 [node name="WinScreen" type="CanvasLayer" parent="."]
-visible = false
 
 [node name="ColorRect" type="ColorRect" parent="WinScreen"]
 offset_right = 544.0
@@ -108,9 +107,9 @@ offset_bottom = 417.0
 color = Color(0.215686, 0.137255, 0.0901961, 1)
 
 [node name="TextureRect2" type="TextureRect" parent="WinScreen"]
-offset_left = 99.0
+offset_left = 1.0
 offset_top = 71.0
-offset_right = 469.0
+offset_right = 542.0
 offset_bottom = 354.0
 texture = ExtResource("7_4n8eg")
 expand_mode = 3
@@ -126,6 +125,16 @@ offset_top = 375.0
 offset_right = 543.0
 offset_bottom = 415.0
 texture = ExtResource("8_4n8eg")
+
+[node name="Label" type="Label" parent="WinScreen"]
+offset_top = 252.0
+offset_right = 543.0
+offset_bottom = 290.0
+theme_override_colors/font_color = Color(0.647059, 0.435294, 0.160784, 1)
+theme_override_font_sizes/font_size = 20
+text = "Die Blockaden wurden erfolgreich zerstört!"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="close_requested" from="." to="." method="_on_close_requested"]
 [connection signal="body_entered" from="Map/EndZone" to="." method="_on_end_zone_body_entered"]
