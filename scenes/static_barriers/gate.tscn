@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://c0dwtyimchwxc"]
 
 [ext_resource type="Script" uid="uid://7ae7cpqhbtka" path="res://scenes/static_barriers/gate.gd" id="1_ndpk8"]
-[ext_resource type="Texture2D" uid="uid://brfgbv70fxg2p" path="res://assets/img/gate_closed.png" id="2_ndpk8"]
+[ext_resource type="Texture2D" uid="uid://cekvuaq77dg0w" path="res://assets/light_assets/gate_closed.png" id="2_ndpk8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ndpk8"]
 size = Vector2(62, 7)
@@ -17,8 +17,8 @@ y_sort_enabled = true
 script = ExtResource("1_ndpk8")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(-1, -1.5)
-scale = Vector2(1.23, 1)
+position = Vector2(-1, 0)
+scale = Vector2(0.741844, 0.603125)
 texture = ExtResource("2_ndpk8")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

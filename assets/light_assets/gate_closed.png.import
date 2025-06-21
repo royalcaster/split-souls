@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cp3g6vo6w8r1x"
-path="res://.godot/imported/8. Wifi Excellent.png-8d8cd66c4396e8640cac38540c65ff73.ctex"
+uid="uid://cekvuaq77dg0w"
+path="res://.godot/imported/gate_closed.png-560d69643d4de0f67d51ede164df27a2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/img/cursor/8. Wifi Excellent.png"
-dest_files=["res://.godot/imported/8. Wifi Excellent.png-8d8cd66c4396e8640cac38540c65ff73.ctex"]
+source_file="res://assets/light_assets/gate_closed.png"
+dest_files=["res://.godot/imported/gate_closed.png-560d69643d4de0f67d51ede164df27a2.ctex"]
 
 [params]
 
