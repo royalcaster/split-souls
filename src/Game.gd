@@ -4,7 +4,7 @@ extends Node2D
 @export var mini_game: PackedScene
 @export var bug_scene: PackedScene
 @export var map_size: Vector2 = Vector2(1024, 768)
-@export var bug_count: int = 35
+@export var bug_count: int = 50
 #@onready var tilemap = $TileMap
 @onready var hud = $HUD
 @onready var scoreText = $HUD/CrystalScore 

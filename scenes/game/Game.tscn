@@ -141,7 +141,7 @@ player_scene = ExtResource("2_7qcb4")
 mini_game = ExtResource("12_gynul")
 bug_scene = ExtResource("4_2kuj7")
 map_size = Vector2(1400, 1171)
-bug_count = 250
+bug_count = 100
 
 [node name="ground" type="TileMapLayer" parent="." groups=["map_content"]]
 visible = false
