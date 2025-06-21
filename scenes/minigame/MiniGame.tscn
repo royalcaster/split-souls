@@ -100,6 +100,7 @@ texture = ExtResource("6_7flxm")
 stretch_mode = 5
 
 [node name="WinScreen" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="ColorRect" type="ColorRect" parent="WinScreen"]
 offset_right = 544.0
