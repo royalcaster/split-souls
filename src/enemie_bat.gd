@@ -13,6 +13,11 @@ var health = 50
 var health_max = 50
 var health_min = 0
 var dead = false
+
+var is_dead: bool:
+	get:
+		return dead
+
 var can_take_damage = true
 var damage_to_deal = 10
 var points_for_kill = 100
@@ -25,14 +30,23 @@ func _ready():
 	start_position = global_position
 	add_to_group("enemies")
 
+	if dead:
+		visible = false
+		set_physics_process(false)
+		return  # Kein Setup mehr nötig
+
 	if $AnimatedSprite2D.sprite_frames.has_animation("bat_movement"):
 		$AnimatedSprite2D.play("bat_movement")
+
 
 func _process(_delta):
 	Globals.batDamageAmount = damage_to_deal
 	Globals.batDamageZone = $BatDealDamageArea
 
 func _physics_process(_delta):
+	if dead:
+		return
+
 	if player == null or not is_instance_valid(player):
 		player = get_tree().get_first_node_in_group("players")
 		if player != null:
@@ -63,12 +77,11 @@ func move_sinusoidal(delta):
 @rpc("any_peer", "call_remote", "reliable")
 func take_damage(damage: int) -> void:
 	if not is_multiplayer_authority():
-		return  # Nur Server darf verarbeiten
+		return
 		
 	var sender_id = multiplayer.get_remote_sender_id()
 	if sender_id == -1:
-		return # invalid sender
-
+		return
 
 	if not can_take_damage or dead:
 		return
@@ -76,28 +89,30 @@ func take_damage(damage: int) -> void:
 	health = clamp(health - damage, health_min, health_max)
 	print("🟥 [SERVER] Gegner-Health reduziert auf: ", health)
 
-	sync_health.rpc(health)  # an alle Clients schicken
+	sync_health.rpc(health)
 
 	if health <= health_min:
-		rpc_die.rpc()  # Enemy bei Client löschen
-		rpc_die()        # Enemy bei Host (lokal)
+		rpc_die.rpc()
+		rpc_die()
 	else:
 		take_damage_cooldown(0.2)
 
-# Health auf allen Clients synchronisieren
 @rpc("any_peer", "call_remote", "reliable")
 func sync_health(current: int):
 	health = current
 	if has_node("HealthBar"):
 		$HealthBar.update_health(health, health_max)
 
-# Enemy dead wird an Client gesendet
+# ❗️NEU: Gegner wird NICHT gelöscht, sondern deaktiviert
 @rpc("authority", "call_remote", "reliable")
 func rpc_die():
 	if dead:
 		return
 	dead = true
-	queue_free()
+	visible = false
+	set_physics_process(false)
+	print("☠️ Gegner deaktiviert: ", name)
+
 
 func take_damage_cooldown(wait_time: float) -> void:
 	can_take_damage = false
@@ -115,8 +130,17 @@ func _on_damage_area_body_entered(body):
 		if body.can_take_damage:
 			body.take_damage(damage_to_deal)
 
-
 func _on_bat_deal_damage_area_body_entered(body: Node2D) -> void:
 	if body is Player and not dead:
 		if body.can_take_damage:
 			body.take_damage(damage_to_deal)
+			
+func reset_after_load():
+	if dead:
+		return
+
+	if $AnimatedSprite2D.sprite_frames.has_animation("bat_movement"):
+		$AnimatedSprite2D.play("bat_movement")
+
+	visible = true
+	set_physics_process(true)

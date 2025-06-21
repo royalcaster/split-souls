@@ -4,6 +4,9 @@ func _ready():
 	if not multiplayer.is_server():
 		self.visible = false
 
+	add_to_group("team_items")  # ← Das brauchst du fürs Save-System
+
+
 
 
 func _on_area_2d_body_entered(body):

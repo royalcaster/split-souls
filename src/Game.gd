@@ -378,3 +378,20 @@ func _on_special_power_clickable_mouse_exited():
 func _on_line_edit_text_changed(new_text):
 	print("_on_line_edit_text_changed", new_text)
 	ipaddress = new_text
+	
+func _unhandled_input(event):
+	if event is InputEventKey and event.pressed:
+		var player = null
+		if Globals.control_mode == Globals.ControlMode.SHARED:
+			player = shared_player
+		elif Globals.control_mode == Globals.ControlMode.INDIVIDUAL:
+			player = get_tree().get_first_node_in_group("players")
+
+		if player == null:
+			print("⚠️ Kein Spieler zum Speichern/Laden gefunden!")
+			return
+
+		if event.keycode == KEY_F5:
+			SaveGameManager.save_game(player)
+		elif event.keycode == KEY_F9:
+			SaveGameManager.load_game(player)

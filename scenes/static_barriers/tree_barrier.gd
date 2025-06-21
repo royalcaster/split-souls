@@ -4,6 +4,10 @@ extends StaticBody2D
 var interactable = false
 @export var mini_game_version = 0
 
+func _ready():
+	add_to_group("barriers")
+
+
 func _on_area_2d_body_entered(body):
 	if not (body is Player):
 		return

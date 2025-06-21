@@ -72,6 +72,8 @@ func _ready():
 	dead = false
 	can_take_damage = true
 	Globals.playerAlive = true
+	
+	add_to_group("players")
 
 func update_visibility():
 	if Globals.control_mode == Globals.ControlMode.INDIVIDUAL:
@@ -301,3 +303,4 @@ func is_minigame_open() -> bool:
 	if minigame_node and minigame_node.is_open:
 		return true
 	return false
+	
