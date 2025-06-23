@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dslxs8igcr7ya"
-path="res://.godot/imported/14. Battery Low.png-562d890edea8f9ef20dd3cf21c07876e.ctex"
+uid="uid://bvnlbnpp8cad"
+path="res://.godot/imported/gate_closed_dark.png-34989687d3c0003d0211960990b015d7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/img/cursor/14. Battery Low.png"
-dest_files=["res://.godot/imported/14. Battery Low.png-562d890edea8f9ef20dd3cf21c07876e.ctex"]
+source_file="res://assets/dark_assets/gate_closed_dark.png"
+dest_files=["res://.godot/imported/gate_closed_dark.png-34989687d3c0003d0211960990b015d7.ctex"]
 
 [params]
 
