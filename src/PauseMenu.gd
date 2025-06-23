@@ -6,7 +6,9 @@ func _ready():
 	pass
 	
 func _process(delta):
-	pass
+	if is_overlay:
+		if Input.is_action_just_pressed("ui_cancel"):
+			SceneManager.close_pause_overlay()
 
 func _on_continue_button_pressed() -> void:
 	if is_overlay:

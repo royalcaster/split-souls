@@ -7,7 +7,37 @@ extends Node2D
 @export var bug_count: int = 50
 #@onready var tilemap = $TileMap
 @onready var hud = $HUD
-@onready var scoreText = $HUD/CrystalScore 
+@onready var scoreText = $HUD/CrystalScore
+
+@onready var ControlOverlay = $HUD/ControlOverlay
+@onready var ControlButton = $HUD/ControlButton
+
+@onready var IntroductionOverlay = $HUD/IntroductionOverlay
+@onready var IntroductionButton = $HUD/IntroductionOverlay/IntroductionButton
+
+
+#Zum Gegener spawnen
+#@export var bat_enemy_scene: PackedScene
+
+#Bird(High)_Parameters
+@export var bird_scene: PackedScene
+@export var number_of_birds: int = 3
+@export var min_radius: float = 900.0
+@export var max_radius: float = 1200.0
+@export var min_speed: float = 0.1
+@export var max_speed: float = 0.3
+@export var min_scale: float = 3
+@export var max_scale: float = 5.5
+
+#Bird(Low)_Parameters
+@export var number_of_birds2: int = 8
+@export var min_radius2: float = 200.0
+@export var max_radius2: float = 400.0
+@export var min_speed2: float = 0.3
+@export var max_speed2: float = 0.6
+@export var min_scale2: float = 0.5
+@export var max_scale2: float = 1.5
+
 
 var ipaddress
 
@@ -53,6 +83,11 @@ func _on_host_pressed():
 
 	hide_barriers_for_darkplayer()
 	spawn_bugs()
+
+	#Spawne beide Arten von Vögeln
+	spawn_birds()
+	spawn_birds2()
+
 	$AudioManager.play_audio_omni("darkmusic")
 
 # connect either one player instance per player (individual steering) or one player instance for both (shared)
@@ -137,6 +172,11 @@ func _on_join_pressed():
 	hide_enemies_for_lightplayer()
 	$AudioManager.play_audio_omni("lightmusic")
 
+	#Spawne beide Arten von Vögeln
+	spawn_birds()
+	spawn_birds2()
+
+
 # used to update shared input 
 @rpc("any_peer", "call_local", "reliable")
 func update_input(input_vector: Vector2):
@@ -157,13 +197,13 @@ func switch_control_mode(_mode):
 	# open gate & spawn players behind it 
 	$Gates/Gate/CollisionShape2D.set_deferred("disabled", true) # deactivate gate after walking through
 	$Gates/Gate/Wall/Door.set_deferred("disabled", true) # deactivate wall in gate, so that players can walk out
-	
+
 	# open gate
 	if multiplayer.is_server():
 		$Gates/Gate/Sprite2D.texture = load('res://assets/dark_assets/gate_opened.png')
 	else:
-		$Gates/Gate/Sprite2D.texture = load('res://assets/light_assets/gate_opened.png') 
-		
+		$Gates/Gate/Sprite2D.texture = load('res://assets/light_assets/gate_opened.png')
+
 	Globals.spawn_position = $Gates/Gate.global_position # set new spawn point behind gate
 
 	# switch control mode 
@@ -213,7 +253,7 @@ func start_game():
 		$border_trees.tile_set = trees_tileset
 		
 		$Gates/Gate/Sprite2D.texture = preload("res://assets/dark_assets/gate_closed_dark.png")
-		
+
 		$ItemsLight.visible = false
 		
 		var small_gates = get_tree().get_nodes_in_group("small_gates")
@@ -307,6 +347,46 @@ func make_enemies_and_barriers_visible_for_5s():
 	hide_enemies_for_lightplayer()
 	hide_barriers_for_darkplayer()
 
+func spawn_birds():
+	randomize()
+	for i in number_of_birds:
+		var bird = bird_scene.instantiate()
+
+		# Zufälliger Punkt innerhalb der Karte
+		var center = Vector2(
+			randf_range(0, map_size.x),
+			randf_range(0, map_size.y)
+		)
+
+		bird.center = center
+		bird.radius = randf_range(min_radius, max_radius)
+		bird.speed = randf_range(min_speed, max_speed)
+		bird.angle = randf() * TAU
+		var scale = randf_range(min_scale, max_scale)
+		bird.scale = Vector2(scale, scale)
+
+		add_child(bird)
+
+func spawn_birds2():
+	randomize()
+	for i in number_of_birds2:
+		var bird = bird_scene.instantiate()
+
+		# Zufälliger Punkt innerhalb der Karte
+		var center = Vector2(
+			randf_range(0, map_size.x),
+			randf_range(0, map_size.y)
+		)
+
+		bird.center = center
+		bird.radius = randf_range(min_radius2, max_radius2)
+		bird.speed = randf_range(min_speed2, max_speed2)
+		bird.angle = randf() * TAU
+		var scale = randf_range(min_scale2, max_scale2)
+		bird.scale = Vector2(scale, scale)
+
+		add_child(bird)
+
 @rpc("any_peer") # todo check if necessary
 func on_item_collected(item_type: Globals.ItemType):
 
@@ -396,3 +476,13 @@ func _on_anleitung_pressed() -> void:
 
 func _on_beenden_pressed():
 	get_tree().quit()
+
+func _on_control_button_pressed() -> void:
+	ControlOverlay.visible = not ControlOverlay.visible
+
+func _on_introductionl_button_pressed() -> void:
+	IntroductionOverlay.visible = not IntroductionOverlay.visible
+
+
+func _on_line_edit_text_changed(new_text):
+	ipaddress = new_text

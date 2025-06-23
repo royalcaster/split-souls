@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://dnc308kxujpqx"]
+
+[ext_resource type="Script" uid="uid://djq6l2jewhcy1" path="res://src/HeartContainer.gd" id="1_1m0wc"]
+[ext_resource type="Texture2D" uid="uid://0bru3448vbpj" path="res://assets/Heart_Container.png" id="2_63x6c"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_y5tr1"]
+radius = 4.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rvi6p"]
+
+[node name="HeartContainer" type="StaticBody2D"]
+script = ExtResource("1_1m0wc")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_63x6c")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_y5tr1")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_rvi6p")
+
+[connection signal="body_entered" from="Area2D" to="." method="HeartDamageTest"]
+[connection signal="body_entered" from="Area2D" to="." method="HeartHeal"]
