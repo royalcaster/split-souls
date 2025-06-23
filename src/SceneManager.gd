@@ -23,20 +23,20 @@ func open_pause_overlay():
 		return
 
 	var current_scene = get_tree().current_scene
-	if current_scene and current_scene.find_child("SettingsOverlayLayer", false):
+	if current_scene and current_scene.find_child("PauseOverlay", false):
 		return
 
 	if not get_tree().paused:
 		get_tree().paused = true
 		var pause_scene = load("res://scenes/ui/PauseMenu.tscn")
 		if not pause_scene:
-			printerr("Failed to load SettingsMenu scene!")
+			printerr("Failed to load PauseMenu scene!")
 			get_tree().paused = false
 			return
 
 		var pause_instance = pause_scene.instantiate()
 		if not pause_instance or not pause_instance.has_method("_on_exit_button_pressed"):
-			printerr("SettingsMenu instance is invalid or missing script.")
+			printerr("PauseMenu instance is invalid or missing script.")
 			get_tree().paused = false
 			return
 

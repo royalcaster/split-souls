@@ -1,0 +1,69 @@
+[gd_scene load_steps=6 format=3 uid="uid://d4islvj5dw76h"]
+
+[ext_resource type="Texture2D" uid="uid://c2pvslmbifh7x" path="res://assets/UI/AnleitungSpielBereitstellen.png" id="1_mtlkg"]
+[ext_resource type="Texture2D" uid="uid://d1hq7que7g05s" path="res://assets/img/ui_instructions/Screenshot 2025-06-10 194317.png" id="1_yd5ly"]
+[ext_resource type="Script" uid="uid://kitudjfwc88" path="res://src/SettingsMenu.gd" id="2_mtlkg"]
+[ext_resource type="Texture2D" uid="uid://cth7v0mttfnv6" path="res://assets/UI/youWon_buttonExit.png" id="3_ocdud"]
+[ext_resource type="Texture2D" uid="uid://co5k2v5ij06b2" path="res://assets/UI/youWon_buttonExit_HOVER.png" id="4_dqrhi"]
+
+[node name="AnleitungMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_mtlkg")
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 0
+offset_left = 444.0
+offset_top = 235.0
+offset_right = 1733.0
+offset_bottom = 284.0
+theme_override_font_sizes/font_size = 20
+text = "Der/Die Schattenspieler:in öffnet auf seinem/ihrem PC die Kommandozeile, indem er/sie z.b. in die Windows Suchleiste \"cmd\" eingibt."
+
+[node name="TextureRect" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(46.07, 82.07)
+layout_mode = 0
+offset_left = 840.0
+offset_top = 314.0
+offset_right = 1295.0
+offset_bottom = 436.0
+texture = ExtResource("1_yd5ly")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label3" type="Label" parent="."]
+layout_mode = 0
+offset_left = 449.0
+offset_top = 485.0
+offset_right = 1855.0
+offset_bottom = 805.0
+theme_override_font_sizes/font_size = 20
+text = "Dort gibt er/sie \"ipconfig\" ein und drückt Enter. 
+Dort scrollt er/sie nun nach unten, bis er/sie \"Drahtlos-LAN-Adapter WLAN\" findet und kopiert die Adresse, 
+die hinter \"IPv4-Adresse\" Adresse angegeben ist.
+
+Er/Sie gibt sie in das unten liegende Textfeld ein und leitet sie außerdem weiter an den/die andere Spieler:in. 
+Dieser/Diese fügt sie ebenfalls in ein Textfeld ein. 
+
+Der/Die Schattenspieler:in klickt nun \"Spiel bereitstellen\" und DANACH klickt der/die Lichtspieler:in \"Spiel beitreten\""
+
+[node name="BackButton2" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 718.0
+offset_top = 853.0
+offset_right = 1295.0
+offset_bottom = 937.0
+texture_normal = ExtResource("3_ocdud")
+texture_hover = ExtResource("4_dqrhi")
+script = ExtResource("2_mtlkg")
+
+[connection signal="pressed" from="BackButton2" to="BackButton2" method="_on_pressed"]

@@ -378,8 +378,12 @@ func _on_special_power_clickable_mouse_exited():
 func _on_line_edit_text_changed(new_text):
 	print("_on_line_edit_text_changed", new_text)
 	ipaddress = new_text
-	
+
 func _unhandled_input(event):
+
+    if Input.is_action_just_pressed("ui_cancel"):
+    		SceneManager.open_pause_overlay()
+
 	if event is InputEventKey and event.pressed:
 		var player = null
 		if Globals.control_mode == Globals.ControlMode.SHARED:
@@ -395,3 +399,16 @@ func _unhandled_input(event):
 			SaveGameManager.save_game(player)
 		elif event.keycode == KEY_F9:
 			SaveGameManager.load_game(player)
+
+func _on_steuerung_pressed() -> void:
+	var new_scene = load("res://scenes/ui/Steuerung.tscn")
+	get_tree().change_scene_to_packed(new_scene)
+
+
+func _on_anleitung_pressed() -> void:
+	var new_scene = load("res://scenes/ui/AnleitungMenu.tscn")
+	get_tree().change_scene_to_packed(new_scene)
+
+
+func _on_beenden_pressed():
+	get_tree().quit()
