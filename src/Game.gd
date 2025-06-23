@@ -482,7 +482,3 @@ func _on_control_button_pressed() -> void:
 
 func _on_introductionl_button_pressed() -> void:
 	IntroductionOverlay.visible = not IntroductionOverlay.visible
-
-
-func _on_line_edit_text_changed(new_text):
-	ipaddress = new_text
