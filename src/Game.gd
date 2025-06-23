@@ -86,6 +86,10 @@ func _on_peer_disconnected(peer_id: int):
 	if Globals.control_mode == Globals.ControlMode.SHARED:
 		player_inputs.erase(peer_id)
 
+func _unhandled_input(event):
+	if Input.is_action_just_pressed("ui_cancel"):
+		SceneManager.open_pause_overlay()
+
 func _process(_delta):
 	measure_input(_delta) # used for visual steering cues (arrows)
 
