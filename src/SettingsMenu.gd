@@ -10,4 +10,4 @@ func _on_pressed() -> void:
 		SceneManager.close_settings_overlay()
 		queue_free()
 	else:
-		SceneManager.goto_scene("res://scenes/ui/MainMenu.tscn")
+		SceneManager.goto_scene("res://scenes/game/Game.tscn")

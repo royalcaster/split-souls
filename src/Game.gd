@@ -382,3 +382,17 @@ func _on_special_power_clickable_mouse_exited():
 func _on_line_edit_text_changed(new_text):
 	print("_on_line_edit_text_changed", new_text)
 	ipaddress = new_text
+
+
+func _on_steuerung_pressed() -> void:
+	var new_scene = load("res://scenes/ui/Steuerung.tscn")
+	get_tree().change_scene_to_packed(new_scene)
+
+
+func _on_anleitung_pressed() -> void:
+	var new_scene = load("res://scenes/ui/AnleitungMenu.tscn")
+	get_tree().change_scene_to_packed(new_scene)
+
+
+func _on_beenden_pressed():
+	get_tree().quit()
