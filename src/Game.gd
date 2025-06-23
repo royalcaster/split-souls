@@ -392,3 +392,7 @@ func _on_steuerung_pressed() -> void:
 func _on_anleitung_pressed() -> void:
 	var new_scene = load("res://scenes/ui/AnleitungMenu.tscn")
 	get_tree().change_scene_to_packed(new_scene)
+
+
+func _on_beenden_pressed():
+	get_tree().quit()

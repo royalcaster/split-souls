@@ -14,11 +14,13 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="TextureRect2" type="TextureRect" parent="."]
+layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 texture = ExtResource("1_n8e7m")
 
 [node name="Label3" type="Label" parent="."]
+layout_mode = 0
 offset_left = 370.0
 offset_top = 270.0
 offset_right = 1776.0
@@ -32,9 +34,10 @@ Schießen: LMB
 
 Spiel pausieren: Esc
 
-Speichern/Laden:"
+Speichern/Laden: F5/F9"
 
 [node name="BackButton2" type="TextureButton" parent="."]
+layout_mode = 0
 offset_left = 718.0
 offset_top = 853.0
 offset_right = 1295.0

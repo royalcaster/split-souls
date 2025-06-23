@@ -602,6 +602,7 @@ metadata/_custom_type_script = "uid://bquto5v3dni4v"
 [connection signal="pressed" from="Multiplayer/VBoxContainer/Join" to="." method="_on_join_pressed"]
 [connection signal="pressed" from="Multiplayer/VBoxContainer/Anleitung" to="." method="_on_anleitung_pressed"]
 [connection signal="pressed" from="Multiplayer/VBoxContainer/Steuerung" to="." method="_on_steuerung_pressed"]
+[connection signal="pressed" from="Multiplayer/VBoxContainer/Beenden" to="." method="_on_beenden_pressed"]
 [connection signal="gui_input" from="HUD/DirectionsClickable" to="." method="_on_texture_rect_gui_input"]
 [connection signal="mouse_exited" from="HUD/DirectionsClickable" to="." method="_on_texture_rect_mouse_exited"]
 [connection signal="gui_input" from="HUD/SpecialPowerClickable" to="." method="_on_special_power_clickable_gui_input"]
