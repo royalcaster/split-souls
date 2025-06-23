@@ -26,8 +26,8 @@ extends Node2D
 @export var max_radius: float = 1200.0
 @export var min_speed: float = 0.1
 @export var max_speed: float = 0.3
-@export var min_scale: float = 3
-@export var max_scale: float = 5.5
+@export var min_scale: float = 2
+@export var max_scale: float = 4.5
 
 #Bird(Low)_Parameters
 @export var number_of_birds2: int = 8
@@ -480,5 +480,9 @@ func _on_beenden_pressed():
 func _on_control_button_pressed() -> void:
 	ControlOverlay.visible = not ControlOverlay.visible
 
-func _on_introductionl_button_pressed() -> void:
+func _on_introduction_overlay_pressed():
 	IntroductionOverlay.visible = not IntroductionOverlay.visible
+
+
+func _on_control_overlay_pressed():
+	ControlOverlay.visible = not ControlOverlay.visible

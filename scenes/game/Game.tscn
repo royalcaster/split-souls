@@ -30,7 +30,6 @@
 [ext_resource type="PackedScene" uid="uid://cbvvfl7uj2qvg" path="res://scenes/friends/scarecrow/Scarecrow.tscn" id="15_vg8p7"]
 [ext_resource type="Texture2D" uid="uid://ck56pmp5r2wui" path="res://assets/UI/start_ButtonSteuerung.png" id="16_1jm4j"]
 [ext_resource type="Texture2D" uid="uid://cu65qka4qp7vd" path="res://assets/Scroll.png" id="16_2oj27"]
-[ext_resource type="Texture2D" uid="uid://bam3636k8ohgy" path="res://assets/Instructions.bmp" id="16_sfnhr"]
 [ext_resource type="Texture2D" uid="uid://4523ty8lmtee" path="res://assets/Scroll 2.png" id="17_1upe7"]
 [ext_resource type="PackedScene" uid="uid://cwmldrrtyg6q1" path="res://scenes/friends/panda/Panda.tscn" id="17_2kuj7"]
 [ext_resource type="Texture2D" uid="uid://bwha31ldtt2y0" path="res://assets/UI/start_ButtonSteuerung_HOVER.png" id="17_qkqr0"]
@@ -45,6 +44,7 @@
 [ext_resource type="Script" uid="uid://c8uv3fx76qlug" path="res://addons/audio_manager/audio_manager_2d.gd" id="25_bqmam"]
 [ext_resource type="AudioStream" uid="uid://djce43g531ndn" path="res://assets/Audio/Health Pickup/Health Pickup 4.wav" id="26_y8ug0"]
 [ext_resource type="AudioStream" uid="uid://jtlndqdcts12" path="res://assets/Audio/Health Pickup/Health Pickup 2.wav" id="27_bqmam"]
+[ext_resource type="Texture2D" uid="uid://d2mrcpwcscyh2" path="res://scenes/game/12061ad72d33d02.png" id="27_icn4d"]
 [ext_resource type="AudioStream" uid="uid://d045qay7w64x6" path="res://assets/Audio/Buff_Power Up 44.wav" id="28_c6lwk"]
 [ext_resource type="PackedScene" uid="uid://dnc308kxujpqx" path="res://scenes/items/HeartContainer.tscn" id="32_das01"]
 
@@ -465,21 +465,26 @@ theme_override_font_sizes/font_size = 30
 text = "0"
 
 [node name="ControlButton" type="TextureButton" parent="HUD"]
-offset_left = 231.83
-offset_top = 0.96
-offset_right = 296.83
-offset_bottom = 65.96
-texture_normal = ExtResource("16_sfnhr")
+offset_left = 215.83
+offset_top = 1.96
+offset_right = 271.83
+offset_bottom = 47.96
+texture_normal = ExtResource("27_icn4d")
+ignore_texture_size = true
+stretch_mode = 0
 
-[node name="IntroductionOverlay" type="Sprite2D" parent="HUD"]
-position = Vector2(921.83, 550.96)
-texture = ExtResource("16_2oj27")
+[node name="IntroductionOverlay" type="TextureButton" parent="HUD"]
+offset_left = 428.83
+offset_top = -15.04
+offset_right = 1452.83
+offset_bottom = 1008.96
+texture_normal = ExtResource("16_2oj27")
 
 [node name="IntroductionLabel" type="Label" parent="HUD/IntroductionOverlay"]
-offset_left = -224.0
-offset_top = -162.0
-offset_right = 258.0
-offset_bottom = 203.0
+offset_left = 286.0
+offset_top = 360.0
+offset_right = 737.0
+offset_bottom = 725.0
 text = "Ein finsterer Zauberer strebt nach Allmacht
 und spaltet die Welt in Licht und Schatten.
 Alle Lebewesen, alle Orte, sogar die Helden selbst
@@ -495,24 +500,20 @@ Geht beide zum Tor .
 Dort beginnt eure Reise."
 label_settings = SubResource("LabelSettings_2oj27")
 
-[node name="IntroductionButton" type="Button" parent="HUD/IntroductionOverlay"]
-offset_left = -55.0
-offset_top = 174.0
-offset_right = 46.0
-offset_bottom = 208.0
-text = "Schließen"
-
-[node name="ControlOverlay" type="Sprite2D" parent="HUD"]
+[node name="ControlOverlay" type="TextureButton" parent="HUD"]
 visible = false
-position = Vector2(1558.83, 536.96)
+offset_left = 1233.83
+offset_top = 20.96
+offset_right = 2109.83
+offset_bottom = 1330.96
 scale = Vector2(0.805, 0.805)
-texture = ExtResource("17_1upe7")
+texture_normal = ExtResource("17_1upe7")
 
 [node name="ControlLabel" type="Label" parent="HUD/ControlOverlay"]
-offset_left = -212.422
-offset_top = -365.217
-offset_right = 424.578
-offset_bottom = 73.7826
+offset_left = 223.603
+offset_top = 322.981
+offset_right = 860.603
+offset_bottom = 761.981
 text = "Zwei Spieler steuern gemeinsam die Figuren Licht
 und Schatten. Begebt euch zum Tor,
 um euch zu vereinen und das Spiel zu starten.
@@ -533,7 +534,6 @@ Nutzt sie klug!"
 label_settings = SubResource("LabelSettings_sfnhr")
 
 [node name="Crystals" type="Node2D" parent="." groups=["map_content"]]
-visible = false
 y_sort_enabled = true
 
 [node name="Crystal" parent="Crystals" instance=ExtResource("13_o703g")]
@@ -704,4 +704,5 @@ position = Vector2(1347, 542)
 [connection signal="gui_input" from="HUD/SpecialPowerClickable" to="." method="_on_special_power_clickable_gui_input"]
 [connection signal="mouse_exited" from="HUD/SpecialPowerClickable" to="." method="_on_special_power_clickable_mouse_exited"]
 [connection signal="pressed" from="HUD/ControlButton" to="." method="_on_control_button_pressed"]
-[connection signal="pressed" from="HUD/IntroductionOverlay/IntroductionButton" to="." method="_on_introductionl_button_pressed"]
+[connection signal="pressed" from="HUD/IntroductionOverlay" to="." method="_on_introduction_overlay_pressed"]
+[connection signal="pressed" from="HUD/ControlOverlay" to="." method="_on_control_overlay_pressed"]
