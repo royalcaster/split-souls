@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dwsn2sr55rh0o"
-path="res://.godot/imported/Hand.png-cd67cde7e6e5dad72c13e830325c5b78.ctex"
+uid="uid://bvnlbnpp8cad"
+path="res://.godot/imported/gate_closed_dark.png-34989687d3c0003d0211960990b015d7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/light_assets/Hand.png"
-dest_files=["res://.godot/imported/Hand.png-cd67cde7e6e5dad72c13e830325c5b78.ctex"]
+source_file="res://assets/dark_assets/gate_closed_dark.png"
+dest_files=["res://.godot/imported/gate_closed_dark.png-34989687d3c0003d0211960990b015d7.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://csuwsc7ix6s2m"
-path="res://.godot/imported/Hand.png-5f923d9109abadd8ec7bfdf45fef7a4f.ctex"
+uid="uid://bpg16jo75xjbv"
+path="res://.godot/imported/wooden_fence_small_bw.png-e2eebfe61521de84ca6aa6f32bb2e1ca.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/dark_assets/Hand.png"
-dest_files=["res://.godot/imported/Hand.png-5f923d9109abadd8ec7bfdf45fef7a4f.ctex"]
+source_file="res://assets/dark_assets/wooden_fence_small_bw.png"
+dest_files=["res://.godot/imported/wooden_fence_small_bw.png-e2eebfe61521de84ca6aa6f32bb2e1ca.ctex"]
 
 [params]
 

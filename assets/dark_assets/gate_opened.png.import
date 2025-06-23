@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c5lnmsg5ax58b"
-path="res://.godot/imported/7. Alert.png-6ffe995d02922929784f5d179daebc27.ctex"
+uid="uid://dyjvx3ept5um5"
+path="res://.godot/imported/gate_opened.png-f3c59c61ba119ecfa1e018689054fd28.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/img/cursor/7. Alert.png"
-dest_files=["res://.godot/imported/7. Alert.png-6ffe995d02922929784f5d179daebc27.ctex"]
+source_file="res://assets/dark_assets/gate_opened.png"
+dest_files=["res://.godot/imported/gate_opened.png-f3c59c61ba119ecfa1e018689054fd28.ctex"]
 
 [params]
 

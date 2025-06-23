@@ -4,7 +4,7 @@ extends Node2D
 @export var mini_game: PackedScene
 @export var bug_scene: PackedScene
 @export var map_size: Vector2 = Vector2(1024, 768)
-@export var bug_count: int = 35
+@export var bug_count: int = 50
 #@onready var tilemap = $TileMap
 @onready var hud = $HUD
 @onready var scoreText = $HUD/CrystalScore 
@@ -86,6 +86,10 @@ func _on_peer_disconnected(peer_id: int):
 	if Globals.control_mode == Globals.ControlMode.SHARED:
 		player_inputs.erase(peer_id)
 
+func _unhandled_input(event):
+	if Input.is_action_just_pressed("ui_cancel"):
+		SceneManager.open_pause_overlay()
+
 func _process(_delta):
 	measure_input(_delta) # used for visual steering cues (arrows)
 
@@ -153,7 +157,13 @@ func switch_control_mode(_mode):
 	# open gate & spawn players behind it 
 	$Gates/Gate/CollisionShape2D.set_deferred("disabled", true) # deactivate gate after walking through
 	$Gates/Gate/Wall/Door.set_deferred("disabled", true) # deactivate wall in gate, so that players can walk out
-	$Gates/Gate/Sprite2D.texture = load('res://assets/img/gate_opened.png') # open gate
+	
+	# open gate
+	if multiplayer.is_server():
+		$Gates/Gate/Sprite2D.texture = load('res://assets/dark_assets/gate_opened.png')
+	else:
+		$Gates/Gate/Sprite2D.texture = load('res://assets/light_assets/gate_opened.png') 
+		
 	Globals.spawn_position = $Gates/Gate.global_position # set new spawn point behind gate
 
 	# switch control mode 
@@ -201,6 +211,8 @@ func start_game():
 
 		var trees_tileset = preload("res://assets/tiles/dark_set_border_trees.tres")
 		$border_trees.tile_set = trees_tileset
+		
+		$Gates/Gate/Sprite2D.texture = preload("res://assets/dark_assets/gate_closed_dark.png")
 		
 		$ItemsLight.visible = false
 		

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ljf3bim418o4"
-path="res://.godot/imported/13. Battery Medium.png-fa491e3256bfa392e356ffc49741f98c.ctex"
+uid="uid://cnsfe553vocty"
+path="res://.godot/imported/you-won-banner.png-f511e12ea0dc3e6fe95d6b7c8bc38251.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/img/cursor/13. Battery Medium.png"
-dest_files=["res://.godot/imported/13. Battery Medium.png-fa491e3256bfa392e356ffc49741f98c.ctex"]
+source_file="res://assets/minigame/you-won-banner.png"
+dest_files=["res://.godot/imported/you-won-banner.png-f511e12ea0dc3e6fe95d6b7c8bc38251.ctex"]
 
 [params]
 

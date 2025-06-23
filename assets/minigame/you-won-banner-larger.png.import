@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bv0hah81acm1h"
-path="res://.godot/imported/10. Wifi Poor.png-c8e77660cbf8ef3d3b63aee911b1dc5b.ctex"
+uid="uid://rb8gcxcoj57t"
+path="res://.godot/imported/you-won-banner-larger.png-aa9743ab3fabfec47cf79f1768b75555.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/img/cursor/10. Wifi Poor.png"
-dest_files=["res://.godot/imported/10. Wifi Poor.png-c8e77660cbf8ef3d3b63aee911b1dc5b.ctex"]
+source_file="res://assets/minigame/you-won-banner-larger.png"
+dest_files=["res://.godot/imported/you-won-banner-larger.png-aa9743ab3fabfec47cf79f1768b75555.ctex"]
 
 [params]
 

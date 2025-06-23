@@ -2,11 +2,16 @@ extends CharacterBody2D
 
 @export var speed: float = 30.0
 @export var map_bounds: Rect2
+@onready var sprite = $Sprite2D
 
 var direction: Vector2
 var target_position: Vector2
 
 func _ready():
+	if multiplayer.is_server():
+		sprite.texture = preload("res://scenes/deko/bug2.png")
+	else: 
+		sprite.texture = preload("res://scenes/deko/bug.png")
 	randomize()
 	position = get_random_point()
 	pick_new_direction()

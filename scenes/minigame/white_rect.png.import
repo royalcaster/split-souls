@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://tdcqiqmhgk3r"
-path="res://.godot/imported/4. Hand Grab.png-20c8ce4c6d36fe72efb15a5b669248d0.ctex"
+uid="uid://bv374gefsdpe6"
+path="res://.godot/imported/white_rect.png-ededb809128433e21d859d7d86f12032.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/img/cursor/4. Hand Grab.png"
-dest_files=["res://.godot/imported/4. Hand Grab.png-20c8ce4c6d36fe72efb15a5b669248d0.ctex"]
+source_file="res://scenes/minigame/white_rect.png"
+dest_files=["res://.godot/imported/white_rect.png-ededb809128433e21d859d7d86f12032.ctex"]
 
 [params]
 

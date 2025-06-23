@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c0hgufeiycqd"
-path="res://.godot/imported/6. Cancel.png-6ce08558a878435729a6c5926b34f05d.ctex"
+uid="uid://k3gpwp1airti"
+path="res://.godot/imported/Baumstumpf-win-screen.png-4b6cf44631d852c10671a83301de47b2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/img/cursor/6. Cancel.png"
-dest_files=["res://.godot/imported/6. Cancel.png-6ce08558a878435729a6c5926b34f05d.ctex"]
+source_file="res://assets/minigame/Baumstumpf-win-screen.png"
+dest_files=["res://.godot/imported/Baumstumpf-win-screen.png-4b6cf44631d852c10671a83301de47b2.ctex"]
 
 [params]
 

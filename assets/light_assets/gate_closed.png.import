@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://duwsa13s1hs1l"
-path="res://.godot/imported/15. Wait.png-6623eae45fe2204198b0e1961bea87e3.ctex"
+uid="uid://cekvuaq77dg0w"
+path="res://.godot/imported/gate_closed.png-560d69643d4de0f67d51ede164df27a2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/img/cursor/15. Wait.png"
-dest_files=["res://.godot/imported/15. Wait.png-6623eae45fe2204198b0e1961bea87e3.ctex"]
+source_file="res://assets/light_assets/gate_closed.png"
+dest_files=["res://.godot/imported/gate_closed.png-560d69643d4de0f67d51ede164df27a2.ctex"]
 
 [params]
 

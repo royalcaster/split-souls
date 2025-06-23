@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cp3g6vo6w8r1x"
-path="res://.godot/imported/8. Wifi Excellent.png-8d8cd66c4396e8640cac38540c65ff73.ctex"
+uid="uid://c5wmocuafjqmq"
+path="res://.godot/imported/baumstumpf_row.png-bd1e836a3222387012b32f95e2e62191.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/img/cursor/8. Wifi Excellent.png"
-dest_files=["res://.godot/imported/8. Wifi Excellent.png-8d8cd66c4396e8640cac38540c65ff73.ctex"]
+source_file="res://assets/minigame/baumstumpf_row.png"
+dest_files=["res://.godot/imported/baumstumpf_row.png-bd1e836a3222387012b32f95e2e62191.ctex"]
 
 [params]
 
