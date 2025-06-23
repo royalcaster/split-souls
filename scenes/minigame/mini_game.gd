@@ -139,10 +139,10 @@ func _on_close_requested():
 func _on_end_zone_body_entered(body):
 	if body == player: 
 		$Map.visible = false
-		$Label.visible = true
+		$WinScreen.visible = true
 		won_game = true
 		$AudioStreamPlayer.play()
-		
+
 @rpc("authority", "call_local", "reliable")
 func respawn_cooldown(wait_time):
 	can_respawn = false
