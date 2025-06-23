@@ -45,3 +45,4 @@ texture_normal = ExtResource("5_2ajt8")
 texture_hover = ExtResource("6_05482")
 
 [connection signal="pressed" from="BackButton" to="BackButton" method="_on_pressed"]
+[connection signal="pressed" from="TextureButton" to="BackButton" method="_on_texture_button_pressed"]
