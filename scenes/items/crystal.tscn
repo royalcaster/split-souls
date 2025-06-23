@@ -1,0 +1,43 @@
+[gd_scene load_steps=7 format=3 uid="uid://pxmyspn67e7b"]
+
+[ext_resource type="Script" uid="uid://witst2viy32w" path="res://src/crystal.gd" id="1_55jno"]
+[ext_resource type="Texture2D" uid="uid://b06qxd36nxmvl" path="res://assets/img/crystals_spritesheet.png" id="1_kemuw"]
+[ext_resource type="AudioStream" uid="uid://d045qay7w64x6" path="res://assets/Audio/Buff_Power Up 44.wav" id="3_7bw2m"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_55jno"]
+radius = 5.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kemuw"]
+atlas = ExtResource("1_kemuw")
+region = Rect2(256, 256, 256, 256)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6octq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kemuw")
+}],
+"loop": true,
+"name": &"crystal_still",
+"speed": 5.0
+}]
+
+[node name="Crystal" type="Area2D"]
+script = ExtResource("1_55jno")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 12)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_55jno")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.15, 0.15)
+sprite_frames = SubResource("SpriteFrames_6octq")
+animation = &"crystal_still"
+frame_progress = 0.580531
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_7bw2m")
+volume_db = -8.904
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

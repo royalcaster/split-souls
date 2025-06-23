@@ -1,0 +1,189 @@
+[gd_scene load_steps=21 format=3 uid="uid://b184syehau03x"]
+
+[ext_resource type="Script" uid="uid://dc1xelhjg57mu" path="res://src/player_1.gd" id="1_hvohr"]
+[ext_resource type="SpriteFrames" uid="uid://jrfq8bcwahhu" path="res://scenes/player/dark.tres" id="2_hvohr"]
+[ext_resource type="PackedScene" uid="uid://d1k0y6na2qb32" path="res://scenes/game/health_bar.tscn" id="4_x2oxy"]
+[ext_resource type="PackedScene" uid="uid://dvriyiicr3unw" path="res://scenes/game/shoot.tscn" id="5_rtiyx"]
+[ext_resource type="Script" uid="uid://bquto5v3dni4v" path="res://addons/audio_manager/audio_manager.gd" id="6_8r5gt"]
+[ext_resource type="Texture2D" uid="uid://c7scnv10bvrrt" path="res://assets/img/arrow1.png" id="6_sss8k"]
+[ext_resource type="Script" uid="uid://c8uv3fx76qlug" path="res://addons/audio_manager/audio_manager_2d.gd" id="7_ep6wn"]
+[ext_resource type="AudioStream" uid="uid://cpmi3vbwgqkec" path="res://assets/Audio/Bio gun Shot/Bio gun Shot 5.wav" id="8_yrv7w"]
+[ext_resource type="AudioStream" uid="uid://c8wymg2phlqpt" path="res://assets/Audio/Bio gun Shot/Bio gun Shot 6.wav" id="9_ep6wn"]
+[ext_resource type="AudioStream" uid="uid://dljbt0bybh82t" path="res://assets/Audio/Grass footsteps/Grass footstep 8.wav" id="10_t3qtu"]
+[ext_resource type="AudioStream" uid="uid://thfnn1qxftm7" path="res://assets/Audio/Grass footsteps/Grass footstep 2.wav" id="11_a0qbi"]
+[ext_resource type="AudioStream" uid="uid://bwdev7mdb2dyy" path="res://assets/Audio/death_sound/Game Over 32.wav" id="12_a0qbi"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_hvohr"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("AnimatedSprite2D:animation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("AnimatedSprite2D:flip_h")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gok7g"]
+radius = 1.0
+height = 23.997
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_x2oxy"]
+
+[sub_resource type="Resource" id="Resource_t3qtu"]
+script = ExtResource("7_ep6wn")
+audio_name = "shot1"
+audio_stream = ExtResource("8_yrv7w")
+use_clipper = false
+start_time = 0.0
+end_time = 0.0
+volume_db = 0.0
+pitch_scale = 1.0
+max_distance = 2000.0
+loop = false
+loop_offset = 0.0
+auto_play = false
+max_polyphony = 1
+panning_strength = 1.0
+area_mask = 1
+bus = &"Master"
+playback_type = 0
+attenuation = 1.0
+metadata/_custom_type_script = "uid://c8uv3fx76qlug"
+
+[sub_resource type="Resource" id="Resource_a0qbi"]
+script = ExtResource("7_ep6wn")
+audio_name = "shot2"
+audio_stream = ExtResource("9_ep6wn")
+use_clipper = false
+start_time = 0.0
+end_time = 0.0
+volume_db = 0.0
+pitch_scale = 1.0
+max_distance = 2000.0
+loop = false
+loop_offset = 0.0
+auto_play = false
+max_polyphony = 1
+panning_strength = 1.0
+area_mask = 1
+bus = &"Master"
+playback_type = 0
+attenuation = 1.0
+metadata/_custom_type_script = "uid://c8uv3fx76qlug"
+
+[sub_resource type="Resource" id="Resource_322ad"]
+script = ExtResource("7_ep6wn")
+audio_name = "footstep01"
+audio_stream = ExtResource("10_t3qtu")
+use_clipper = false
+start_time = 0.0
+end_time = 0.5
+volume_db = -15.0
+pitch_scale = 1.0
+max_distance = 2000.0
+loop = true
+loop_offset = 0.0
+auto_play = false
+max_polyphony = 1
+panning_strength = 1.0
+area_mask = 1
+bus = &"Master"
+playback_type = 0
+attenuation = 25.9921
+metadata/_custom_type_script = "uid://c8uv3fx76qlug"
+
+[sub_resource type="Resource" id="Resource_3qkhu"]
+script = ExtResource("7_ep6wn")
+audio_name = "footstep02"
+audio_stream = ExtResource("11_a0qbi")
+use_clipper = true
+start_time = 0.1
+end_time = 0.4
+volume_db = 0.0
+pitch_scale = 1.0
+max_distance = 2000.0
+loop = false
+loop_offset = 0.0
+auto_play = false
+max_polyphony = 1
+panning_strength = 1.0
+area_mask = 1
+bus = &"Master"
+playback_type = 0
+attenuation = 1.0
+metadata/_custom_type_script = "uid://c8uv3fx76qlug"
+
+[sub_resource type="Resource" id="Resource_yjcjv"]
+script = ExtResource("7_ep6wn")
+audio_name = "death"
+audio_stream = ExtResource("12_a0qbi")
+use_clipper = false
+start_time = 0.0
+end_time = 0.0
+volume_db = 0.0
+pitch_scale = 0.66
+max_distance = 2000.0
+loop = false
+loop_offset = 0.0
+auto_play = false
+max_polyphony = 1
+panning_strength = 1.0
+area_mask = 1
+bus = &"Master"
+playback_type = 0
+attenuation = 1.0
+metadata/_custom_type_script = "uid://c8uv3fx76qlug"
+
+[node name="Player1" type="CharacterBody2D" groups=["players"]]
+y_sort_enabled = true
+script = ExtResource("1_hvohr")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = ExtResource("2_hvohr")
+animation = &"death"
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_hvohr")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2, 2)
+limit_left = 0
+limit_top = 0
+limit_right = 1430
+limit_bottom = 1071
+limit_smoothed = true
+position_smoothing_enabled = true
+position_smoothing_speed = 20.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-2.91323e-13, 15)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_gok7g")
+
+[node name="HealthBar" parent="." instance=ExtResource("4_x2oxy")]
+offset_left = -11.0
+offset_top = -27.0
+offset_right = 11.0
+offset_bottom = -22.0
+
+[node name="PlayerHitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerHitbox"]
+shape = SubResource("CapsuleShape2D_x2oxy")
+
+[node name="Shoot" parent="." instance=ExtResource("5_rtiyx")]
+position = Vector2(0, 1)
+
+[node name="Arrow" type="Sprite2D" parent="."]
+visible = false
+z_index = 1000
+position = Vector2(0, -46)
+scale = Vector2(0.095, 0.095)
+texture = ExtResource("6_sss8k")
+
+[node name="AudioManager" type="Node" parent="."]
+script = ExtResource("6_8r5gt")
+audios_2d = Array[ExtResource("7_ep6wn")]([SubResource("Resource_t3qtu"), SubResource("Resource_a0qbi"), SubResource("Resource_322ad"), SubResource("Resource_3qkhu"), SubResource("Resource_yjcjv")])
+metadata/_custom_type_script = "uid://bquto5v3dni4v"

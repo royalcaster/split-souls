@@ -1,0 +1,113 @@
+[gd_scene load_steps=8 format=3 uid="uid://blcf0l1sqw4iq"]
+
+[ext_resource type="Script" uid="uid://cbltmmgrafcst" path="res://scenes/friends/witch/witch.gd" id="1_uad6w"]
+[ext_resource type="Texture2D" uid="uid://b55i36cqsltyh" path="res://assets/img/friends/witch.png" id="2_n82is"]
+[ext_resource type="FontFile" uid="uid://bimvk8e8xkbqr" path="res://fonts/This Notes Personal Use.ttf" id="4_n82is"]
+[ext_resource type="Texture2D" uid="uid://biaty1lqi72k4" path="res://assets/light_assets/Inventar_Sprechblasen.png" id="5_v245d"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fpxsw"]
+radius = 15.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8q0l5"]
+radius = 44.0
+height = 88.0
+
+[sub_resource type="Theme" id="Theme_bqoih"]
+default_font = ExtResource("4_n82is")
+default_font_size = 20
+
+[node name="Witch" type="StaticBody2D"]
+input_pickable = true
+script = ExtResource("1_uad6w")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+y_sort_enabled = true
+position = Vector2(2, -15)
+texture = ExtResource("2_n82is")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -15)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_fpxsw")
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(1, 5)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-1, -12)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_8q0l5")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="SpeechbubbleDark" type="Node2D" parent="CanvasLayer"]
+visible = false
+
+[node name="Speechbubble" type="Sprite2D" parent="CanvasLayer/SpeechbubbleDark"]
+position = Vector2(992.777, 951.5)
+scale = Vector2(2.70833, 2.93939)
+texture = ExtResource("5_v245d")
+region_enabled = true
+region_rect = Rect2(0, 111.989, 192.103, 33.0365)
+
+[node name="Sprite2D2" type="Sprite2D" parent="CanvasLayer/SpeechbubbleDark"]
+y_sort_enabled = true
+position = Vector2(687.777, 951)
+rotation = 3.14159
+scale = Vector2(2.67358, -2.75868)
+texture = ExtResource("2_n82is")
+flip_h = true
+
+[node name="Text" type="RichTextLabel" parent="CanvasLayer/SpeechbubbleDark"]
+texture_filter = 2
+offset_left = 757.777
+offset_top = 907.0
+offset_right = 1200.93
+offset_bottom = 991.0
+size_flags_stretch_ratio = 0.0
+theme = SubResource("Theme_bqoih")
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+text = "Sei vorsichtig hier draußen. Die Monster lauern überall und ich kann sie nicht mal mit meinen Zaubersprüchen besiegen.. Ich hoffe der Zauberer wird bald gestürzt. "
+fit_content = true
+scroll_active = false
+tab_size = 24
+metadata/_edit_use_anchors_ = true
+
+[node name="SpeechbubbleLight" type="Node2D" parent="CanvasLayer"]
+visible = false
+
+[node name="Speechbubble" type="Sprite2D" parent="CanvasLayer/SpeechbubbleLight"]
+position = Vector2(992.777, 951.5)
+scale = Vector2(2.70833, 2.93939)
+texture = ExtResource("5_v245d")
+region_enabled = true
+region_rect = Rect2(0, 111.989, 192.103, 33.0365)
+
+[node name="Sprite2D2" type="Sprite2D" parent="CanvasLayer/SpeechbubbleLight"]
+y_sort_enabled = true
+position = Vector2(687.777, 951)
+rotation = 3.14159
+scale = Vector2(2.67358, -2.75868)
+texture = ExtResource("2_n82is")
+flip_h = true
+
+[node name="Text" type="RichTextLabel" parent="CanvasLayer/SpeechbubbleLight"]
+texture_filter = 2
+offset_left = 757.777
+offset_top = 907.0
+offset_right = 1200.93
+offset_bottom = 991.0
+size_flags_stretch_ratio = 0.0
+theme = SubResource("Theme_bqoih")
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+text = "Oh sieh an, eine einsame Seele hat sich zu meiner Hütte verirrt, wie schön! Leider ist nicht mehr viel von ihr ürbig.. Komm lieber ein andermal wieder."
+fit_content = true
+scroll_active = false
+tab_size = 24
+metadata/_edit_use_anchors_ = true
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="mouse_shape_entered" from="." to="." method="_on_mouse_shape_entered"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
