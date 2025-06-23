@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://c02kcbepe14nj"]
+[gd_scene load_steps=14 format=4 uid="uid://c02kcbepe14nj"]
 
 [ext_resource type="Script" uid="uid://l6nmsax7u8h3" path="res://scenes/minigame/mini_game.gd" id="1_pb5i6"]
 [ext_resource type="TileSet" uid="uid://biiegck24um4j" path="res://assets/tiles/minigame.tres" id="2_diy0u"]
@@ -144,7 +144,7 @@ offset_right = 543.0
 offset_bottom = 290.0
 theme_override_colors/font_color = Color(0.647059, 0.435294, 0.160784, 1)
 theme_override_font_sizes/font_size = 20
-text = "Die Blockaden wurden erfolgreich zerstört!"
+text = "Die Blockade wurde erfolgreich zerstört!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
