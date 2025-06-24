@@ -265,6 +265,8 @@ func start_game():
 			node.get_node("Sprite2D").texture = preload("res://assets/dark_assets/Tor.png")
 	else: 
 		$ItemsDark.visible = false
+		$HUD/IntroductionOverlay.texture_normal = load('res://assets/Scroll.png')
+		$HUD/ControlOverlay.texture_normal = load('res://assets/Scroll 2.png')
 
 	hide_enemies_for_lightplayer()
 	
