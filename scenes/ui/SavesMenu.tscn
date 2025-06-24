@@ -33,10 +33,12 @@ text = "Saves"
 
 [node name="PlayButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 text = "Play"
 
 [node name="BackButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 text = "Back"
 
 [connection signal="pressed" from="VBoxContainer/PlayButton" to="." method="_on_button_pressed"]

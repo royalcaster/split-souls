@@ -10,7 +10,7 @@ extends Node2D
 @onready var scoreText = $HUD/CrystalScore
 
 @onready var ControlOverlay = $HUD/ControlOverlay
-@onready var ControlButton = $HUD/ControlButton
+@onready var InfoButton = $HUD/InfoButton
 
 @onready var IntroductionOverlay = $HUD/IntroductionOverlay
 @onready var IntroductionButton = $HUD/IntroductionOverlay/IntroductionButton
@@ -123,7 +123,11 @@ func _on_peer_disconnected(peer_id: int):
 
 func _unhandled_input(event):
 	if Input.is_action_just_pressed("ui_cancel"):
-		SceneManager.open_pause_overlay()
+		open_pause_overlay_rpc.rpc()
+
+@rpc("any_peer", "call_local", "reliable")
+func open_pause_overlay_rpc():
+	SceneManager.open_pause_overlay()
 
 func _process(_delta):
 	measure_input(_delta) # used for visual steering cues (arrows)

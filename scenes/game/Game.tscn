@@ -1,4 +1,4 @@
-[gd_scene load_steps=61 format=4 uid="uid://dur7c4brk3lfn"]
+[gd_scene load_steps=63 format=4 uid="uid://dur7c4brk3lfn"]
 
 [ext_resource type="Script" uid="uid://dcgeiwsr6pwq6" path="res://src/Game.gd" id="1_lyhax"]
 [ext_resource type="PackedScene" uid="uid://b184syehau03x" path="res://scenes/player/player_1.tscn" id="2_7qcb4"]
@@ -46,6 +46,7 @@
 [ext_resource type="AudioStream" uid="uid://jtlndqdcts12" path="res://assets/Audio/Health Pickup/Health Pickup 2.wav" id="27_bqmam"]
 [ext_resource type="Texture2D" uid="uid://d2mrcpwcscyh2" path="res://scenes/game/12061ad72d33d02.png" id="27_icn4d"]
 [ext_resource type="AudioStream" uid="uid://d045qay7w64x6" path="res://assets/Audio/Buff_Power Up 44.wav" id="28_c6lwk"]
+[ext_resource type="FontFile" uid="uid://bimvk8e8xkbqr" path="res://fonts/This Notes Personal Use.ttf" id="29_pcat8"]
 [ext_resource type="PackedScene" uid="uid://dnc308kxujpqx" path="res://scenes/items/HeartContainer.tscn" id="32_das01"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p7jdg"]
@@ -87,10 +88,15 @@ animations = [{
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_wnrko"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_2oj27"]
-font_size = 15
+font_size = 19
 font_color = Color(0, 0, 0, 1)
 
+[sub_resource type="Theme" id="Theme_icn4d"]
+default_font = ExtResource("29_pcat8")
+default_font_size = 20
+
 [sub_resource type="LabelSettings" id="LabelSettings_sfnhr"]
+font_size = 26
 font_color = Color(0, 0, 0, 1)
 
 [sub_resource type="Resource" id="Resource_y8ug0"]
@@ -291,26 +297,31 @@ text = "127.0.0.1"
 
 [node name="Host" type="TextureButton" parent="Multiplayer/VBoxContainer"]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 texture_normal = ExtResource("11_2oj27")
 texture_hover = ExtResource("12_1upe7")
 
 [node name="Join" type="TextureButton" parent="Multiplayer/VBoxContainer"]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 texture_normal = ExtResource("13_sfnhr")
 texture_hover = ExtResource("14_p7jdg")
 
 [node name="Anleitung" type="TextureButton" parent="Multiplayer/VBoxContainer"]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 texture_normal = ExtResource("14_r24yq")
 texture_hover = ExtResource("15_lvp6d")
 
 [node name="Steuerung" type="TextureButton" parent="Multiplayer/VBoxContainer"]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 texture_normal = ExtResource("16_1jm4j")
 texture_hover = ExtResource("17_qkqr0")
 
 [node name="Beenden" type="TextureButton" parent="Multiplayer/VBoxContainer"]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 texture_normal = ExtResource("18_1jm4j")
 texture_hover = ExtResource("19_qkqr0")
 
@@ -464,11 +475,12 @@ offset_bottom = 41.96
 theme_override_font_sizes/font_size = 30
 text = "0"
 
-[node name="ControlButton" type="TextureButton" parent="HUD"]
+[node name="InfoButton" type="TextureButton" parent="HUD"]
 offset_left = 215.83
 offset_top = 1.96
 offset_right = 271.83
 offset_bottom = 47.96
+mouse_default_cursor_shape = 2
 texture_normal = ExtResource("27_icn4d")
 ignore_texture_size = true
 stretch_mode = 0
@@ -478,13 +490,17 @@ offset_left = 428.83
 offset_top = -15.04
 offset_right = 1452.83
 offset_bottom = 1008.96
+mouse_default_cursor_shape = 2
 texture_normal = ExtResource("16_2oj27")
 
 [node name="IntroductionLabel" type="Label" parent="HUD/IntroductionOverlay"]
-offset_left = 286.0
+layout_mode = 0
+offset_left = 292.0
 offset_top = 360.0
-offset_right = 737.0
-offset_bottom = 725.0
+offset_right = 679.0
+offset_bottom = 707.0
+theme_override_fonts/font = ExtResource("29_pcat8")
+theme_override_font_sizes/font_size = 200
 text = "Ein finsterer Zauberer strebt nach Allmacht
 und spaltet die Welt in Licht und Schatten.
 Alle Lebewesen, alle Orte, sogar die Helden selbst
@@ -507,13 +523,16 @@ offset_top = 20.96
 offset_right = 2109.83
 offset_bottom = 1330.96
 scale = Vector2(0.805, 0.805)
+mouse_default_cursor_shape = 2
 texture_normal = ExtResource("17_1upe7")
 
 [node name="ControlLabel" type="Label" parent="HUD/ControlOverlay"]
-offset_left = 223.603
-offset_top = 322.981
-offset_right = 860.603
-offset_bottom = 761.981
+layout_mode = 0
+offset_left = 196.273
+offset_top = 326.708
+offset_right = 709.273
+offset_bottom = 931.708
+theme = SubResource("Theme_icn4d")
 text = "Zwei Spieler steuern gemeinsam die Figuren Licht
 und Schatten. Begebt euch zum Tor,
 um euch zu vereinen und das Spiel zu starten.
@@ -529,7 +548,8 @@ In Kisten findet ihr nützliche Items, die euch im Spiel helfen.
 
 Der Wegweiser zeigt euch stets den richtigen Weg
 zu den verbleibenden Kristallen.
-Die Superpower macht Gegner für den Lichtspieler sichtbar.
+Die Superpower macht Gegner für den Lichtspieler 
+sichtbar.
 Nutzt sie klug!"
 label_settings = SubResource("LabelSettings_sfnhr")
 
@@ -703,6 +723,6 @@ position = Vector2(1347, 542)
 [connection signal="mouse_exited" from="HUD/DirectionsClickable" to="." method="_on_texture_rect_mouse_exited"]
 [connection signal="gui_input" from="HUD/SpecialPowerClickable" to="." method="_on_special_power_clickable_gui_input"]
 [connection signal="mouse_exited" from="HUD/SpecialPowerClickable" to="." method="_on_special_power_clickable_mouse_exited"]
-[connection signal="pressed" from="HUD/ControlButton" to="." method="_on_control_button_pressed"]
+[connection signal="pressed" from="HUD/InfoButton" to="." method="_on_control_button_pressed"]
 [connection signal="pressed" from="HUD/IntroductionOverlay" to="." method="_on_introduction_overlay_pressed"]
 [connection signal="pressed" from="HUD/ControlOverlay" to="." method="_on_control_overlay_pressed"]
