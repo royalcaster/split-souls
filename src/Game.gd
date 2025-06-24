@@ -10,7 +10,7 @@ extends Node2D
 @onready var scoreText = $HUD/CrystalScore
 
 @onready var ControlOverlay = $HUD/ControlOverlay
-@onready var ControlButton = $HUD/ControlButton
+@onready var InfoButton = $HUD/InfoButton
 
 @onready var IntroductionOverlay = $HUD/IntroductionOverlay
 @onready var IntroductionButton = $HUD/IntroductionOverlay/IntroductionButton

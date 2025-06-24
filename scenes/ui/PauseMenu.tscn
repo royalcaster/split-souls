@@ -44,11 +44,13 @@ script = ExtResource("1_vb6pq")
 
 [node name="ContinueButton" type="TextureButton" parent="VBoxContainer"]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 texture_normal = ExtResource("3_csaq8")
 texture_hover = ExtResource("4_rw35d")
 
 [node name="TextureButton" type="TextureButton" parent="VBoxContainer"]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 texture_normal = ExtResource("8_px486")
 texture_hover = ExtResource("7_rw35d")
 

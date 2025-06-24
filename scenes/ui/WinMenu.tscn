@@ -25,6 +25,7 @@ offset_left = 683.0
 offset_top = 947.0
 offset_right = 1260.0
 offset_bottom = 1031.0
+mouse_default_cursor_shape = 2
 texture_normal = ExtResource("2_khges")
 texture_hover = ExtResource("3_g6mtj")
 script = ExtResource("4_fxhix")

@@ -297,26 +297,31 @@ text = "127.0.0.1"
 
 [node name="Host" type="TextureButton" parent="Multiplayer/VBoxContainer"]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 texture_normal = ExtResource("11_2oj27")
 texture_hover = ExtResource("12_1upe7")
 
 [node name="Join" type="TextureButton" parent="Multiplayer/VBoxContainer"]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 texture_normal = ExtResource("13_sfnhr")
 texture_hover = ExtResource("14_p7jdg")
 
 [node name="Anleitung" type="TextureButton" parent="Multiplayer/VBoxContainer"]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 texture_normal = ExtResource("14_r24yq")
 texture_hover = ExtResource("15_lvp6d")
 
 [node name="Steuerung" type="TextureButton" parent="Multiplayer/VBoxContainer"]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 texture_normal = ExtResource("16_1jm4j")
 texture_hover = ExtResource("17_qkqr0")
 
 [node name="Beenden" type="TextureButton" parent="Multiplayer/VBoxContainer"]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 texture_normal = ExtResource("18_1jm4j")
 texture_hover = ExtResource("19_qkqr0")
 
@@ -470,11 +475,12 @@ offset_bottom = 41.96
 theme_override_font_sizes/font_size = 30
 text = "0"
 
-[node name="ControlButton" type="TextureButton" parent="HUD"]
+[node name="InfoButton" type="TextureButton" parent="HUD"]
 offset_left = 215.83
 offset_top = 1.96
 offset_right = 271.83
 offset_bottom = 47.96
+mouse_default_cursor_shape = 2
 texture_normal = ExtResource("27_icn4d")
 ignore_texture_size = true
 stretch_mode = 0
@@ -484,6 +490,7 @@ offset_left = 428.83
 offset_top = -15.04
 offset_right = 1452.83
 offset_bottom = 1008.96
+mouse_default_cursor_shape = 2
 texture_normal = ExtResource("16_2oj27")
 
 [node name="IntroductionLabel" type="Label" parent="HUD/IntroductionOverlay"]
@@ -516,6 +523,7 @@ offset_top = 20.96
 offset_right = 2109.83
 offset_bottom = 1330.96
 scale = Vector2(0.805, 0.805)
+mouse_default_cursor_shape = 2
 texture_normal = ExtResource("17_1upe7")
 
 [node name="ControlLabel" type="Label" parent="HUD/ControlOverlay"]
@@ -715,6 +723,6 @@ position = Vector2(1347, 542)
 [connection signal="mouse_exited" from="HUD/DirectionsClickable" to="." method="_on_texture_rect_mouse_exited"]
 [connection signal="gui_input" from="HUD/SpecialPowerClickable" to="." method="_on_special_power_clickable_gui_input"]
 [connection signal="mouse_exited" from="HUD/SpecialPowerClickable" to="." method="_on_special_power_clickable_mouse_exited"]
-[connection signal="pressed" from="HUD/ControlButton" to="." method="_on_control_button_pressed"]
+[connection signal="pressed" from="HUD/InfoButton" to="." method="_on_control_button_pressed"]
 [connection signal="pressed" from="HUD/IntroductionOverlay" to="." method="_on_introduction_overlay_pressed"]
 [connection signal="pressed" from="HUD/ControlOverlay" to="." method="_on_control_overlay_pressed"]
