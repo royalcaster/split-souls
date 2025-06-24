@@ -1,11 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://cw7rlh77pex3v"]
+[gd_scene load_steps=7 format=3 uid="uid://cw7rlh77pex3v"]
 
 [ext_resource type="Script" uid="uid://cpn343tbfrimg" path="res://src/PauseMenu.gd" id="1_vb6pq"]
 [ext_resource type="Texture2D" uid="uid://b6xe3ni1xnhc3" path="res://assets/UI/Pause.png" id="2_cctyv"]
 [ext_resource type="Texture2D" uid="uid://653te0hwc3g6" path="res://assets/UI/Pause_buttonWeiter.png" id="3_csaq8"]
 [ext_resource type="Texture2D" uid="uid://dweja1c11snv0" path="res://assets/UI/Pause_buttonWeiter_HOVER.png" id="4_rw35d"]
-[ext_resource type="Texture2D" uid="uid://dbi2jw4q1u5qt" path="res://assets/UI/Pause_buttonBack.png" id="5_px486"]
-[ext_resource type="Texture2D" uid="uid://d0r6av042psgp" path="res://assets/UI/Pause_buttonBack_HOVER.png" id="6_o0a0r"]
 [ext_resource type="Texture2D" uid="uid://df8jqjlw820yx" path="res://assets/UI/button_SpielBeenden.png" id="7_rw35d"]
 [ext_resource type="Texture2D" uid="uid://cftqrohf71cpv" path="res://assets/UI/button_SpielBeenden_HOVER.png" id="8_px486"]
 
@@ -49,15 +47,10 @@ layout_mode = 2
 texture_normal = ExtResource("3_csaq8")
 texture_hover = ExtResource("4_rw35d")
 
-[node name="ExitButton" type="TextureButton" parent="VBoxContainer"]
-layout_mode = 2
-texture_normal = ExtResource("5_px486")
-texture_hover = ExtResource("6_o0a0r")
-
 [node name="TextureButton" type="TextureButton" parent="VBoxContainer"]
 layout_mode = 2
 texture_normal = ExtResource("8_px486")
 texture_hover = ExtResource("7_rw35d")
 
 [connection signal="pressed" from="VBoxContainer/ContinueButton" to="." method="_on_continue_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/ExitButton" to="VBoxContainer" method="_on_exit_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/TextureButton" to="." method="_on_texture_button_pressed"]
