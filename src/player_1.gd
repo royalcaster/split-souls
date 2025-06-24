@@ -203,6 +203,15 @@ func take_damage(damage: int):
 	health -= damage  # Automatisch über Setter synchronisiert
 	take_damage_cooldown(1.0)
 
+# Leben auf Max setzen
+@rpc("authority", "reliable") #prüfen ob nötig
+func healMax():
+
+	if not multiplayer.is_server():
+		return
+
+	health = health_max
+
 func take_damage_cooldown(wait_time):
 	can_take_damage = false
 	await get_tree().create_timer(wait_time).timeout
