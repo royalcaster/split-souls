@@ -13,7 +13,8 @@ config_version=5
 config/name="split-souls"
 run/main_scene="uid://dur7c4brk3lfn"
 config/features=PackedStringArray("4.4", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="uid://cogk50mtm3rjk"
+config/windows_native_icon="res://assets/UI/icon.ico"
 
 [autoload]
 
