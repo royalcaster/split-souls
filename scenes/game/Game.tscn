@@ -81,6 +81,8 @@ animations = [{
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_wnrko"]
 
+[sub_resource type="SystemFont" id="SystemFont_2hln5"]
+
 [sub_resource type="Resource" id="Resource_y8ug0"]
 script = ExtResource("22_olhyc")
 audio_name = "darkmusic"
@@ -451,6 +453,26 @@ offset_bottom = 41.96
 theme_override_font_sizes/font_size = 30
 text = "0"
 
+[node name="StatusLabel" type="Label" parent="HUD"]
+visible = false
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 64.0
+grow_horizontal = 2
+scale = Vector2(1.2, 1.2)
+theme_override_colors/font_color = Color(0.826139, 0.646245, 0.0849261, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/outline_size = 2
+theme_override_constants/shadow_outline_size = 1
+theme_override_fonts/font = SubResource("SystemFont_2hln5")
+theme_override_font_sizes/font_size = 46
+
 [node name="Crystals" type="Node2D" parent="." groups=["map_content"]]
 visible = false
 y_sort_enabled = true
@@ -539,7 +561,7 @@ position = Vector2(66, 359)
 visible = false
 y_sort_enabled = true
 
-[node name="ItemLight" parent="ItemsLight" groups=["item", "map_content"] instance=ExtResource("18_vj8ay")]
+[node name="ItemLight" parent="ItemsLight" groups=["item", "map_content", "team_items"] instance=ExtResource("18_vj8ay")]
 position = Vector2(298, 217)
 
 [node name="ItemLight2" parent="ItemsLight" groups=["item", "map_content"] instance=ExtResource("18_vj8ay")]
@@ -567,28 +589,28 @@ position = Vector2(148, 266)
 visible = false
 y_sort_enabled = true
 
-[node name="ItemDark" parent="ItemsDark" groups=["map_content"] instance=ExtResource("20_pbrru")]
+[node name="ItemDark" parent="ItemsDark" groups=["item", "map_content"] instance=ExtResource("20_pbrru")]
 position = Vector2(1312, 610)
 
-[node name="ItemDark2" parent="ItemsDark" groups=["map_content"] instance=ExtResource("20_pbrru")]
+[node name="ItemDark2" parent="ItemsDark" groups=["item", "map_content"] instance=ExtResource("20_pbrru")]
 position = Vector2(744, 988)
 
-[node name="ItemDark3" parent="ItemsDark" groups=["map_content"] instance=ExtResource("20_pbrru")]
+[node name="ItemDark3" parent="ItemsDark" groups=["item", "map_content"] instance=ExtResource("20_pbrru")]
 position = Vector2(843, 265)
 
-[node name="ItemDark4" parent="ItemsDark" groups=["map_content"] instance=ExtResource("20_pbrru")]
+[node name="ItemDark4" parent="ItemsDark" groups=["item", "map_content"] instance=ExtResource("20_pbrru")]
 position = Vector2(106, 350)
 
-[node name="ItemDark5" parent="ItemsDark" groups=["map_content"] instance=ExtResource("20_pbrru")]
+[node name="ItemDark5" parent="ItemsDark" groups=["item", "map_content"] instance=ExtResource("20_pbrru")]
 position = Vector2(648, 127)
 
-[node name="ItemDark6" parent="ItemsDark" groups=["map_content"] instance=ExtResource("20_pbrru")]
+[node name="ItemDark6" parent="ItemsDark" groups=["item", "map_content"] instance=ExtResource("20_pbrru")]
 position = Vector2(377, 205)
 
-[node name="ItemDark7" parent="ItemsDark" groups=["map_content"] instance=ExtResource("20_pbrru")]
+[node name="ItemDark7" parent="ItemsDark" groups=["item", "map_content"] instance=ExtResource("20_pbrru")]
 position = Vector2(169, 308)
 
-[node name="ItemDark8" parent="ItemsDark" groups=["map_content"] instance=ExtResource("20_pbrru")]
+[node name="ItemDark8" parent="ItemsDark" groups=["item", "map_content"] instance=ExtResource("20_pbrru")]
 position = Vector2(251, 186)
 
 [node name="AudioManager" type="Node" parent="."]

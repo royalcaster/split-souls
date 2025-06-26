@@ -396,9 +396,14 @@ func _unhandled_input(event):
 			return
 
 		if event.keycode == KEY_F5:
-			SaveGameManager.save_game(player)
+			if multiplayer.is_server():
+				SaveGameManager.save_game(player)
+			Globals.show_status_message_remote.rpc("💾 Spiel wird gespeichert...", 2.0)
+
 		elif event.keycode == KEY_F9:
-			SaveGameManager.load_game(player)
+			if multiplayer.is_server():
+				SaveGameManager.load_game(player)
+			Globals.show_status_message_remote.rpc("📂 Spielstand wird geladen...", 2.0)
 
 func _on_steuerung_pressed() -> void:
 	var new_scene = load("res://scenes/ui/Steuerung.tscn")
