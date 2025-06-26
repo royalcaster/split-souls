@@ -32,9 +32,7 @@ Interaktion: LMB
 
 Schießen: LMB
 
-Spiel pausieren: Esc
-
-Speichern/Laden: F5/F9"
+Spiel pausieren: Esc"
 
 [node name="BackButton2" type="TextureButton" parent="."]
 layout_mode = 0
