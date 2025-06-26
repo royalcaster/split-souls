@@ -44,16 +44,19 @@ grow_vertical = 2
 
 [node name="PlayButton" type="TextureButton" parent="VBoxContainer"]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 texture_normal = ExtResource("3_nqjyj")
 texture_hover = ExtResource("4_7vr37")
 
 [node name="ExitButton" type="TextureButton" parent="VBoxContainer"]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 texture_normal = ExtResource("7_ee60a")
 texture_hover = ExtResource("8_qjd48")
 
 [node name="TextureButton" type="TextureButton" parent="VBoxContainer"]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 texture_normal = ExtResource("9_7vr37")
 texture_hover = ExtResource("10_kncl5")
 

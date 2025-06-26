@@ -31,6 +31,7 @@ offset_left = -281.0
 offset_top = 283.0
 offset_right = 295.0
 offset_bottom = 367.0
+mouse_default_cursor_shape = 2
 texture_normal = ExtResource("2_qxfkh")
 texture_hover = ExtResource("3_2ajt8")
 script = ExtResource("1_lokjt")
@@ -41,7 +42,9 @@ offset_left = -285.0
 offset_top = 374.0
 offset_right = 292.0
 offset_bottom = 458.0
+mouse_default_cursor_shape = 2
 texture_normal = ExtResource("5_2ajt8")
 texture_hover = ExtResource("6_05482")
 
 [connection signal="pressed" from="BackButton" to="BackButton" method="_on_pressed"]
+[connection signal="pressed" from="TextureButton" to="BackButton" method="_on_texture_button_pressed"]

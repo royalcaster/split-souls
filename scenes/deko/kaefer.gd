@@ -10,7 +10,7 @@ var target_position: Vector2
 func _ready():
 	if multiplayer.is_server():
 		sprite.texture = preload("res://scenes/deko/bug2.png")
-	else: 
+	else:
 		sprite.texture = preload("res://scenes/deko/bug.png")
 	randomize()
 	position = get_random_point()

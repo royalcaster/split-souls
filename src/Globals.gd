@@ -7,7 +7,8 @@ enum ControlMode {
 
 enum ItemType {
 	DIRECTION,
-	SPECIALPOWER
+	SPECIALPOWER,
+	#Heart_Container
 }
 
 var control_mode := ControlMode.INDIVIDUAL
