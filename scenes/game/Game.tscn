@@ -22,7 +22,7 @@
 [ext_resource type="PackedScene" uid="uid://bjo82svgfw2px" path="res://scenes/friends/dog/Dog.tscn" id="14_5xhyk"]
 [ext_resource type="Texture2D" uid="uid://pa6cvcrr1iff" path="res://assets/UI/start_ButtonBeitreten_HOVER.png" id="14_p7jdg"]
 [ext_resource type="Texture2D" uid="uid://5wri2b5pw73b" path="res://assets/UI/start_ButtonAnleitung.png" id="14_r24yq"]
-[ext_resource type="Texture2D" uid="uid://j7foj5856ges" path="res://assets/bat_spritesheet_2.png" id="14_sfnhr"]
+[ext_resource type="Texture2D" uid="uid://j7foj5856ges" path="res://assets/img/bat_spritesheet.png" id="14_sfnhr"]
 [ext_resource type="Texture2D" uid="uid://c7scnv10bvrrt" path="res://assets/img/arrow1.png" id="14_vj8ay"]
 [ext_resource type="PackedScene" uid="uid://blcf0l1sqw4iq" path="res://scenes/friends/witch/Witch.tscn" id="15_2iokk"]
 [ext_resource type="Texture2D" uid="uid://dx28wpj2rqjai" path="res://assets/UI/start_ButtonAnleitung_HOVER.png" id="15_lvp6d"]

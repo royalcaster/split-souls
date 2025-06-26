@@ -31,6 +31,15 @@ var active_minigame = null
 ]
 
 func _ready():
+	
+
+	var save_path = "user://savegame.json"
+	if FileAccess.file_exists(save_path):
+		DirAccess.remove_absolute(save_path)
+		print("🗑️ Alter Spielstand gelöscht beim Spielstart.")
+
+
+	
 	# reset game state after game over
 	Globals.control_mode = Globals.ControlMode.INDIVIDUAL
 	Globals.spawn_position = Vector2(80, 70)
