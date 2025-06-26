@@ -381,8 +381,8 @@ func _on_line_edit_text_changed(new_text):
 
 func _unhandled_input(event):
 
-    if Input.is_action_just_pressed("ui_cancel"):
-    		SceneManager.open_pause_overlay()
+	if Input.is_action_just_pressed("ui_cancel"):
+		SceneManager.open_pause_overlay()
 
 	if event is InputEventKey and event.pressed:
 		var player = null

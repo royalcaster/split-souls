@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=4 uid="uid://dur7c4brk3lfn"]
+[gd_scene load_steps=55 format=4 uid="uid://dur7c4brk3lfn"]
 
 [ext_resource type="Script" uid="uid://dcgeiwsr6pwq6" path="res://src/Game.gd" id="1_lyhax"]
 [ext_resource type="PackedScene" uid="uid://b184syehau03x" path="res://scenes/player/player_1.tscn" id="2_7qcb4"]
@@ -463,9 +463,8 @@ offset_right = 20.0
 offset_bottom = 64.0
 grow_horizontal = 2
 scale = Vector2(1.2, 1.2)
-theme_override_colors/font_color = Color(0.826139, 0.646245, 0.0849261, 1)
+theme_override_colors/font_color = Color(0.827451, 0.435294, 1, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 3
 theme_override_constants/shadow_offset_y = 3
 theme_override_constants/outline_size = 2
